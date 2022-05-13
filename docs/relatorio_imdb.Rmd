@@ -77,7 +77,7 @@ library(readr)
 # imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
 
 imdb <- read_rds("../data-raw/imdb.rds")
-imdb_avaliacoes <- read_rds("../data-raw/imdb_avaliacoes.rds")
+#imdb_avaliacoes <- read_rds("../data-raw/imdb_avaliacoes.rds")
 #imdb_pessoas <- read_rds("../data-raw/imdb_pessoas.rds")
     
 ```
@@ -329,7 +329,7 @@ mes_maior_lancamento <- imdb_datas |>                 # lista dos 30 filmes com 
             pais) |>
   filter(mes == "2018-10-1" & num_avaliacoes >= 10000) |> 
   arrange(desc(nota_imdb)) |> 
-  slice_head(n=30)
+  slice_head(n=15)
 
 mes_maior_lancamento$mes <- NULL                                          # Exclusão de colunas. 
 mes_maior_lancamento$qte <- NULL
