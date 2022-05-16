@@ -8,10 +8,10 @@
 
 # 1. NSTALAÇÃO DE PACOTES E LEITURA DA BASE ---------------------------------------------------
 # 
-# remotes::install_github("curso-r/basesCursoR")
-# imdb <- basesCursoR::pegar_base("imdb_completa")
-# imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
-# imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
+remotes::install_github("curso-r/basesCursoR")
+imdb <- basesCursoR::pegar_base("imdb_completa")
+imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
+imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
 
 library(lubridate)
 library(tidyverse)
@@ -338,17 +338,14 @@ glimpse(imdb)
 # os filmes brasileiros com maior ranking
 
 imdb |> 
-  filter(pais == "Brazil" & num_avaliacoes >= 5000) |> 
+  filter(pais == "Brazil" & num_avaliacoes >= 10000) |> 
   summarise( titulo, 
              ano, 
              genero, 
              nota_imdb,
              num_avaliacoes)|>
-  arrange(desc(nota_imdb))
-
-
-
-
+  arrange(desc(nota_imdb)) |> 
+  slice_head(n = 5)
 
 # 5) Listar todas as moedas nas colunas orcamento e receita -------------------------------
 
@@ -370,16 +367,16 @@ imdb |>
   
 moedas_orcamento <- imdb |> 
   select(orcamento) |>
-  mutate(
-    moeda = str_extract(string = orcamento,
-                        pattern = "[\\w | \\$].* " )
-    ) |> 
+  mutate(moeda = str_extract(string = orcamento,
+                             pattern = "[\\w | \\$].* " )
+         ) |> 
   distinct(moeda) |> 
   drop_na()
 
 moedas_orcamento <- moedas_orcamento |> 
   mutate(moeda = str_trim(moeda)) |> 
-  mutate(moeda = str_replace(moeda, pattern = "\\$", replacement = "USD"))
+  mutate(moeda = str_replace(moeda, pattern = "\\$",
+                             replacement = "USD"))
 
 
 
@@ -390,9 +387,49 @@ tab_moedas <- readxl::read_xlsx("data-raw/siglas_moedas_paises.xlsx")
 
 ## juntar as tabelas moedas_receita e tab_moedas por meio da coluna moeda
 
-moedas_orcamento_unificada<- left_join(x = moedas_orcamento, y = tab_moedas, by = "moeda", copy = TRUE) |> 
+moedas_orcamento_unificada<- left_join(x = moedas_orcamento,
+                                       y = tab_moedas, 
+                                       by = "moeda",
+                                       copy = TRUE) |> 
   distinct(moeda, divisa) |> 
   mutate(divisa = str_to_title(divisa))
   
 moedas_orcamento_unificada |> 
-  kbl()
+  kbl(
+    align = "l",                                            # alinhamento do texto do cabeçalho.
+    col.names = c("Moeda",                                           # define o nome das colunas.
+                  "Divisa"),
+    caption = "Moedas dos orçamentos dos filmes"
+  ) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "get_schwifty",
+    font_size = 10,       
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              # background = "#022859",
+              # color = "#FFFFFF",
+              width = "5cm"
+  ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+  )
+
+
+# Maiores lucros por gênero e maiores notas médias por gênero -----------------------------
+
+
+
+

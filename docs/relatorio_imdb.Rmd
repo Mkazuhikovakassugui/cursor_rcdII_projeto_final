@@ -5,7 +5,7 @@ date: "2022-05-10"
 output: 
   html_document: 
     code_folding: hide
-    theme: lumen
+    theme: paper
     toc: yes
     toc_float: yes
     smooth_scroll: no
@@ -106,139 +106,138 @@ O *database* *__imdb__*  possui `r nrow(imdb)` filmes com `r ncol(imdb)` variáv
 :::
 
 <style type="text/css">
-.tg  {border:none;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0;}
-.tg td{background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#444;
-  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg th{background-color:#409cff;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#fff;
-  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg .tg-yspo{background-color:#022859;border-color:#ffffff;color:#ffffff;font-size:14px;font-weight:bold;text-align:left;
-  vertical-align:top}
-.tg .tg-0jgf{background-color:#D2E4FC;border-color:#ffffff;font-size:11px;text-align:left;vertical-align:top}
-.tg .tg-pmdb{border-color:#ffffff;font-size:11px;text-align:left;vertical-align:top}
-</style>
-<table class="tg" style="undefined;table-layout: fixed; width: 850px">
+.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+.tg td{background-color:#fff;border-bottom-width:1px;border-color:#ccc;border-style:solid;border-top-width:1px;
+  border-width:0px;color:#333;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;
+  word-break:normal;}
+.tg th{background-color:#f0f0f0;border-bottom-width:1px;border-color:#ccc;border-style:solid;border-top-width:1px;
+  border-width:0px;color:#333;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;
+  padding:4px 10px;word-break:normal;}
+.tg .tg-5bbp{background-color:#edf6fd;border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
+.tg .tg-i82w{background-color:#f9f9f9;border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
+.tg .tg-ncrr{border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
+<div class="tg-wrap"><table class="tg" style="undefined;table-layout: fixed; width: 834px">
 <colgroup>
-<col style="width: 142.005682px">
-<col style="width: 142.005682px">
-<col style="width: 566.005682px">
+<col style="width: 211.005682px">
+<col style="width: 102.005682px">
+<col style="width: 521.005682px">
 </colgroup>
 <thead>
   <tr>
-    <th class="tg-yspo">Variável</th>
-    <th class="tg-yspo">Tipo</th>
-    <th class="tg-yspo">Descrição</th>
+    <th class="tg-5bbp">Variável</th>
+    <th class="tg-5bbp">Tipo</th>
+    <th class="tg-5bbp">Descrição</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0jgf">id_filme</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">identificador alfanumérico exclusivo do título</td>
+    <td class="tg-i82w">id_filme</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">identificador alfanumérico exclusivo do título</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">titulo</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">nome da obra em materiais promocionais na data do lançamento</td>
+    <td class="tg-ncrr">titulo</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">nome da obra em materiais promocionais na data do lançamento</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">titulo_original</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">nome original da obra, no idioma original</td>
+    <td class="tg-i82w">titulo_original</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">nome original da obra, no idioma original</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">ano</td>
-    <td class="tg-pmdb">dbl</td>
-    <td class="tg-pmdb">ano da produção</td>
+    <td class="tg-ncrr">ano</td>
+    <td class="tg-ncrr">dbl</td>
+    <td class="tg-ncrr">ano da produção</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">data_lancamento</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">data do lançamento do filme ou a data de início da série</td>
+    <td class="tg-i82w">data_lancamento</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">data do lançamento do filme ou a data de início da série</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">genero</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">inclui até três gêneros associados ao título</td>
+    <td class="tg-ncrr">genero</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">inclui até três gêneros associados ao título</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">duracao</td>
-    <td class="tg-0jgf">dbl</td>
-    <td class="tg-0jgf">tempo de execução em minutos</td>
+    <td class="tg-i82w">duracao</td>
+    <td class="tg-i82w">dbl</td>
+    <td class="tg-i82w">tempo de execução em minutos</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">pais</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">país</td>
+    <td class="tg-ncrr">pais</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">país</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">idioma</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">idioma</td>
+    <td class="tg-i82w">idioma</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">idioma</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">orcamento</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">orçamento</td>
+    <td class="tg-ncrr">orcamento</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">orçamento</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">receita</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">receita</td>
+    <td class="tg-i82w">receita</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">receita</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">receita_eua</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">receita nos EUa</td>
+    <td class="tg-ncrr">receita_eua</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">receita nos EUa</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">nota_imdb</td>
-    <td class="tg-0jgf">dbl</td>
-    <td class="tg-0jgf">nota média obtida pela obra nas avaliações dos usuários</td>
+    <td class="tg-i82w">nota_imdb</td>
+    <td class="tg-i82w">dbl</td>
+    <td class="tg-i82w">nota média obtida pela obra nas avaliações dos usuários</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">num_avaliacoes</td>
-    <td class="tg-pmdb">dbl</td>
-    <td class="tg-pmdb">total de avaliações realizadas para cada título</td>
+    <td class="tg-ncrr">num_avaliacoes</td>
+    <td class="tg-ncrr">dbl</td>
+    <td class="tg-ncrr">total de avaliações realizadas para cada título</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">direcao</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">diretor(es)</td>
+    <td class="tg-i82w">direcao</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">diretor(es)</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">roteiro</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">roteirista(s)</td>
+    <td class="tg-ncrr">roteiro</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">roteirista(s)</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">producao</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">empresa produtora</td>
+    <td class="tg-i82w">producao</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">empresa produtora</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">elenco</td>
-    <td class="tg-pmdb">chr</td>
-    <td class="tg-pmdb">nomes dos integrantes do elenco</td>
+    <td class="tg-ncrr">elenco</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">nomes dos integrantes do elenco</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">descricao</td>
-    <td class="tg-0jgf">chr</td>
-    <td class="tg-0jgf">sinopse da obra</td>
+    <td class="tg-i82w">descricao</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">sinopse da obra</td>
   </tr>
   <tr>
-    <td class="tg-pmdb">num_criticas_publico</td>
-    <td class="tg-pmdb">dbl</td>
-    <td class="tg-pmdb">total de críticas recebidas do público</td>
+    <td class="tg-ncrr">num_criticas_publico</td>
+    <td class="tg-ncrr">dbl</td>
+    <td class="tg-ncrr">total de críticas recebidas do público</td>
   </tr>
   <tr>
-    <td class="tg-0jgf">num_criticas_critica</td>
-    <td class="tg-0jgf">dbl</td>
-    <td class="tg-0jgf">total de críticas recebidas dos críticos</td>
+    <td class="tg-i82w">num_criticas_critica</td>
+    <td class="tg-i82w">dbl</td>
+    <td class="tg-i82w">total de críticas recebidas dos críticos</td>
   </tr>
 </tbody>
-</table>
-
-
+</table></div>
 ## Um mês muito especial
 
 ```{r preparacao da base e tabela mes com mairo numero de lancamentos de filmes}
@@ -274,31 +273,33 @@ kbl(
                 "Mês", 
                 "Quantidade de Filmes Lançados"),
   caption = "Outubro de 2018",
-  full_width = TRUE
+  full_width = TRUE,
+  #format = "simple"
 ) |> 
   kable_styling(                                            # altera as configurações da tabela.
     html_font = "get_schwifty",
     bootstrap_options = "basic",
     font_size = 10,
     full_width = TRUE, 
-    fixed_thead = list(enabled = TRUE, background = "#B2DDF7")
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
   ) |> 
+  kable_classic_2() |> 
   column_spec(1,                                          # altera as configurações das colunas.
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              #background = "#022859", 
+              #color = "#FFFFFF",
               width = "3cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              background = "#022859",
-              color = "#FFFFFF",
+              # background = "#022859",
+              # color = "#FFFFFF",
               width = "3cm"
               ) |>
   column_spec(3,
               bold = FALSE,
-              background = "#022859",
-              color = "#FFFFFF",
+              # background = "#022859",
+              # color = "#FFFFFF",
               width = "4cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
@@ -347,41 +348,42 @@ kbl(
   caption = "Top filmes ",
   ) |> 
   kable_styling(                                            # altera as configurações da tabela.
-    bootstrap_options = "basic",
+    bootstrap_options = c("striped", "condensed"),
     html_font = "get_schwifty",
     font_size = 10,
     full_width = TRUE, 
-    fixed_thead = list(enabled = TRUE, background = "#B2DDF7"),
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD"),
     ) |> 
+  kable_classic_2() |> 
   column_spec(1,                                          # altera as configurações das colunas.
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              # background = "#022859", 
+              # color = "#FFFFFF",
               width = "3cm",
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              # background = "#022859", 
+              # color = "#FFFFFF",
               width = "1cm"
               
               ) |>
   column_spec(3,
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              # background = "#022859", 
+              # color = "#FFFFFF",
               width = "1cm"
               ) |> 
   column_spec(4,
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              # background = "#022859", 
+              # color = "#FFFFFF",
               width = "1cm"
               ) |> 
   column_spec(5,
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              # background = "#022859", 
+              # color = "#FFFFFF",
               width = "4cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
@@ -424,22 +426,23 @@ dia_maior_lancamento |>
   caption = "Primeiro dia ",
     ) |> 
   kable_styling(                                            # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
     html_font = "get_schwifty",
-    bootstrap_options = "basic",
     font_size = 10,       
     full_width = TRUE, 
-    fixed_thead = list(enabled = TRUE, background = "#B2DDF7")
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
     ) |> 
+  kable_classic_2() |> 
   column_spec(1,
               bold = FALSE,
-              background = "#022859",
-              color = "#FFFFFF",
+              # background = "#022859",
+              # color = "#FFFFFF",
               width = "5cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              background = "#022859",
-              color = "#FFFFFF",
+              # background = "#022859",
+              # color = "#FFFFFF",
               width = "5cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
@@ -453,7 +456,7 @@ dia_maior_lancamento |>
 Os `r dia_maior_lancamento$dia`ºs dia dos mêses são os preferidos pelas produtoras para os lançamentos. Foram `r dia_maior_lancamento$qtde` estréias neste dia ao longo dos anos. Seguido pelos dias 15 com 2831, 14 com 2728 e 25 com 2727 filmes.
 :::
 
-,BR.
+<br>
 
 ## Os paises com maior número de filmes
 
@@ -481,22 +484,23 @@ top_5_paises |>
     caption = "Top 5 países"
     ) |> 
   kable_styling(
+    bootstrap_options = c("striped", "condensed"),
     html_font = "get_schwifty",
-    bootstrap_options = "basic",
     font_size = 10,       
     full_width = TRUE, 
-    fixed_thead = list(enabled = TRUE, background = "#B2DDF7")
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
     ) |> 
+  kable_classic_2() |> 
   column_spec(1,                                            # altera as configurações da tabela.
               bold = FALSE,
-              background = "#022859", 
-              color = "#FFFFFF",
+              # background = "#022859", 
+              # color = "#FFFFFF",
               width = "5cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              background = "#022859",
-              color = "#FFFFFF",
+              # background = "#022859",
+              # color = "#FFFFFF",
               width = "5cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
@@ -652,7 +656,153 @@ top_20_paises |>
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O Brasil ocupa a 16ª posição com 736 filmes.
+No gráfico acima, destaquei a posição do nosso país no ranking. Foram 736 filmes produzidos entre 1931 e 2020.
 
-continuar
+Apresentamos os cinco filmes com mais de 10000 avaliaçoes, com as maiores pontuaçoes medias da imdb.
 :::
+
+```{r tabela - melhores filmes brasileiros - ranking imdb }
+
+# os filmes brasileiros com maior ranking
+
+top_5_filmes_brasil <- imdb |> 
+  filter(pais == "Brazil" & num_avaliacoes >= 10000) |> 
+  summarise( titulo, 
+             ano, 
+             genero, 
+             nota_imdb,
+             num_avaliacoes)|>
+  arrange(desc(nota_imdb)) |> 
+  slice_head(n = 5)
+
+
+top_5_filmes_brasil |>                                                                        
+  kbl(
+    align = "l",                                            # alinhamento do texto do cabeçalho.
+    col.names = c("Título",                                           # define o nome das colunas.
+                  "Ano",
+                  "Gênero",
+                  "Nota IMDB",
+                  "Numero de Avaliações"),
+    caption = "Top 5 - Filmes brasileiros"
+    ) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "get_schwifty",
+    font_size = 10,       
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+    ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              # background = "#022859",
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |> 
+  column_spec(3,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>
+  column_spec(4,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>
+  column_spec(5,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>
+  
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+           )
+```
+
+## Lista de todas as moedas citadas na base
+
+A variável orçamento representa o valor total estimado de gastos para a produção da obra cinematográfica ou de uma série. A indústria de filmes movimenta bilhões de dólares usados para a contratação de técnologias para produção de efeitos especiasi, trilhas sonoras, pagamento de suas equipes de produção e direção e artistas. 
+
+A base analisada apresenta os valores de orçamento em variadas moedas, a depender do país da produção. Vamos relacionar quais são as moedas presentes no *dataset* e apresentá-las na tabela abaixo.
+
+```{r tabela - moedas na base - orçamento}
+
+# lista de todas as moedas da base - coluna orçamento
+moedas_orcamento <- imdb |> 
+  select(orcamento) |>
+  mutate(moeda = str_extract(string = orcamento,
+                             pattern = "[\\w | \\$].* " )
+         ) |> 
+  distinct(moeda) |> 
+  drop_na()
+
+moedas_orcamento <- moedas_orcamento |> 
+  mutate(moeda = str_trim(moeda)) |> 
+  mutate(moeda = str_replace(moeda, pattern = "\\$",
+                             replacement = "USD"))
+
+# utilizar uma base de moedas e suas divisas para juntar à tabela acima
+# importar a tabela xls "siglas_moedas_paises"
+tab_moedas <- readxl::read_xlsx("../data-raw/siglas_moedas_paises.xlsx")
+
+# juntar as tabelas moedas_receita e tab_moedas por meio da coluna moeda
+moedas_orcamento_unificada<- left_join(x = moedas_orcamento,
+                                       y = tab_moedas, 
+                                       by = "moeda",
+                                       copy = TRUE) |> 
+  distinct(moeda, divisa) |> 
+  mutate(divisa = str_to_title(divisa))
+
+moedas_orcamento_unificada |> 
+  kbl(
+    align = "l",                                            # alinhamento do texto do cabeçalho.
+    col.names = c("Moeda",                                           # define o nome das colunas.
+                  "Divisa"),
+    caption = "Moedas dos orçamentos dos filmes"
+    ) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "get_schwifty",
+    font_size = 10,       
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+    ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              # background = "#022859",
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+           )
+```
+
+São `r nrow(moedas_orcamento_unificada)` diferentes moedas utilizadas, que estão relacionadas por meio de seus códigos ISO. Algumas moedas não existem atualmente, como às dos 26 paises do Bloco Europeu que passaram a utilizar o Euro como moeda oficial.
+
+
+
+
+
