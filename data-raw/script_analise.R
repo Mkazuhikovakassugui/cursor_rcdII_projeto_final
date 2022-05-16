@@ -23,12 +23,12 @@ library(readr)
 
 
 write_rds(imdb, "data-raw/imdb.rds")
-write_rds(imdb_avaliacoes, "data-raw/imdb_avaliacoes.rds")
-write_rds(imdb_pessoas, "data-raw/imdb_pessoas.rds")
+# write_rds(imdb_avaliacoes, "data-raw/imdb_avaliacoes.rds")
+# write_rds(imdb_pessoas, "data-raw/imdb_pessoas.rds")
 
 imdb <- read_rds("data-raw/imdb.rds")
-imdb_avaliacoes <- read_rds("data-raw/imdb_avaliacoes.rds")
-imdb_pessoas <- read_rds("data-raw/imdb_pessoas.rds")
+#imdb_avaliacoes <- read_rds("data-raw/imdb_avaliacoes.rds")
+#imdb_pessoas <- read_rds("data-raw/imdb_pessoas.rds")
 
 
 
@@ -353,42 +353,46 @@ imdb |>
 # 5) Listar todas as moedas nas colunas orcamento e receita -------------------------------
 
 ## Listar todas as moedas na coluna orcamento
-orcamento_sep <- imdb |> 
-  select(orcamento) |> 
-  drop_na() |> 
-  separate(
-    orcamento,
-    sep =  " ", 
-    into = c("moeda", "valor")
-  )
-
-moedas_orcamento <- orcamento_sep |> 
-  select(moeda) |>
-  distinct(moeda) 
-
-
-moedas <- as.vector(moedas_orcamento)
+# orcamento_sep <- imdb |> 
+#   select(orcamento) |> 
+#   drop_na() |> 
+#   separate(
+#     orcamento,
+#     sep =  " ", 
+#     into = c("moeda", "valor")
+#   )
+# 
+# moedas_orcamento <- orcamento_sep |> 
+#   select(moeda) |>
+#   distinct(moeda) 
+# 
+# moedas <- as.vector(moedas_orcamento)
   
-  
-  
-
-## Listar todas as moedas na coluna receita
-receita_sep <- imdb |> 
-  select(receita) |> 
-  drop_na() |> 
-  separate(
-    receita,
-    sep =  " ", 
-    into = c("moeda", "valor")
-  )
-
-receita_sep |> 
-  select(moeda) |>
+moedas_orcamento <- imdb |> 
+  select(orcamento) |>
+  mutate(
+    moeda = str_extract(string = orcamento,
+                        pattern = "[\\w | \\$].* " )
+    ) |> 
   distinct(moeda) |> 
-  as.vector()
+  drop_na()
+
+moedas_orcamento <- moedas_orcamento |> 
+  mutate(moeda = str_trim(moeda)) |> 
+  mutate(moeda = str_replace(moeda, pattern = "\\$", replacement = "USD"))
 
 
-moedas <- as.vector(receita_sep)
 
-moedas |> View()
+## importar a tabela xls "siglas_moedas_paises"
+
+tab_moedas <- readxl::read_xlsx("data-raw/siglas_moedas_paises.xlsx")
+
+
+## juntar as tabelas moedas_receita e tab_moedas por meio da coluna moeda
+
+moedas_orcamento_unificada<- left_join(x = moedas_orcamento, y = tab_moedas, by = "moeda", copy = TRUE) |> 
+  distinct(moeda, divisa) |> 
+  mutate(divisa = str_to_title(divisa))
+  
+moedas_orcamento_unificada |> 
   kbl()
