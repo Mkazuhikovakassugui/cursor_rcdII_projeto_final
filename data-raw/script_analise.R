@@ -27,8 +27,8 @@ write_rds(imdb, "data-raw/imdb.rds")
 # write_rds(imdb_pessoas, "data-raw/imdb_pessoas.rds")
 
 imdb <- read_rds("data-raw/imdb.rds")
-#imdb_avaliacoes <- read_rds("data-raw/imdb_avaliacoes.rds")
-#imdb_pessoas <- read_rds("data-raw/imdb_pessoas.rds")
+imdb_avaliacoes <- read_rds("data-raw/imdb_avaliacoes.rds")
+imdb_pessoas <- read_rds("data-raw/imdb_pessoas.rds")
 
 
 
@@ -430,6 +430,64 @@ moedas_orcamento_unificada |>
 
 # Maiores lucros por gênero e maiores notas médias por gênero -----------------------------
 
+# considerando apenas o valores em dólares
 
+filmes_dolares <- imdb |>
+  select(orcamento, receita, genero, titulo) |> 
+  filter(str_detect(orcamento, pattern = "\\$.*"))
+
+# eliminar o símbolo $ nos valores das colunas orçamento e receita
+
+filmes_dolares <- filmes_dolares |> 
+  mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
+         receita = str_remove(receita, pattern = "\\$ "))
+
+
+# alterar o tipo das variáveis orcamento e  receita
+
+filmes_dolares$orcamento <- as.numeric(filmes_dolares$orcamento)
+filmes_dolares$receita <- as.numeric(filmes_dolares$receita)
+
+  
+# calcular o lucro dos filmes
+
+filmes_dolares <- filmes_dolares |> 
+  mutate(
+    lucro = receita - orcamento
+  ) |>
+  drop_na()
+
+
+# usar a base imdb, precisamos fazer a separação da coluna genero
+
+filmes_dolares <- filmes_dolares |> 
+  separate(col = genero,
+           into = c("genero1", "genero2", "genero3"),
+           sep = ","
+  )
+
+# pivotar a base de wide para long
+
+filmes_dolares <- filmes_dolares |> 
+  pivot_longer(
+    cols = c("genero1", "genero2", "genero3"),
+    names_to = "tipos_generos",
+    values_to = "generos",
+    values_drop_na = TRUE
+  ) |> 
+  mutate(generos = str_trim(generos))
+
+# maiores lucros por gênero
+
+lucros_genero_filme <- filmes_dolares |>
+  group_by(generos) |>
+  summarise(lucro_total = sum(lucro)/n()) |> 
+  arrange(desc(lucro_total))
+
+
+# qte_filmes_genero <- filmes_dolares |>
+#   group_by(generos) |>
+#   summarise(qte = n()) |> 
+#   arrange(desc(qte))
 
 

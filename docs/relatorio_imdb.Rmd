@@ -48,7 +48,7 @@ Este trabalho de conclusão de curso objetiva a aplicação dos recursos abordad
 
 O conteúdo deste projeto é direcionado aos leitores interessados na sétima arte, que não abrem mão de assistir a um filme, na aconchegante poltrona de casa ou do cinema. Caso também tenha interesse em linguagem R, encontrará facilmente os códigos da manipulação dos dados e das gerações dos gráficos e tabelas.
 
-Trarei algumas curiosidades encontradas nesta base de dados e de um filme me impressionou há 12 anos com o lançamento do seu capítulo 1 e que em dezembro de 2022 deve retornar às telas dos cinemas para o capítulo 2. 
+Trarei algumas curiosidades sobre a base IMDB e também sobre um filme me impressionou o público há 12 anos com o lançamento do seu capítulo 1 e que em dezembro de 2022 retornará às telas dos cinemas de todo o mundo para a apresentação do segundo  de um total de cinco capítulos. 
 :::
 
 
@@ -65,6 +65,7 @@ library(ggtext)
 library(forcats)
 library(ggplot2)
 library(readr)
+library(plotly)
 
 ```
 
@@ -77,8 +78,8 @@ library(readr)
 # imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
 
 imdb <- read_rds("../data-raw/imdb.rds")
-#imdb_avaliacoes <- read_rds("../data-raw/imdb_avaliacoes.rds")
-#imdb_pessoas <- read_rds("../data-raw/imdb_pessoas.rds")
+imdb_avaliacoes <- read_rds("../data-raw/imdb_avaliacoes.rds")
+imdb_pessoas <- read_rds("../data-raw/imdb_pessoas.rds")
     
 ```
 
@@ -99,146 +100,19 @@ imdb <- imdb |>
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-As três bases analisadas (imdb, imdb_avaliacoes e imdb_pessoas) possuem em suas primeiras linhas, cabeçalhos com os nomes das variáveis. 
+As três bases analisadas (imdb, imdb_avaliacoes e imdb_pessoas) possuem em suas primeiras linhas os cabeçalhos com nomes de suas  variáveis. O *database* imdb possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis e conta com os dados de lançamentos entre 1894 a 2020. O *database* imdb_avaliacoes também possui `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas e o *database* imd_pessoas possui `r nrow(imdb_pessoas)` linhas  `r ncol(imdb_pessoas)` variáveis.
 
-O *database* *__imdb__*  possui `r nrow(imdb)` filmes com `r ncol(imdb)` variáveis e conta com os dados de lançamentos entre 1894 a 2020.  Na tabela abaixo, relacionamos o dicionário com os nomes das variáveis e suas definições.
+Na seção Anexos, ao final deste relatório,  encontram-se os dicionários das bases com as designações das variáveis e suas descrições.
+
+Todos os códigos de preparação  e de manipulação das bases como limpeza dos dados, união e junção de tabelas, entre outras, estão disponíveis para visualização, juntamente com os códigos de construção das tabelas e gráficos por meio do botão "code/hide". 
+
+Em cada tópico analisaremos uma questão sobre a base IMDB e apresentaremos a resposta.
 
 :::
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
-.tg td{background-color:#fff;border-bottom-width:1px;border-color:#ccc;border-style:solid;border-top-width:1px;
-  border-width:0px;color:#333;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;
-  word-break:normal;}
-.tg th{background-color:#f0f0f0;border-bottom-width:1px;border-color:#ccc;border-style:solid;border-top-width:1px;
-  border-width:0px;color:#333;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;
-  padding:4px 10px;word-break:normal;}
-.tg .tg-5bbp{background-color:#edf6fd;border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
-.tg .tg-i82w{background-color:#f9f9f9;border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
-.tg .tg-ncrr{border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
-@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
-<div class="tg-wrap"><table class="tg" style="undefined;table-layout: fixed; width: 834px">
-<colgroup>
-<col style="width: 211.005682px">
-<col style="width: 102.005682px">
-<col style="width: 521.005682px">
-</colgroup>
-<thead>
-  <tr>
-    <th class="tg-5bbp">Variável</th>
-    <th class="tg-5bbp">Tipo</th>
-    <th class="tg-5bbp">Descrição</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-i82w">id_filme</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">identificador alfanumérico exclusivo do título</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">titulo</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">nome da obra em materiais promocionais na data do lançamento</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">titulo_original</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">nome original da obra, no idioma original</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">ano</td>
-    <td class="tg-ncrr">dbl</td>
-    <td class="tg-ncrr">ano da produção</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">data_lancamento</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">data do lançamento do filme ou a data de início da série</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">genero</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">inclui até três gêneros associados ao título</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">duracao</td>
-    <td class="tg-i82w">dbl</td>
-    <td class="tg-i82w">tempo de execução em minutos</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">pais</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">país</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">idioma</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">idioma</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">orcamento</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">orçamento</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">receita</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">receita</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">receita_eua</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">receita nos EUa</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">nota_imdb</td>
-    <td class="tg-i82w">dbl</td>
-    <td class="tg-i82w">nota média obtida pela obra nas avaliações dos usuários</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">num_avaliacoes</td>
-    <td class="tg-ncrr">dbl</td>
-    <td class="tg-ncrr">total de avaliações realizadas para cada título</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">direcao</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">diretor(es)</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">roteiro</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">roteirista(s)</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">producao</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">empresa produtora</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">elenco</td>
-    <td class="tg-ncrr">chr</td>
-    <td class="tg-ncrr">nomes dos integrantes do elenco</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">descricao</td>
-    <td class="tg-i82w">chr</td>
-    <td class="tg-i82w">sinopse da obra</td>
-  </tr>
-  <tr>
-    <td class="tg-ncrr">num_criticas_publico</td>
-    <td class="tg-ncrr">dbl</td>
-    <td class="tg-ncrr">total de críticas recebidas do público</td>
-  </tr>
-  <tr>
-    <td class="tg-i82w">num_criticas_critica</td>
-    <td class="tg-i82w">dbl</td>
-    <td class="tg-i82w">total de críticas recebidas dos críticos</td>
-  </tr>
-</tbody>
-</table></div>
-## Um mês muito especial
+### 1. Um mês muito especial
+
+Em que mês, em toda  história, ocorreu o maior número de estreias de filmes e ou séries? 
 
 ```{r preparacao da base e tabela mes com mairo numero de lancamentos de filmes}
 ## Manipulação da base para determinação do mês com maior número de lançamentos de filmes
@@ -313,10 +187,51 @@ kbl(
 
 
 ::: {align="justify" style="text-indent: 3em;"}
-Em Outubro de `r mes_maior_lancamento$ano`, foram lançados `r mes_maior_lancamento$qte` filmes. Este foi o mês em toda a história da indústria cinematográfica com o maior número de lançamentos em um mês. Na tabela abaixo listamos os 30 filmes lançados nesta data em ordem descrescente de suas notas médias IMDB. Consideramos somente os filmes com numero de avaliações superiores a 10000 pessoas.
+Em Outubro de `r mes_maior_lancamento$ano`, foram lançados `r mes_maior_lancamento$qte` filmes. Este foi o mês em toda a história da indústria cinematográfica com o maior número de lançamentos em um mês.
+
+No gráfico abaixo, apresentamos os trinta meses com as maiores quantidades de lançamentos ocorridos.
+
+```{r qtde de filmes por ano}
+#| echo = TRUE,
+#| fig.height = 4,
+#| fig.width = 9,
+#| fig.cap = "Quantidade de Filmes por Ano ao Longo da História",
+#| highlight = TRUE
+
+
+
+filmes_ano <- imdb |> 
+  mutate(ano_lancamento = year(data_lancamento)) |> 
+  select(ano_lancamento) |> 
+  drop_na() |>
+  group_by(ano_lancamento) |> 
+  summarise(qte = n()) |> 
+  slice_head(n=112) |> 
+  ggplot()+
+  aes(x = ano_lancamento, y = qte)+
+  geom_line()+
+  geom_point(
+    color = "blue",
+    shape = 7,
+    size = 0.5
+  )+
+  theme_classic()
+  
+
+filmes_ano |> 
+  ggplotly()
+
+```
+
+
+
+
+
+
+Na tabela abaixo listamos os 30 filmes lançados nesta data em ordem descrescente de suas notas médias IMDB. Consideramos somente os filmes com numero de avaliações superiores a 10000 pessoas.
 :::
 
-```{r relacao de filmes do mes com maior numero de lancamentos }
+```{r relacao dos 10 filmes de outubro de 2018 com maior numero de lancamentos }
 
 ## Manipulação da base para obtenção da relação dos 30 filmes por ranking 
 
@@ -330,12 +245,12 @@ mes_maior_lancamento <- imdb_datas |>                 # lista dos 30 filmes com 
             pais) |>
   filter(mes == "2018-10-1" & num_avaliacoes >= 10000) |> 
   arrange(desc(nota_imdb)) |> 
-  slice_head(n=15)
+  slice_head(n=10)
 
 mes_maior_lancamento$mes <- NULL                                          # Exclusão de colunas. 
 mes_maior_lancamento$qte <- NULL
 
-## Tabela com os 30 filmes com melhores rankings
+## Tabela com os 10 filmes  de outubro de 2018com melhores rankings
 
 mes_maior_lancamento |>                                                               
 kbl(
@@ -345,7 +260,7 @@ kbl(
                 "nota",
                 "avaliações",
                 "país"),
-  caption = "Top filmes ",
+  caption = "10 melhores rankings de Outubro de 2018 ",
   ) |> 
   kable_styling(                                            # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
@@ -423,7 +338,7 @@ dia_maior_lancamento |>
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Dia", 
                   "Quantidade de Filmes Lançados"),                 # define o nome das colunas.
-  caption = "Primeiro dia ",
+  caption = "Primeiro dia dos meses",
     ) |> 
   kable_styling(                                            # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
@@ -481,7 +396,7 @@ top_5_paises |>
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("País",                                           # define o nome das colunas.
                   "Quantidade de Filmes Lançados"),
-    caption = "Top 5 países"
+    caption = "Cinco países com maior quantidade de filmes produzidos"
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -684,7 +599,7 @@ top_5_filmes_brasil |>
                   "Gênero",
                   "Nota IMDB",
                   "Numero de Avaliações"),
-    caption = "Top 5 - Filmes brasileiros"
+    caption = "Filmes brasileiros com melhores rankings"
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -747,7 +662,8 @@ moedas_orcamento <- imdb |>
                              pattern = "[\\w | \\$].* " )
          ) |> 
   distinct(moeda) |> 
-  drop_na()
+  drop_na() |> 
+  arrange(moeda)
 
 moedas_orcamento <- moedas_orcamento |> 
   mutate(moeda = str_trim(moeda)) |> 
@@ -803,6 +719,297 @@ moedas_orcamento_unificada |>
 São `r nrow(moedas_orcamento_unificada)` diferentes moedas utilizadas, que estão relacionadas por meio de seus códigos ISO. Algumas moedas não existem atualmente, como às dos 26 paises do Bloco Europeu que passaram a utilizar o Euro como moeda oficial.
 
 
+## Maiores lucros da indústria por gêneros em toda história
+
+Considerando a soma dos lucros dos filmes por gênero, podemos concluir que:
 
 
+```{r tabela - maiores lucros por gênero na história}
+
+# considerando apenas o valores em dólares
+
+filmes_dolares <- imdb |>
+  select(orcamento, receita, genero, titulo) |> 
+  filter(str_detect(orcamento, pattern = "\\$.*"))
+
+# eliminar o símbolo $ nos valores das colunas orçamento e receita
+
+filmes_dolares <- filmes_dolares |> 
+  mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
+         receita = str_remove(receita, pattern = "\\$ "))
+
+
+# alterar o tipo das variáveis orcamento e  receita
+
+filmes_dolares$orcamento <- as.numeric(filmes_dolares$orcamento)
+filmes_dolares$receita <- as.numeric(filmes_dolares$receita)
+
+  
+# calcular o lucro dos filmes
+
+filmes_dolares <- filmes_dolares |> 
+  mutate(
+    lucro = receita - orcamento
+  ) |>
+  drop_na()
+
+
+# usar a base imdb, precisamos fazer a separação da coluna genero
+
+filmes_dolares <- filmes_dolares |> 
+  separate(col = genero,
+           into = c("genero1", "genero2", "genero3"),
+           sep = ","
+  )
+
+# pivotar a base de wide para long
+
+filmes_dolares <- filmes_dolares |> 
+  pivot_longer(
+    cols = c("genero1", "genero2", "genero3"),
+    names_to = "tipos_generos",
+    values_to = "generos",
+    values_drop_na = TRUE
+  ) |> 
+  mutate(generos = str_trim(generos))
+
+# maiores lucros por gênero
+
+lucros_genero <- filmes_dolares |>
+  group_by(generos) |>
+  summarise(lucro_total = sum(lucro)) |> 
+  arrange(desc(lucro_total)) |> 
+  slice_head(n=10)
+
+
+lucros_genero |> 
+  kbl(
+    align = "l",                                            # alinhamento do texto do cabeçalho.
+    col.names = c("Gêneros",                                           # define o nome das colunas.
+                  "Lucro Total"),
+    caption = "Maiores lucros por gênero"
+    ) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "get_schwifty",
+    font_size = 10,       
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+    ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              # background = "#022859",
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+           )
+
+```
+
+No caso de a análise ser realizada considerando a soma dos lucros divididos pelo total de filmes realizados em cada gênero o resultado seria o lucro obtido em cada gênero por filme produzido. Nestes termos, o resultado seria:
+
+
+```{r tabela - lucro por genero por filme produzido}
+
+lucros_genero_filme <- filmes_dolares |>
+  group_by(generos) |>
+  summarise(lucro_total = sum(lucro)/n()) |> 
+  arrange(desc(lucro_total)) |> 
+  slice_head(n=10)
+
+lucros_genero_filme |> 
+  kbl(
+    align = "l",                                            # alinhamento do texto do cabeçalho.
+    col.names = c("Gêneros",                                           # define o nome das colunas.
+                  "Lucro Total por Filme Produzido"),
+    caption = "Maiores lucros por filme produzido em cada gênero"
+    ) |> 
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "get_schwifty",
+    font_size = 10,       
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+    ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                            # altera as configurações da tabela.
+              bold = FALSE,
+              # background = "#022859", 
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              # background = "#022859",
+              # color = "#FFFFFF",
+              width = "5cm"
+              ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+           )
+
+
+```
+
+
+
+
+
+
+# Conclusão 
+
+
+
+# Anexos
+
+## Dicionários
+
+### Dicionário da base IMDB
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+.tg td{background-color:#fff;border-bottom-width:1px;border-color:#ccc;border-style:solid;border-top-width:1px;
+  border-width:0px;color:#333;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;
+  word-break:normal;}
+.tg th{background-color:#f0f0f0;border-bottom-width:1px;border-color:#ccc;border-style:solid;border-top-width:1px;
+  border-width:0px;color:#333;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;
+  padding:4px 10px;word-break:normal;}
+.tg .tg-5bbp{background-color:#edf6fd;border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
+.tg .tg-i82w{background-color:#f9f9f9;border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
+.tg .tg-ncrr{border-color:inherit;font-size:11px;text-align:left;vertical-align:middle}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
+<div class="tg-wrap"><table class="tg" style="undefined;table-layout: fixed; width: 834px">
+<colgroup>
+<col style="width: 211.005682px">
+<col style="width: 102.005682px">
+<col style="width: 521.005682px">
+</colgroup>
+<thead>
+  <tr>
+    <th class="tg-5bbp">Variável</th>
+    <th class="tg-5bbp">Tipo</th>
+    <th class="tg-5bbp">Descrição</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-i82w">id_filme</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">identificador alfanumérico exclusivo do título</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">titulo</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">nome da obra em materiais promocionais na data do lançamento</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">titulo_original</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">nome original da obra, no idioma original</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">ano</td>
+    <td class="tg-ncrr">dbl</td>
+    <td class="tg-ncrr">ano da produção</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">data_lancamento</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">data do lançamento do filme ou a data de início da série</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">genero</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">inclui até três gêneros associados ao título</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">duracao</td>
+    <td class="tg-i82w">dbl</td>
+    <td class="tg-i82w">tempo de execução em minutos</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">pais</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">país</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">idioma</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">idioma</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">orcamento</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">orçamento</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">receita</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">receita</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">receita_eua</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">receita nos EUa</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">nota_imdb</td>
+    <td class="tg-i82w">dbl</td>
+    <td class="tg-i82w">nota média obtida pela obra nas avaliações dos usuários</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">num_avaliacoes</td>
+    <td class="tg-ncrr">dbl</td>
+    <td class="tg-ncrr">total de avaliações realizadas para cada título</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">direcao</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">diretor(es)</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">roteiro</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">roteirista(s)</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">producao</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">empresa produtora</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">elenco</td>
+    <td class="tg-ncrr">chr</td>
+    <td class="tg-ncrr">nomes dos integrantes do elenco</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">descricao</td>
+    <td class="tg-i82w">chr</td>
+    <td class="tg-i82w">sinopse da obra</td>
+  </tr>
+  <tr>
+    <td class="tg-ncrr">num_criticas_publico</td>
+    <td class="tg-ncrr">dbl</td>
+    <td class="tg-ncrr">total de críticas recebidas do público</td>
+  </tr>
+  <tr>
+    <td class="tg-i82w">num_criticas_critica</td>
+    <td class="tg-i82w">dbl</td>
+    <td class="tg-i82w">total de críticas recebidas dos críticos</td>
+  </tr>
+</tbody>
+</table></div>
 
