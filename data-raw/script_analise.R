@@ -20,6 +20,7 @@ library(kableExtra)
 library(ggtext)
 library(forcats)
 library(readr)
+library(gghighlight)
 
 
 write_rds(imdb, "data-raw/imdb.rds")
@@ -82,11 +83,26 @@ mes_maior_lancamento <- imdb_datas |>                   # mês com o maior núme
   separate(  
     col = mes,                         
     into = c("ano", "mes")) |>                                     
-  drop_na() |> 
+  drop_na() |>
   slice_max(
     order_by = qte
   ) 
 
+### Gráfico meses com maiores lançamentos de filmes na base IMDB
+  
+filmes_ano <- imdb |> 
+  mutate(ano_lancamento = year(data_lancamento)) |> 
+  select(ano_lancamento) |> 
+  drop_na() |>
+  group_by(ano_lancamento) |> 
+  summarise(qte = n()) |> 
+  slice_head(n=112)
+
+  
+  
+  
+  
+  
 
 ## obter o mês com o maior número de lançamento de filmes
 
@@ -137,6 +153,7 @@ dia_maior_lancamento <- imdb |>
   drop_na() |> 
   slice_max(order_by = qtde)
 
+
 dia_maior_lancamento |>                                                                # Tabela.
   kable(
     col.names = c("Dia de Lançamento", 
@@ -159,7 +176,105 @@ dia_maior_lancamento |>                                                         
               background = "#022859",
               color = "#FFFFFF"
   )
+  
 
+
+
+# Grafico dias com maior quantidade de filmes -----------------------------------------------------------
+
+plot_dia_filmes <- imdb |> 
+  mutate(dia = day(data_lancamento)) |> 
+  group_by(dia) |> 
+  summarise(qtde = n()) |> 
+  drop_na() |> 
+  ggplot()+
+  aes(x = dia, y = qtde, fill = dia, label = qtde)+
+  geom_point(
+    size = 5,
+    color = "#CC5A71"
+  )+
+  geom_label(                                                            # formatar os labels.
+    size = 2.5, 
+    alpha = 0,
+    label.size = NA,    
+    fontface = "plain",    
+    color = "#CC5A71",
+    vjust = -1,
+    parse = TRUE
+  ) +
+  geom_segment(aes(x = dia,      # criar o elemento segmento.
+                   xend = dia,
+                   y = 0,
+                   yend = qtde
+                   ),
+               size = 1.5,
+               color = "#CC5A71"
+               )+
+  gghighlight(dia == 1 | dia == 31,
+              unhighlighted_params = list(colour = "#4C586B")
+  )+
+  labs(                                                     # editar o texto do título, subtítulo e eixos.
+    title = "Total de lançamentos por *<span style = 'color:#CC5A71;'>dia </span>*",
+    subtitle ="Os dias com maior e menor quantidade de estreias",
+    y = "Quantidade de filmes",
+    x = "Dias do mês"
+  ) +
+  theme_classic()+                                             # seleção do tema do gráfico.
+  scale_y_continuous(breaks = seq(0, 8000, 1000),
+                     limits = c(0,8000)) +                    # formatar escala do eixo x.  
+  scale_x_continuous(breaks = seq(0, 31, 1)) +                    # formatar escala do eixo x.
+  theme(                                                          # customizar:
+    panel.background = element_rect(fill = "#FFFFFF"),                   # fundo do gráfico.
+    plot.background = element_rect(fill = "#FFFFFF"),         # fundo da moldura retangular.
+    plot.margin = unit(c(1, 1, 1, 1), "cm"),                     # distância das margens.
+    plot.title = element_markdown(                                      # título do gráfico.
+      size = 24,  
+      face = "plain",    
+      family = "Arial",                                         # fonte do título.
+      hjust = 0,
+      margin = unit(c(0, 0, 0.5, 0), "cm")                            # margens do título.
+    ), 
+    plot.subtitle = element_text(
+      size = 10,
+      family = "Arial",   
+      hjust = 0,
+      face = "plain"
+    ),
+    text = element_text(                                                # textos do gráfica.
+      family = "Arial",    
+      color = "#000000",
+      size = 10,
+      hjust = 0,
+      face = "plain"
+    ),
+    axis.text.x = element_text(                                           # texto do eixo x.
+      color = "#000000",       
+      size = 7.5,
+      face = "plain",
+      margin = unit(c(0.3, 0, 0.5, 0), "cm")  
+    ),
+    axis.text.y = element_markdown(                                       # texto do eixo y.
+      color = "#000000",    
+      size = 7.5,
+      face = "plain",
+      family = "Arial", 
+    ),
+    axis.ticks.x = element_line(color = "#1F1F1F"),                         # ticks do eixo x.
+    axis.line.x = element_line(color = "#1F1F1F"),                   # cor da linha do eixo x.
+    axis.ticks.y = element_line(color = "#1F1F1F"),             # padrões dos ticks do eixo x.
+    axis.line.y = element_line(
+      color = "#000000",                                           # cor da linha do eixo x.
+      size = 0.4,
+    ),
+    axis.title = element_text(                                    # texto do título do eixo x.
+      face = "plain",    
+      size = 10,
+      hjust = 0.5,
+    ),
+    legend.position = "none"                                               # exclui a legenda.
+  ) 
+
+plot_dia_filmes
 
 # 4) Top 5 dos paises com maior quantidade de filmes --------------------------------------
 
@@ -349,22 +464,6 @@ imdb |>
 
 # 5) Listar todas as moedas nas colunas orcamento e receita -------------------------------
 
-## Listar todas as moedas na coluna orcamento
-# orcamento_sep <- imdb |> 
-#   select(orcamento) |> 
-#   drop_na() |> 
-#   separate(
-#     orcamento,
-#     sep =  " ", 
-#     into = c("moeda", "valor")
-#   )
-# 
-# moedas_orcamento <- orcamento_sep |> 
-#   select(moeda) |>
-#   distinct(moeda) 
-# 
-# moedas <- as.vector(moedas_orcamento)
-  
 moedas_orcamento <- imdb |> 
   select(orcamento) |>
   mutate(moeda = str_extract(string = orcamento,
@@ -485,9 +584,5 @@ lucros_genero_filme <- filmes_dolares |>
   arrange(desc(lucro_total))
 
 
-# qte_filmes_genero <- filmes_dolares |>
-#   group_by(generos) |>
-#   summarise(qte = n()) |> 
-#   arrange(desc(qte))
 
 
