@@ -1,18 +1,21 @@
 ---
 title: "I see you"
+subtitle: "Base de Dados IMDB"
 author: "Marcio Vakassugui"
 date: "2022-05-10"
 output: 
   html_document: 
     code_folding: hide
+    includes:
+      in_header: "cabecalho.html"
     theme: paper
+    highlight: zenburn
     toc: yes
     toc_float: yes
     smooth_scroll: no
     collapsed: yes
   html_notebook: 
     toc: yes
-runtime: shiny
 ---
 
 ```{r setup }
@@ -27,19 +30,11 @@ knitr::opts_chunk$set(
   fig.width = 14
 )
 ```
+<br><br><br><br><br>
 
-```{r inclui figura jogo tabuleiro}
-#| fig.align = "right",
-#| out.width = "100%",
-#| echo = FALSE,
-#| out.width = 300 ,
-#| out.height = 150,
+# <font color = #142452> Introdução </font>
 
-
-knitr::include_graphics("http://1.bp.blogspot.com/_c7zUyhjdoVM/S3i8-RDd3II/AAAAAAAAAyY/9kngUbVrtVY/s320/olhar+avatar.jpg")
-```
-
-# Introdução
+<br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 O IMDB, *Internet Move Database*, é uma das maiores bases pesquisáeis de dados sobre filmes e séries disponíveis para acesso para uso pessoal e não comercial fornecida por um dos mais respeitados *sites* de crítica popular de filmes e séries do mundo. Todos os usuários registrados no [Internet Movie DataBase](https://www.imdb.com/) podem avaliar os filmes, as séries e os documentários com notas de 1 a 10. Na sua página, é possivel encontrar as notas médias dos filmes, *trailers*,  a lista com as principais bilheterias da semana nos Estados Unidos, informações sobre o elenco e direção, resenhas de críticos, galerias de fotos e curiosidades.
@@ -66,16 +61,13 @@ library(forcats)
 library(ggplot2)
 library(readr)
 library(plotly)
+library(ggthemes)
+library(gghighlight)
 
 ```
 
 ```{r  Leitura das bases}
 #| echo = FALSE
-
-# remotes::install_github("curso-r/basesCursoR")
-# imdb <- basesCursoR::pegar_base("imdb_completa")
-# imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
-# imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
 
 imdb <- read_rds("../data-raw/imdb.rds")
 imdb_avaliacoes <- read_rds("../data-raw/imdb_avaliacoes.rds")
@@ -96,61 +88,142 @@ imdb <- imdb |>
 
 <br>
 
-# Análises
+# <font color = #142452> Análises </font>
+
+<br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 As três bases analisadas (imdb, imdb_avaliacoes e imdb_pessoas) possuem em suas primeiras linhas os cabeçalhos com nomes de suas  variáveis. O *database* imdb possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis e conta com os dados de lançamentos entre 1894 a 2020. O *database* imdb_avaliacoes também possui `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas e o *database* imd_pessoas possui `r nrow(imdb_pessoas)` linhas  `r ncol(imdb_pessoas)` variáveis.
 
 Na seção Anexos, ao final deste relatório,  encontram-se os dicionários das bases com as designações das variáveis e suas descrições.
 
 Todos os códigos de preparação  e de manipulação das bases como limpeza dos dados, união e junção de tabelas, entre outras, estão disponíveis para visualização, juntamente com os códigos de construção das tabelas e gráficos por meio do botão "code/hide". 
-
-Em cada tópico analisaremos uma questão sobre a base IMDB e apresentaremos a resposta.
-
 :::
 
-### 1. Um mês muito especial
+<br>
+
+### <font color = #142452> 1.Mês histórico </font>
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
 
 Em que mês, em toda  história, ocorreu o maior número de estreias de filmes e ou séries? 
 
+Analisando o gráfico abaixo, vemos que a quantidade de filmes produzidos evoluiu de 393 obras para 3281 lançamentos em 2018 e, em função da pandemia, um queda em 2019 para 3108 filmes.
+
+:::
+
+<br><br>
+
+```{r plot qtde de filmes por ano}
+#| echo = TRUE,
+#| fig.height = 4,
+#| fig.width = 9,
+#| fig.cap = "Fonte: Base de dados IMDB (Internet Movie Database",
+#| highlight = TRUE
+
+p_filmes_ano <- imdb |> 
+  mutate(ano_lancamento = year(data_lancamento)) |>                            # cria a coluna ano_lancamento.
+  select(ano_lancamento) |> 
+  drop_na() |>
+  group_by(ano_lancamento) |> 
+  summarise(qte = n()) |>                                 # resume por ano e quantidade de filmes em cada ano.
+  slice_head(n=112) |>             # linha 113 possui dados de 2021 de alguns meses. Exclui esta linha.
+  ggplot()+
+  aes(x = ano_lancamento, 
+      y = qte)+
+  annotate("rect",                                                # cria anotação retangular ao redor de 2018.
+           xmin = 2010,
+           xmax = 2026,
+           ymin = 2950, 
+           ymax = 3500,
+           fill = "#99D8FF", 
+           alpha = 0.3
+           ) +
+  annotate("text",                                               # cria anotação de texto sobre o ano de 2018.
+           x = 1960, 
+           y = 3281,
+           label = "2018 - ano com maior número lançamentos da história", 
+           size = 3
+           ) +
+  geom_segment(aes(y = 3281,                                              # cria a linha da anotação de texto.
+                   x = 1992,  
+                   xend = 2009,     
+                   yend = 3281   
+                   ),
+               size = 0.3,
+               fill = "#000000"   
+               ) +
+  geom_line(color = "blue")+                                                          # cria gráfico de linha.
+  geom_point(color = "red",                                 # cria gráfico de pontos sobre o gráfico de linha.
+             shape = 7,
+             size = 0.5
+             )+
+  gghighlight(ano_lancamento >=1960,                    # destaca os dados com ano_lançamento superior a 1960.
+              unhighlighted_params = list(colour = "#99D8FF"
+                                          )
+              )+
+  labs(title = "Total de filmes por ano",                            # define os textos para o título e eixos.
+       x = "
+    Ano",
+    y = "Quantidade
+    
+    "
+  )+
+  scale_x_continuous(breaks = seq(0,                   # define a escala do eixo x de 0 a 2022, passo 10 anos.
+                                  2022, 
+                                  10
+                                  )
+                     ) +
+  scale_y_continuous(breaks = seq(0,                    # define a escala do eixo y de 0 a 4000, passo de 500.
+                                  4000, 
+                                  500
+                                  )
+                     ) +
+  theme_classic()                                                                 # escolhe o tema do gráfico.
+  
+p_filmes_ano |> 
+  ggplotly()                                                                                # gera a o plotly.
+```
+
+<br><br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+Neste ano, pré-pandêmico, ocorreram as maiores quantidades de lançamentos de filmes por mês da história. Então, qual seria o mês com os maiores totais?
+
+:::
+
+
 ```{r preparacao da base e tabela mes com mairo numero de lancamentos de filmes}
-## Manipulação da base para determinação do mês com maior número de lançamentos de filmes
 
-imdb <- imdb |>                                              # converte variável para tipo date.
-  mutate(
-    data_lancamento = ymd(data_lancamento))                            
+imdb <- imdb |>                                              
+  mutate(data_lancamento = ymd(data_lancamento))                                # converte variável para date.                       
+
+imdb_datas <- imdb |>
+  mutate(mes = floor_date(data_lancamento, "month"))                    # cria coluna mes - dia 1 de cada mês.
 
 
-imdb_datas <- imdb |>                     # retorna mes como oprimeiro dia do mês de lançamento.
-  mutate(
-    mes = floor_date(data_lancamento, "month")      
-  )
-
-mes_maior_lancamento <- imdb_datas |>           # Obtém o mês com o maior número de lançamentos.
+mes_maior_lancamento <- imdb_datas |>                         # Obtém o mês com o maior número de lançamentos.
   group_by(mes) |>        
   summarise(qte = n()) |>             
-  separate(  
-    col = mes,                         
-    into = c("ano", "mes")) |>                                     
+  separate(col = mes,
+           into = c("ano","mes")
+           ) |>  
   drop_na() |> 
-  slice_max(
-    order_by = qte
-  ) 
+  slice_max(order_by = qte) 
 
-## Tabela com  os dados do mês com o maior número de lançamentos
 
-mes_maior_lancamento |>                                                                
-kbl(
-  align = "l",                                              # alinhamento do texto do cabeçalho.
-  col.names = c("Ano de Lançamento",                              # define o nome das variáveis.
+tab_mes_maior_lancamento <- mes_maior_lancamento |>   # cria tab. com dados do mês e maior número de estreias.
+  kbl(
+  align = "l",                                                 # alinhamento do texto do cabeçalho à esquerda.
+  col.names = c("Ano de Lançamento",                                 # define o nome dos cabeçalhos da tabela.
                 "Mês", 
                 "Quantidade de Filmes Lançados"),
-  caption = "Outubro de 2018",
   full_width = TRUE,
-  #format = "simple"
 ) |> 
-  kable_styling(                                            # altera as configurações da tabela.
+  kable_styling(                                                          # altera as configurações da tabela.
     html_font = "get_schwifty",
     bootstrap_options = "basic",
     font_size = 10,
@@ -158,7 +231,7 @@ kbl(
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
   ) |> 
   kable_classic_2() |> 
-  column_spec(1,                                          # altera as configurações das colunas.
+  column_spec(1,                                                        # altera as configurações das colunas.
               bold = FALSE,
               #background = "#022859", 
               #color = "#FFFFFF",
@@ -176,62 +249,25 @@ kbl(
               # color = "#FFFFFF",
               width = "4cm"
               ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
            general_title = "Fonte:",
            )
 
+tab_mes_maior_lancamento
+
 ```
 
-
+<br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Em Outubro de `r mes_maior_lancamento$ano`, foram lançados `r mes_maior_lancamento$qte` filmes. Este foi o mês em toda a história da indústria cinematográfica com o maior número de lançamentos em um mês.
+No auge de lançamentos, o mês de outubro teve 397 *premieres*. Este foi o mês com o maior número de estreias. 
 
-No gráfico abaixo, apresentamos os trinta meses com as maiores quantidades de lançamentos ocorridos.
-
-```{r qtde de filmes por ano}
-#| echo = TRUE,
-#| fig.height = 4,
-#| fig.width = 9,
-#| fig.cap = "Quantidade de Filmes por Ano ao Longo da História",
-#| highlight = TRUE
-
-
-
-filmes_ano <- imdb |> 
-  mutate(ano_lancamento = year(data_lancamento)) |> 
-  select(ano_lancamento) |> 
-  drop_na() |>
-  group_by(ano_lancamento) |> 
-  summarise(qte = n()) |> 
-  slice_head(n=112) |> 
-  ggplot()+
-  aes(x = ano_lancamento, y = qte)+
-  geom_line()+
-  geom_point(
-    color = "blue",
-    shape = 7,
-    size = 0.5
-  )+
-  theme_classic()
-  
-
-filmes_ano |> 
-  ggplotly()
-
-```
-
-
-
-
-
-
-Na tabela abaixo listamos os 30 filmes lançados nesta data em ordem descrescente de suas notas médias IMDB. Consideramos somente os filmes com numero de avaliações superiores a 10000 pessoas.
+Listamos abaixo os 15 filmes deste mês de outubro pelas maiores notas médias IMDB, considerando apenas os avaliados por mais de 10000 pessoas.
 :::
 
-```{r relacao dos 10 filmes de outubro de 2018 com maior numero de lancamentos }
+```{r relacao dos 15 filmes de outubro de 2018 com maior numero de lancamentos }
 
 ## Manipulação da base para obtenção da relação dos 30 filmes por ranking 
 
@@ -245,7 +281,7 @@ mes_maior_lancamento <- imdb_datas |>                 # lista dos 30 filmes com 
             pais) |>
   filter(mes == "2018-10-1" & num_avaliacoes >= 10000) |> 
   arrange(desc(nota_imdb)) |> 
-  slice_head(n=10)
+  slice_head(n=15)
 
 mes_maior_lancamento$mes <- NULL                                          # Exclusão de colunas. 
 mes_maior_lancamento$qte <- NULL
@@ -260,7 +296,7 @@ kbl(
                 "nota",
                 "avaliações",
                 "país"),
-  caption = "10 melhores rankings de Outubro de 2018 ",
+  #caption = "10 melhores rankings de Outubro de 2018 ",
   ) |> 
   kable_styling(                                            # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
@@ -308,16 +344,67 @@ kbl(
            )
 ```
 
+<br>
+
 ::: {align="justify" style="text-indent: 3em;"}
-Ratsasan é um filme de terror e foi produzido em língua tamil. Conta a história de de um aspirante a diretor de cinema que se torna policial após a morte de seu pai e tenta rastrear um serial *killer*.
+Destaca-se os filmes "Ratsasan" e "A Star is born", aquele pela nota maisl alta e este pelo elenco que contou com o ator Bradley Cooper e a cantora Lady Gaga. 
+
+Abaixo, alguns dados extraídos da base IMDB e algumas informações obtidas da *Web* sobre estes dois filmes.
 :::
 
 <br>
 
-## Um dia muito especial
+####  {.tabset .tabset-fade}
+
+##### A Star is Born
+
+```{r filme nasce uma estrela}
+
+imdb_nasce_uma_estrela <- imdb |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao, elenco, orcamento, receita) |> 
+  filter(titulo == "A Star Is Born")
+```
 
 ::: {align="justify" style="text-indent: 3em;"}
-E qual seria o dia com a maior quantidade de filmes lançados? Podemos fazer esta análise. Novamente, código e resposta abaixo.
+O filme "`r imdb_nasce_uma_estrela$titulo`" foi  lançado  no Brasil como "Nasce uma Estrela". De origem stadunidense pertence aos gêneros drama, musical e romance. Sua *premier* ocorreu no dia 11 de outubro de 2018 com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`, roteiro de `r imdb_nasce_uma_estrela$roteiro`, contou com a participação de `r imdb_nasce_uma_estrela$elenco` em seu elenco. A obra teve um orçamento, de acordo com a base, de US`r imdb_nasce_uma_estrela$orcamento` e uma receita de US`r imdb_nasce_uma_estrela$receita`, obtendo um lucro de US$ 76188866.
+
+De acordo com o *wikipedia*, cogitou-se a participação da cantora **Beyouncé** para estrelar o papel principal. Entretanto, em maio de 2016, a revista americana *Deadline Holliwood* publicou um artigo que dizia que Bradley Cooper queria Lady Gaga como protagonista. Este filme foi a primeira participação imponente de Lady Gaga no cinema.
+
+:::
+<br>
+
+##### Ratsasan
+
+```{r filme ratsasan}
+
+imdb_ratsasan <- imdb |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao, elenco) |> 
+  filter(titulo == "Ratsasan")
+```
+
+
+::: {align="justify" style="text-indent: 3em;"}
+O filme "`r imdb_ratsasan$titulo`" disponível na plataforma Netflix (consulta em 17/05/2022) é um filme dos gêneros ação, crime e suspense. Foi produzido em língua tamil. Conta a história de de um aspirante a diretor de cinema que se torna policial após a morte de seu pai e tenta rastrear um serial *killer*.
+Foi lançado no dia 05 de outubro de 2018 com duração de `r imdb_ratsasan$duracao` minutos, dirigido por `r imdb_ratsasan$direcao`, roteiro de `r imdb_ratsasan$roteiro`, contou com os atores `r imdb_ratsasan$elenco`.
+
+A base IMDB não possui dados sobre o orçamento e a receita arredada, mas de acordo como o *wikipedia* o filme arrecadou, por exemplo, nos Estados Unidos US\$ 2624379, no Reino Unido Є 748185 e no Canadá US$ 1567893.
+:::
+
+
+## 2. Dia especial
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+Analisando as datas de lançamentos dos filmes em 2022 na página [mundo conectado](https://mundoconectado.com.br/artigos/v/21921/todos-os-123-filmes-que-estreiam-nos-cinemas-brasileiros-em-2022), verifica-se, em nosso país, que os filmes t no mesmo têm suas estreias no mesmo dia, ou seja, em uma mesma quinta-feira (antes de março de 2014 os lançamentos ocorriam nas sextas-feiras, mas o dia das estreias foi alterado após acordo entre os exibidores e ditribuidores brasileiros). 
+
+Neste mês as estreias tivemos o lançamento dos filmes "Doutor Estranho in the Multiverse of Madness" e "Mrs. Harries Goes to Paris" no dia 05, os filmes "Paris 13th District" e "King" no dia 12, "Uma Pitada de Sorte", "DC Liga dos SuperPets" e "Quatro Amigas Numa Fria" no dia 19 e "Top Gun Maverick", "Bob's Burger" e "Vovó Ninja" no dia 26 de maio.
+ 
+Em relação à base IMDB, qual seria o dia com a maior quantidade de filmes lançados?
+
+<br>
+
 :::
 
 ```{r dia com o maior numero de lancamento}
@@ -338,7 +425,6 @@ dia_maior_lancamento |>
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Dia", 
                   "Quantidade de Filmes Lançados"),                 # define o nome das colunas.
-  caption = "Primeiro dia dos meses",
     ) |> 
   kable_styling(                                            # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
@@ -367,19 +453,133 @@ dia_maior_lancamento |>
            )
 ```
 
+<br>
+
+```{r grafico 02}
+
+plot_dia_filmes <- imdb |> 
+  mutate(dia = day(data_lancamento)) |> 
+  group_by(dia) |> 
+  summarise(qtde = n()) |> 
+  drop_na() |> 
+  ggplot()+
+  aes(x = dia, y = qtde, fill = dia, label = qtde)+
+  geom_point(
+    size = 5,
+    color = "#CC5A71"
+  )+
+  geom_label(                                                            # formatar os labels.
+    size = 4, 
+    alpha = 0,
+    label.size = NA,    
+    fontface = "plain",    
+    color = "#CC5A71",
+    vjust = -1,
+    parse = TRUE
+  ) +
+  geom_segment(aes(x = dia,      # criar o elemento segmento.
+                   xend = dia,
+                   y = 0,
+                   yend = qtde
+                   ),
+               size = 1.5,
+               color = "#CC5A71"
+               )+
+  gghighlight(dia == 1 | dia == 31,
+              unhighlighted_params = list(colour = "#4C586B")
+  )+
+  labs(                                                     # editar o texto do título, subtítulo e eixos.
+    title = "Total de lançamentos por *<span style = 'color:#CC5A71;'>dia </span>*",
+    subtitle ="Os dias com maior e menor quantidade de estreias",
+    y = "Quantidade de filmes
+    ",
+    x = "
+    Dias do mês"
+  ) +
+  theme_classic()+                                             # seleção do tema do gráfico.
+  scale_y_continuous(breaks = seq(0, 8000, 1000),
+                     limits = c(0,8000)) +                    # formatar escala do eixo x.  
+  scale_x_continuous(breaks = seq(0, 31, 1)) +                    # formatar escala do eixo x.
+  theme(                                                          # customizar:
+    panel.background = element_rect(fill = "#FFFFFF"),                   # fundo do gráfico.
+    plot.background = element_rect(fill = "#FFFFFF"),         # fundo da moldura retangular.
+    plot.margin = unit(c(1, 1, 1, 1), "cm"),                     # distância das margens.
+    plot.title = element_markdown(                                      # título do gráfico.
+      size = 24,  
+      face = "plain",    
+      family = "Arial",                                         # fonte do título.
+      hjust = 0,
+      margin = unit(c(0, 0, 0.5, 0), "cm")                            # margens do título.
+    ), 
+    plot.subtitle = element_text(
+      size = 14,
+      family = "Arial",   
+      hjust = 0,
+      face = "plain"
+    ),
+    text = element_text(                                                # textos do gráfica.
+      family = "Arial",    
+      color = "#000000",
+      size = 14,
+      hjust = 0,
+      face = "plain"
+    ),
+    axis.text.x = element_text(                                           # texto do eixo x.
+      color = "#000000",       
+      size = 15,
+      face = "plain",
+      margin = unit(c(0.3, 0, 0.5, 0), "cm")  
+    ),
+    axis.text.y = element_markdown(                                       # texto do eixo y.
+      color = "#000000",    
+      size = 15,
+      face = "plain",
+      family = "Arial", 
+    ),
+    axis.ticks.x = element_line(color = "#1F1F1F"),                         # ticks do eixo x.
+    axis.line.x = element_line(color = "#1F1F1F"),                   # cor da linha do eixo x.
+    axis.ticks.y = element_line(color = "#1F1F1F"),             # padrões dos ticks do eixo x.
+    axis.line.y = element_line(
+      color = "#000000",                                           # cor da linha do eixo x.
+      size = 0.4,
+    ),
+    axis.title = element_text(                                    # texto do título do eixo x.
+      face = "plain",    
+      size = 16,
+      hjust = 0.5,
+    ),
+    legend.position = "none"                                               # exclui a legenda.
+  ) 
+
+plot_dia_filmes
+
+
+```
+
+
 ::: {align="justify" style="text-indent: 3em;"}
-Os `r dia_maior_lancamento$dia`ºs dia dos mêses são os preferidos pelas produtoras para os lançamentos. Foram `r dia_maior_lancamento$qtde` estréias neste dia ao longo dos anos. Seguido pelos dias 15 com 2831, 14 com 2728 e 25 com 2727 filmes.
+Ao longo da história, o dia `r dia_maior_lancamento$dia`º foi aquele com a maior número de lançamentos. No total, foram `r dia_maior_lancamento$qtde` estréias neste dia. Depois os dias 15 com 2831, 14 com 2728 e 25 com 2727 filmes. 
+
+A maior frequência de "*premieres*" neste dia, indica uma preferência de muitas produtoras em realizar as estreias de suas obras neste dia. 
+
 :::
 
 <br>
 
-## Os paises com maior número de filmes
+## 3. Os paises com maior número de filmes
+
+<br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-De acordo com a base IMDB temos a seguinte relação dos países com mais filmes:
+De acordo com o [instituto do cinema](https://www.institutodecinema.com.br/mais/conteudo/bollywood-e-seu-jeito-lucrativo-de-fazer-cinema-), Hollywood não é a maior indústria cinematográfica do mundo. Este lugar é ocupado pela produtora Bollywood. Os indianos produzem cerca de 1500 filmes por ano e por se tratar do segundo país mais populoso do mundo tem uma média de espectadores superior a meio milhão por mês.
+
+Todavia, segundo a base IMDB e considerando toda a história do cinema, qual seria o país com maior número de filmes produzidos?
 :::
 
+<br>
+
 ```{r top 5 de paises com mais filmes na base}
+#| fig.out = 100
 
 ## Manipulação da base para a obtencão dos 5 países com mais filmes na base
 
@@ -396,7 +596,7 @@ top_5_paises |>
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("País",                                           # define o nome das colunas.
                   "Quantidade de Filmes Lançados"),
-    caption = "Cinco países com maior quantidade de filmes produzidos"
+    #caption = "Cinco países com maior quantidade de filmes produzidos"
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -429,11 +629,6 @@ top_5_paises |>
 
 ```{r grafico 01}
 #| echo = TRUE,
-#| fig.height = 7,
-#| fig.width = 14,
-#| out.width = 1300,
-#| out.height = 700
-
 
 top_20_paises <- imdb |> 
   group_by(pais) |> 
@@ -458,10 +653,10 @@ top_20_paises |>
          ) +
     geom_col(fill = cor)+
   geom_label(                                                              # formatar os labels.
-    size = 3.8, 
+    size = 4.5, 
     alpha = 0,
     label.size = NA,    
-    fontface = "bold",    
+    fontface = "plain",    
     color = "#FFFFFF",
     hjust = -0.3
   ) +
@@ -502,41 +697,41 @@ top_20_paises |>
   theme_classic()+
   theme(
     panel.background = element_rect(fill = "#022859"),                       # fundo do gráfico.
-    plot.background = element_rect(fill = "#B2DDF7"),             # fundo da moldura retangular.
+    plot.background = element_rect(fill = "#FFFFFF"),             # fundo da moldura retangular.
     legend.position = "none",
     plot.margin = unit(c(1, 1.5, 0.5, 1), "cm"),
-    plot.title = element_markdown(                                          # título do gráfico.
-      size = 32,
-      face = "plain",
-      family = "NationalHero!",
+    plot.title = element_text(                                          # título do gráfico.
+      size = 24,
+      face = "bold",
+      family = "Arial",
       hjust = 0.5,
       margin = unit(c(0.3, 0, 0.5, -0,2), "cm")
     ), 
-    plot.subtitle = element_markdown(
-      size = 14,
+    plot.subtitle = element_text(
+      size = 15,
       hjust = 0,
-      family = "arial",
+      family = "Arial",
       margin = unit(c(0, 0, 0.5, 0), "cm")
     ),
     text = element_text(                                                    # textos do gráfica.
-      family = "arial",    
+      family = "Arial",    
       color = "#022859",
-      size = 11,
+      size = 13,
       hjust = 0,
-      face = "bold"
+      face = "plain"
     ),
     axis.text.x = element_text(                                           # texto do eixo x.
       color = "#022859",       
-      size = 11,
-      face = "bold",
-      family = "Rio2016",
+      size = 14,
+      face = "plain",
+      family = "Arial",
       margin = unit(c(0.5, 0, 0.5, 0), "cm")  
     ),
     axis.text.y = element_markdown(                                       # texto do eixo y.
       color = "#022859",    
-      size = 13,
-      face = "bold",
-      family = "Rio2016", 
+      size = 14,
+      face = "plain",
+      family = "Arial", 
       margin = unit(c(0, 0.5, 0, 0.5), "cm")
     ),
     axis.ticks.x = element_line(color = "#1F1F1F"),                         # ticks do eixo x.
@@ -547,8 +742,8 @@ top_20_paises |>
       size = 0.4,
     ),
     axis.title = element_text(                                    # texto do título do eixo x.
-      face = "bold",    
-      size = 13,
+      face = "plain",    
+      size = 15,
       hjust = 0.5,
     )
   )+    
@@ -557,24 +752,28 @@ top_20_paises |>
             registrados na base IMDB",
             color = "#B2DDF7", 
             size = 4,
-            family = "arial",
-            fontface = "bold"
+            family = "Arial",
+            fontface = "plain"
   )+
   annotate( "text",
             x = 14000, y = 2, label = "Décima sexta posição do Brasil",
             color = "#B2DDF7", 
             size = 4,
-            family = "arial",
-            fontface = "bold"
+            family = "Arial",
+            fontface = "plain"
   )
 
 ```
+
+<br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 No gráfico acima, destaquei a posição do nosso país no ranking. Foram 736 filmes produzidos entre 1931 e 2020.
 
 Apresentamos os cinco filmes com mais de 10000 avaliaçoes, com as maiores pontuaçoes medias da imdb.
 :::
+
+<br>
 
 ```{r tabela - melhores filmes brasileiros - ranking imdb }
 
@@ -599,7 +798,7 @@ top_5_filmes_brasil |>
                   "Gênero",
                   "Nota IMDB",
                   "Numero de Avaliações"),
-    caption = "Filmes brasileiros com melhores rankings"
+    #caption = "Filmes brasileiros com melhores rankings"
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -647,11 +846,18 @@ top_5_filmes_brasil |>
            )
 ```
 
-## Lista de todas as moedas citadas na base
+<br>
 
+## 4. Lista de todas as moedas citadas na base
+
+::: {align="justify" style="text-indent: 3em;"}
 A variável orçamento representa o valor total estimado de gastos para a produção da obra cinematográfica ou de uma série. A indústria de filmes movimenta bilhões de dólares usados para a contratação de técnologias para produção de efeitos especiasi, trilhas sonoras, pagamento de suas equipes de produção e direção e artistas. 
 
 A base analisada apresenta os valores de orçamento em variadas moedas, a depender do país da produção. Vamos relacionar quais são as moedas presentes no *dataset* e apresentá-las na tabela abaixo.
+
+:::
+
+<br>
 
 ```{r tabela - moedas na base - orçamento}
 
@@ -687,7 +893,7 @@ moedas_orcamento_unificada |>
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Moeda",                                           # define o nome das colunas.
                   "Divisa"),
-    caption = "Moedas dos orçamentos dos filmes"
+    #caption = "Moedas dos orçamentos dos filmes"
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -716,13 +922,24 @@ moedas_orcamento_unificada |>
            )
 ```
 
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
 São `r nrow(moedas_orcamento_unificada)` diferentes moedas utilizadas, que estão relacionadas por meio de seus códigos ISO. Algumas moedas não existem atualmente, como às dos 26 paises do Bloco Europeu que passaram a utilizar o Euro como moeda oficial.
 
+:::
+<br>
 
-## Maiores lucros da indústria por gêneros em toda história
+## 5. Maiores lucros da indústria por gêneros em toda história
 
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
 Considerando a soma dos lucros dos filmes por gênero, podemos concluir que:
 
+:::
+
+<br>
 
 ```{r tabela - maiores lucros por gênero na história}
 
@@ -786,7 +1003,7 @@ lucros_genero |>
   kbl(
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Gêneros",                                           # define o nome das colunas.
-                  "Lucro Total"),
+                  "Lucro Total (US$) "),
     caption = "Maiores lucros por gênero"
     ) |> 
   kable_styling(
@@ -817,8 +1034,13 @@ lucros_genero |>
 
 ```
 
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
 No caso de a análise ser realizada considerando a soma dos lucros divididos pelo total de filmes realizados em cada gênero o resultado seria o lucro obtido em cada gênero por filme produzido. Nestes termos, o resultado seria:
 
+:::
+<br>
 
 ```{r tabela - lucro por genero por filme produzido}
 
@@ -832,8 +1054,8 @@ lucros_genero_filme |>
   kbl(
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Gêneros",                                           # define o nome das colunas.
-                  "Lucro Total por Filme Produzido"),
-    caption = "Maiores lucros por filme produzido em cada gênero"
+                  "Lucro Total por Filme Produzido (US$)"),
+    #caption = "Maiores lucros por filme produzido em cada gênero"
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -864,10 +1086,7 @@ lucros_genero_filme |>
 
 ```
 
-
-
-
-
+<br>
 
 # Conclusão 
 
@@ -878,6 +1097,8 @@ lucros_genero_filme |>
 ## Dicionários
 
 ### Dicionário da base IMDB
+
+<br>
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
@@ -1013,3 +1234,4 @@ lucros_genero_filme |>
 </tbody>
 </table></div>
 
+<br>
