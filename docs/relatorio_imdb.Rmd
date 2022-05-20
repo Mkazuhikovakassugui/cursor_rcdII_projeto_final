@@ -59,15 +59,20 @@ library(plotly)                                                                 
 library(gghighlight)                                                                 # extensão para gráficos.
 library(ggtext)                                                                      # extensão para gráficos.
 library(ggthemes)                                                                     # temas para relatórios.
-library(patchwork)
+library(here)
 ```
 
 ```{r  Leitura das bases}
 #| echo = FALSE
 
-imdb <- read_rds("../data-raw/imdb.rds")
-imdb_avaliacoes <- read_rds("../data-raw/imdb_avaliacoes.rds")
-imdb_pessoas <- read_rds("../data-raw/imdb_pessoas.rds")
+caminho_com_here_imdb <- here("data-raw", "imdb.rds")
+caminho_com_here_imdb_aval <- here("data-raw", "imdb_avaliacoes.rds")
+caminho_com_here_imdb_pessoas <- here("data-raw", "imdb_pessoas.rds")
+caminho_com_here_tab_moedas <- here("data-raw", "siglas_moedas_paises.xlsx")
+
+imdb <- read_rds(caminho_com_here_imdb)
+imdb_avaliacoes <- read_rds(caminho_com_here_imdb_aval)
+imdb_pessoas <- read_rds(caminho_com_here_imdb_pessoas)
     
 ```
 
@@ -76,9 +81,9 @@ imdb_pessoas <- read_rds("../data-raw/imdb_pessoas.rds")
 
 # alterar o tipo da variável data_lancamento de "char" para "date" -----------------------------
 
-imdb <- imdb |>    
+imdb_novo <- imdb |>    
   mutate(
-    data_lancamento = ymd(data_lancamento),                               # conversão para date.
+    data_lancamento = ymd(data_lancamento),                                             # conversão para date.
   )
 ```
 
@@ -119,7 +124,7 @@ Analisando o gráfico abaixo, vemos que a quantidade de filmes produzidos evolui
 #| fig.cap = "Fonte: Base de dados IMDB (Internet Movie Database",
 #| highlight = TRUE
 
-p_filmes_ano <- imdb |> 
+p_filmes_ano <- imdb_novo |> 
   mutate(ano_lancamento = year(data_lancamento)) |>                            # cria a coluna ano_lancamento.
   select(ano_lancamento) |> 
   drop_na() |>
@@ -195,7 +200,7 @@ Neste ano, pré-pandêmico, ocorreram as maiores quantidades de lançamentos de 
 ```{r preparacao da base e tabela mes com maior numero de lancamentos de filmes}
 
 ### Cria a coluna mes
-imdb_datas <- imdb |>
+imdb_datas <- imdb_novo |>
   mutate(mes = month(data_lancamento, label = TRUE, abbr = TRUE))  
 
 ### Obtém o mês com o maior número de lançamentos.
@@ -256,7 +261,7 @@ meses_mais_qte <- mes_maior_lancamento |>
   group_by(qte, ano) |> 
   summarise(mes) |> 
   arrange(desc(qte)) |> 
-  unite(col = "mes_ano", c("mes","ano"), sep = "") |> 
+  unite(col = "mes_ano", c("mes","ano"), sep = "/") |> 
   arrange(desc(qte)) |> 
   head(20) 
 
@@ -486,7 +491,7 @@ Em relação à base IMDB, qual seria o dia com a maior quantidade de filmes lan
 ```{r dia com o maior numero de lancamento}
 
 #### Manipulação da base para a obtencão do dia com o maior número de lançamentos---------------------
-dia_maior_lancamento <- imdb |> 
+dia_maior_lancamento <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
   summarise(qtde = n()) |> 
@@ -529,7 +534,7 @@ dia_maior_lancamento |>
 ```{r grafico lancamentos x dias}
 
 ### Grafico dias com maior quantidade de filmes ----------------------------------------------------------
-plot_dia_filmes <- imdb |> 
+plot_dia_filmes <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
   summarise(qtde = n()) |> 
@@ -645,7 +650,7 @@ Todavia, segundo a base IMDB e considerando toda a história do cinema, qual ser
 #| fig.out = 100
 
 ## Manipulação da base para a obtencão dos 5 países com mais filmes na base --------------------------
-top_5_paises <- imdb |> 
+top_5_paises <- imdb_novo |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
@@ -688,7 +693,7 @@ top_5_paises |>
 #| echo = TRUE,
 
 ### Manipulando os dados para obtenção dos 16 países com maiores quantidades de filmes lançados------
-top_16_paises <- imdb |> 
+top_16_paises <- imdb_novo |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
@@ -700,7 +705,7 @@ cor <- c(                                                       # paleta  de cor
   "#c42847", "#ffad05", "#7d5ba6", "#00bbf9", "#2bc016",
   "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7",
   "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7",
-  "#365F6D"
+  "#B2DDF7"
 )
 
 ### Gráfico com os 16 países com maior número de filmes produzidos
@@ -718,8 +723,8 @@ plot_top_16_paises <- top_16_paises |>
   geom_label(size = 4.5,                                                                 # formatar os labels.
              alpha = 0,
              label.size = NA,    
-             fontface = "plain",  
-             color = "#000000",
+             fontface = "bold",  
+             color = cor,
              hjust = -0.3
              ) +
   geom_curve(aes(y = 14,                   # formatar curva para anotação " Relação dos países com mais.....".
@@ -833,7 +838,7 @@ Apresentamos os cinco filmes com mais de 10000 avaliaçoes, com as maiores pontu
 ```{r tabela - melhores filmes brasileiros - ranking imdb }
 
 # Análise dos filmes brasileiros com maior ranking
-top_5_filmes_brasil <- imdb |> 
+top_5_filmes_brasil <- imdb_novo |> 
   filter(pais == "Brazil" & num_avaliacoes >= 10000) |> 
   summarise( titulo, 
              ano, 
@@ -916,7 +921,7 @@ A base analisada apresenta os valores de orçamento em variadas moedas, a depend
 ```{r tabela - moedas na base - orçamento}
 
 # lista de todas as moedas da base - coluna orçamento
-moedas_orcamento <- imdb |> 
+moedas_orcamento <- imdb_novo |> 
   select(orcamento) |>
   mutate(moeda = str_extract(string = orcamento,
                              pattern = "[\\w | \\$].* " )
@@ -932,7 +937,7 @@ moedas_orcamento <- moedas_orcamento |>
 
 # utilizar uma base de moedas e suas divisas para juntar à tabela acima
 # importar a tabela xls "siglas_moedas_paises"
-tab_moedas <- readxl::read_xlsx("../data-raw/siglas_moedas_paises.xlsx")
+tab_moedas <- readxl::read_xlsx(caminho_com_here_tab_moedas)
 
 # juntar as tabelas moedas_receita e tab_moedas por meio da coluna moeda
 moedas_orcamento_unificada<- left_join(x = moedas_orcamento,
@@ -951,7 +956,7 @@ moedas_orcamento_unificada |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     html_font = "Arial",
-    font_size = 10,       
+    font_size = 11,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
     ) |> 
@@ -994,7 +999,7 @@ Considerando a soma dos lucros dos filmes por gênero, podemos concluir que:
 
 # considerando apenas o valores em dólares
 
-filmes_dolares <- imdb |>
+filmes_dolares <- imdb_novo |>
   select(orcamento, receita, genero, titulo) |> 
   filter(str_detect(orcamento, pattern = "\\$.*"))
 

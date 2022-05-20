@@ -63,7 +63,7 @@ glimpse(imdb)
 
 ### Alterar o tipo de data_lancamento para date ---------------------------------------------------------
 
-imdb <- imdb |>    
+imdb_novo <- imdb |>    
   mutate(
     data_lancamento = ymd(data_lancamento)                              # conversão do tipo "chr" para "date".
   )
@@ -72,7 +72,7 @@ imdb <- imdb |>
   
 ### Analisar os valores missing -------------------------------------------------------------------------
 
-skimr::skim(imdb)
+skimr::skim(imdb_novo)
 
 ### ------------------> 27,6 % de dados fornecidos em orcamento
 ### ------------------> 36,1 % de dados fornecidos em receita
@@ -80,14 +80,9 @@ skimr::skim(imdb)
 ### ------------------> demais dados com índices de preenchimento superiores a 86,3%
 
 
-### Altera o tipo da variável data_lancamento para date
-
-imdb <- imdb |>                                              
-  mutate(data_lancamento = ymd(data_lancamento))    
-
 ### Gráfico meses com maiores lançamentos de filmes na base IMDB
   
-p_filmes_ano <- imdb |> 
+p_filmes_ano <- imdb_novo |> 
   mutate(ano_lancamento = year(data_lancamento)) |>                            # cria a coluna ano_lancamento.
   select(ano_lancamento) |> 
   drop_na() |>
@@ -152,16 +147,13 @@ p_filmes_ano |>
 # gera a o plotly.
 
  
-
-######################################################################################################
-
 ### Cria a coluna mes
 
-imdb_datas <- imdb |>
+imdb_datas <- imdb_novo |>
   mutate(mes = month(data_lancamento, label = TRUE, abbr = TRUE))  
 
-### Obtém o mês com o maior número de lançamentos.
-mes_maior_lancamento <- imdb_datas |>                        
+### Obtém os meses com o maior número de lançamentos.
+mes_maior_lancamento <- imdb_datas |>                         # imdb_datas possui novas colunas "mes" e "ano".           
   group_by(mes, ano) |>        
   summarise(qte = n()) |>             
   drop_na() |> 
@@ -314,15 +306,6 @@ plot01
   
   
   
-  
-
-
-
-
-
-
-
-
 ## gráfico com as maiores quantidades de lançamentos por mêses do ano
 
 
@@ -372,7 +355,7 @@ tab_mes_maior_lancamento                                                        
 
 ## Manipulação da base para obtenção da relação dos 15 filmes  de outubro de 2018 por ranking 
 
-mes_maior_lancamento <- imdb_datas |>                                # lista dos 15 filmes com melhor ranking.
+mes_maior_lancamento_15_filmes <- imdb_datas |>                                # lista dos 15 filmes com melhor ranking.
   group_by(mes) |>        
   summarise(qte = n(),
             titulo,
@@ -385,19 +368,20 @@ mes_maior_lancamento <- imdb_datas |>                                # lista dos
   arrange(desc(nota_imdb)) |> 
   slice_head(n=15)
 
-mes_maior_lancamento$mes <- NULL                                                        # Exclusão de colunas. 
-mes_maior_lancamento$qte <- NULL
+mes_maior_lancamento_15_filmes$mes <- NULL                                                        # Exclusão de colunas. 
+mes_maior_lancamento_15_filmes$qte <- NULL
 
 ## Tabela com os 15 filmes  de outubro de 2018com melhores rankings
 
-mes_maior_lancamento |>                                                               
+mes_maior_lancamento_15_filmes |>                                                               
   kbl(
     align = "l",                                                          # alinhamento do texto do cabeçalho.
     col.names = c("título",                                                     # define o nome das variáveis.
                   "lançamento", 
                   "nota",
                   "avaliações",
-                  "país"),
+                  "país",
+                  "ano"),
   ) |> 
   kable_styling(                                                          # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
@@ -439,7 +423,7 @@ mes_maior_lancamento |>
 
 #### Manipulação da base para a obtencão do dia com o maior número de lançamentos---------------------
 
-dia_maior_lancamento <- imdb |> 
+dia_maior_lancamento <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
   summarise(qtde = n()) |> 
@@ -481,7 +465,7 @@ dia_maior_lancamento |>
 
 ### Grafico dias com maior quantidade de filmes -----------------------------------------------------------
 
-plot_dia_filmes <- imdb |> 
+plot_dia_filmes <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
   summarise(qtde = n()) |> 
@@ -573,7 +557,7 @@ plot_dia_filmes                                                                 
 
 ### Manipulação da base para a obtencão dos 5 países com mais filmes na base --------------------------
 
-top_5_paises <- imdb |> 
+top_5_paises <- imdb_novo |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
@@ -613,7 +597,7 @@ top_5_paises |>
 
 ### Gráfico lançamentos por dia ---------------------------------------------------------------------
 
-plot_dia_filmes <- imdb |> 
+plot_dia_filmes <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
   summarise(qtde = n()) |> 
@@ -714,13 +698,10 @@ plot_dia_filmes                                                                 
 
 
 
-
-
-
 ### Colocando o resultado em um gráfico de barras com os 20 paises -----------------------------------
 
 ### Manipulando os dados para obtenção dos 16 países com maiores quantidades de filmes lançados------
-top_16_paises <- imdb |> 
+top_16_paises <- imdb_novo |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
@@ -732,7 +713,7 @@ cor <- c(                                                       # paleta  de cor
   "#c42847", "#ffad05", "#7d5ba6", "#00bbf9", "#2bc016",
   "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7",
   "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7",
-  "#365F6D"
+  "#B2DDF7"
 )
 
 ### Gráfico com os 16 países com maior número de filmes produzidos
@@ -751,7 +732,7 @@ plot_top_16_paises <- top_16_paises |>
              alpha = 0,
              label.size = NA,    
              fontface = "plain",  
-             color = "#000000",
+             color = cor,
              hjust = -0.3
              ) +
   geom_curve(aes(y = 14,                   # formatar curva para anotação " Relação dos países com mais.....".
@@ -864,7 +845,7 @@ imdb |>
 
 # 5) Listar todas as moedas nas colunas orcamento e receita -------------------------------
 
-moedas_orcamento <- imdb |> 
+moedas_orcamento <- imdb_novo |> 
   select(orcamento) |>
   mutate(moeda = str_extract(string = orcamento,
                              pattern = "[\\w | \\$].* " )
@@ -931,26 +912,26 @@ moedas_orcamento_unificada |>
 
 # considerando apenas o valores em dólares
 
-filmes_dolares <- imdb |>
+imdb_filmes_dolares <- imdb_novo |>
   select(orcamento, receita, genero, titulo) |> 
   filter(str_detect(orcamento, pattern = "\\$.*"))
 
 # eliminar o símbolo $ nos valores das colunas orçamento e receita
 
-filmes_dolares <- filmes_dolares |> 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
   mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
          receita = str_remove(receita, pattern = "\\$ "))
 
 
 # alterar o tipo das variáveis orcamento e  receita
 
-filmes_dolares$orcamento <- as.numeric(filmes_dolares$orcamento)
-filmes_dolares$receita <- as.numeric(filmes_dolares$receita)
+imdb_filmes_dolares$orcamento <- as.numeric(filmes_dolares$orcamento)
+imdb_filmes_dolares$receita <- as.numeric(filmes_dolares$receita)
 
   
 # calcular o lucro dos filmes
 
-filmes_dolares <- filmes_dolares |> 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
   mutate(
     lucro = receita - orcamento
   ) |>
@@ -959,7 +940,7 @@ filmes_dolares <- filmes_dolares |>
 
 # usar a base imdb, precisamos fazer a separação da coluna genero
 
-filmes_dolares <- filmes_dolares |> 
+filmes_dolares <- imdb_filmes_dolares |> 
   separate(col = genero,
            into = c("genero1", "genero2", "genero3"),
            sep = ","
@@ -1062,8 +1043,45 @@ lucros_genero_filme |>
 
 # Maiores notas medias por genero -----------------------------------------------------------------------
 
-# Fazer o join de imdb e imdb_avaliacoes
+## Fazer o join de imdb e imdb_avaliacoes
 
-imdb_join_aval <- left_join(imdb, imdb_avaliacoes, by = "id_filme")
+imdb_join_aval <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme")
+
+## fazer a separação das variáveis da coluna genero
+
+imdb_join_aval_generos <- imdb_join_aval |> 
+  separate(col = genero,
+           into = c("genero_aval1", "genero_aval2", "genero_aval3"),
+           sep = ","
+           )
 
 
+# fazer o pivotamento da base para long
+
+imdb_join_aval_generos <- imdb_join_aval_generos |> 
+  pivot_longer(
+    cols = c("genero_aval1", "genero_aval2", "genero_aval3"),
+    names_to = "tipos_generos_aval",
+    values_to = "generos_aval",
+    values_drop_na = TRUE
+  ) |> 
+  mutate(generos_aval = str_trim(generos_aval))
+
+
+# Fazer o join de imdb_join_aval_generos e imdb_avaliacoes
+
+imdb_medias_genero <- left_join(
+  imdb_join_aval_generos,
+  imdb_avaliacoes
+) 
+
+
+# Descobrir as maiores notas médias por gêneros
+
+imdb_medias_genero |> 
+  group_by(generos_aval) |> 
+  summarise(nota_media = mean(nota_imdb)) |> 
+  arrange(desc(nota_media)) |> 
+  View()
+
+  
