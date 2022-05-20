@@ -6,7 +6,7 @@ O seu relatório deve (ao menos) responder as seguintes perguntas:
 
 3. Liste todas as moedas que aparecem nas colunas `orcamento` e `receita` da base `imdb_completa`.                     OK
 
-4. Considerando apenas orçamentos e receitas em dólar ($), qual o gênero com maior lucro? E com maior nota média?
+4. Considerando apenas orçamentos e receitas em dólar ($), qual o gênero com maior lucro? E com maior nota média?      OK
 
 5. Dentre os filmes na base `imdb_completa`, escolha o seu favorito. Então faça os itens a seguir:
 
