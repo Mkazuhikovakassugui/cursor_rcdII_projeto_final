@@ -156,10 +156,10 @@ p_filmes_ano <- imdb_novo |>
                size = 0.3,
                fill = "#000000"   
                ) +
-  geom_line(color = "blue")+                                                          # cria gráfico de linha.
-  geom_point(color = "red",                                 # cria gráfico de pontos sobre o gráfico de linha.
+  geom_line(color = "#4C586B")+                                                          # cria gráfico de linha.
+  geom_point(color = "#A71D31",                                 # cria gráfico de pontos sobre o gráfico de linha.
              shape = 7,
-             size = 0.5
+             size = 0.7
              )+
   gghighlight(ano_lancamento >=1960,                    # destaca os dados com ano_lançamento superior a 1960.
               unhighlighted_params = list(colour = "#4C586B"
@@ -295,7 +295,7 @@ plot01 <- meses_mais_qte|>
                size = 1.5,                                                              # largura do segmento.                          
   )+
   labs(                                                                # editar o texto do título em markdown.
-    title = "Total de lançamentos por *<span style = 'color:#CC5A71;'>mes </span>*",
+    title = "Total de lançamentos por *<span style = 'color:#CC5A71;'>mês </span>*",
     subtitle ="Os meses com maior quantidade de estreias",                 # editao o texto subtítulo em text.
     y = "Quantidade de filmes
     ",
@@ -703,9 +703,9 @@ top_16_paises <- imdb_novo |>
 
 cor <- c(                                                       # paleta  de cores para os elementos gráficos.
   "#c42847", "#ffad05", "#7d5ba6", "#00bbf9", "#2bc016",
-  "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7",
-  "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7", "#B2DDF7",
-  "#B2DDF7"
+  "#536265", "#536265", "#536265", "#536265", "#536265",
+  "#536265", "#536265", "#536265", "#536265", "#536265",
+  "#536265"
 )
 
 ### Gráfico com os 16 países com maior número de filmes produzidos
@@ -1133,6 +1133,109 @@ lucros_genero_filme |>
 
 ### <font color = #303E28> 6. Maiores notas médias por gênero</font>
 
+```{r plot notas médias por gêneros}
+#| echo = TRUE,
+#| fig.height = 4,
+#| fig.width = 9,
+#| fig.cap = "Fonte: Base de dados IMDB (Internet Movie Database",
+#| highlight = TRUE
+
+## Fazer o join de imdb e imdb_avaliacoes
+
+imdb_join_aval <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme")
+
+## fazer a separação das variáveis da coluna genero
+
+imdb_join_aval_generos <- imdb_join_aval |> 
+  separate(col = genero,
+           into = c("genero_aval1", "genero_aval2", "genero_aval3"),
+           sep = ","
+           )
+
+
+# fazer o pivotamento da base para long
+
+imdb_join_aval_generos <- imdb_join_aval_generos |> 
+  pivot_longer(
+    cols = c("genero_aval1", "genero_aval2", "genero_aval3"),
+    names_to = "tipos_generos_aval",
+    values_to = "generos_aval",
+    values_drop_na = TRUE
+  ) |> 
+  mutate(generos_aval = str_trim(generos_aval))
+
+
+# Fazer o join de imdb_join_aval_generos e imdb_avaliacoes
+
+imdb_medias_genero <- left_join(
+  imdb_join_aval_generos,
+  imdb_avaliacoes
+) 
+
+
+# Descobrir as maiores notas médias por gêneros
+# considerando o número de avaliações superiores a 10000
+
+plot_media_genero <- imdb_medias_genero |> 
+  filter(num_avaliacoes >= 20000) |> 
+  group_by(generos_aval) |> 
+  summarise(nota_media = mean(nota_imdb)) |> 
+  arrange(desc(nota_media)) |> 
+  ggplot()+
+  aes(x = fct_reorder(generos_aval,nota_media, .desc = TRUE), y = nota_media, fill = generos_aval) +
+  geom_point(
+    size = 5
+  )+
+  # geom_segment(aes(x = generos_aval,
+  #                  xend = generos_aval,
+  #                  y = 6,
+  #                  yend =  nota_media),
+  #              linetype = 1,
+  #              size = 0.1
+  #                  
+  # )+
+  labs(
+    title = "Gêneros e suas médias",
+    x = "Gêneros",
+    y = "Médias"
+  )+
+  scale_y_continuous(breaks = seq(6, 8, 0.2)) +
+  theme(
+      axis.text.x = element_text(angle = 45, hjust = -0.2, size = 9),
+      axis.text.y = element_text(size = 9),
+      axis.line.x = element_line(color = "#1F1F1F"), 
+      axis.line.y = element_line(color = "#1F1F1F"), 
+      axis.title.x = element_text(size = 11, face = "plain"),
+      axis.title.y = element_text(size = 11, face = "plain"),
+      plot.background = element_rect(fill = "#FFFFFF"),
+      panel.background = element_rect(fill = "#FFFFFF"),
+      plot.margin = unit(c(1, 1, 1, 1), "cm"),                                        # distância das margens.
+      plot.title = element_markdown(                                          # título do gráfico em markdown.
+        size = 16,
+        family = "Arial",                                                                   # fonte do título.
+        margin = unit(c(0, 0, 0.5, 0), "cm")                                              # margens do título.
+      ), 
+      text = element_text(                                                                # textos do gráfico.
+        family = "Arial",    
+        color = "#000000",
+        size = 9
+      ),                                                                        # padrões dos ticks do eixo x.
+      axis.title = element_text(                                                  # texto do título do eixo x.
+        size = 14,
+        hjust = 0.5,
+      ),
+      legend.position = "none"   
+    )
+
+
+
+plot_media_genero |> 
+  ggplotly(
+    tooltip = c("y", "generos_aval")
+  )
+
+
+```
 
 
 ### <font color = #303E28> Conclusão</font>

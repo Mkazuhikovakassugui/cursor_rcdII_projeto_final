@@ -1077,11 +1077,76 @@ imdb_medias_genero <- left_join(
 
 
 # Descobrir as maiores notas médias por gêneros
+# considerando o número de avaliações superiores a 10000
 
-imdb_medias_genero |> 
+plot_media_genero <- imdb_medias_genero |> 
+  filter(num_avaliacoes >= 20000) |> 
   group_by(generos_aval) |> 
   summarise(nota_media = mean(nota_imdb)) |> 
   arrange(desc(nota_media)) |> 
-  View()
+  ggplot()+
+  aes(x = fct_reorder(generos_aval,nota_media, .desc = TRUE), y = nota_media, fill = generos_aval) +
+  geom_point(
+    size = 4
+  )+
+  geom_segment(aes(x = generos_aval,
+                   xend = generos_aval,
+                   y = 6,
+                   yend =  nota_media),
+               linetype = 1,
+               size = 0.1
+                   
+  )+
+  labs(
+    title = "Gêneros e suas médias",
+    x = "Gêneros",
+    y = "Médias"
+  )+
+  scale_y_continuous(breaks = seq(6, 8, 0.2)) +
+  theme(
+      axis.text.x = element_text(angle = 45, hjust = -0.2),
+      axis.line.x = element_line(color = "#1F1F1F"), 
+      axis.title.x = element_text(size = 16, face = "plain"),
+      axis.title.y = element_text(size = 16, face = "plain"),
+      plot.background = element_rect(fill = "#FFFFFF"),
+      panel.background = element_rect(fill = "#FFFFFF"),
+      plot.margin = unit(c(1, 1, 1, 1), "cm"),                                          # distância das margens.
+      plot.title = element_markdown(                                            # título do gráfico em markdown.
+        size = 24,
+        family = "Arial",                                                                     # fonte do título.
+        margin = unit(c(0, 0, 0.5, 0), "cm")                                                # margens do título.
+      ), 
+      plot.subtitle = element_text(                                                        #textos do subtitulo.
+        size = 14,
+        family = "Arial",   
+      ),
+      text = element_text(                                                                  # textos do gráfico.
+        family = "Arial",    
+        color = "#000000",
+        size = 14
+      ),
+      axis.text.y = element_markdown(                                                         # texto do eixo y.
+        color = "#000000",    
+        size = 15,
+        family = "Arial", 
+      ),                         # padrões dos ticks do eixo x.
+      axis.line.y = element_line(
+        color = "#000000",                                                             # cor da linha do eixo x.
+        size = 0.4,
+      ),
+      axis.title = element_text(                                                    # texto do título do eixo x.
+        size = 16,
+        hjust = 0.5,
+      ),
+      legend.position = "none"   
+    )
+
+
+
+plot_media_genero |> 
+  ggplotly(
+    tooltip = c("y", "generos_aval")
+  )
+
 
   
