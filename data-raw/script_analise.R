@@ -913,7 +913,7 @@ moedas_orcamento_unificada |>
 # considerando apenas o valores em dólares
 
 imdb_filmes_dolares <- imdb_novo |>
-  select(orcamento, receita, genero, titulo) |> 
+  #select(orcamento, receita, genero, titulo) |> 
   filter(str_detect(orcamento, pattern = "\\$.*"))
 
 # eliminar o símbolo $ nos valores das colunas orçamento e receita
@@ -925,8 +925,8 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
 
 # alterar o tipo das variáveis orcamento e  receita
 
-imdb_filmes_dolares$orcamento <- as.numeric(filmes_dolares$orcamento)
-imdb_filmes_dolares$receita <- as.numeric(filmes_dolares$receita)
+imdb_filmes_dolares$orcamento <- as.numeric(imdb_filmes_dolares$orcamento)
+imdb_filmes_dolares$receita <- as.numeric(imdb_filmes_dolares$receita)
 
   
 # calcular o lucro dos filmes
@@ -940,7 +940,7 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
 
 # usar a base imdb, precisamos fazer a separação da coluna genero
 
-filmes_dolares <- imdb_filmes_dolares |> 
+filmes_dolares_genero <- imdb_filmes_dolares |> 
   separate(col = genero,
            into = c("genero1", "genero2", "genero3"),
            sep = ","
@@ -948,7 +948,7 @@ filmes_dolares <- imdb_filmes_dolares |>
 
 # pivotar a base de wide para long
 
-filmes_dolares <- filmes_dolares |> 
+filmes_dolares_genero <- filmes_dolares_genero |> 
   pivot_longer(
     cols = c("genero1", "genero2", "genero3"),
     names_to = "tipos_generos",
@@ -959,7 +959,7 @@ filmes_dolares <- filmes_dolares |>
 
 # maiores lucros por gênero
 
-lucros_genero <- filmes_dolares |>
+lucros_genero <- filmes_dolares_genero |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)) |> 
   arrange(desc(lucro_total)) |> 
@@ -1000,7 +1000,7 @@ lucros_genero |>
   )
 
 
-lucros_genero_filme <- filmes_dolares |>
+lucros_genero_filme <- filmes_dolares_genero |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)/n()) |> 
   arrange(desc(lucro_total)) |> 
@@ -1045,7 +1045,7 @@ lucros_genero_filme |>
 
 ## Fazer o join de imdb e imdb_avaliacoes
 
-imdb_join_aval <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme")
+imdb_join_aval <- left_join(imdb_filmes_dolares, imdb_avaliacoes, by = "id_filme")
 
 ## fazer a separação das variáveis da coluna genero
 
@@ -1148,5 +1148,48 @@ plot_media_genero |>
     tooltip = c("y", "generos_aval")
   )
 
+
+
+# Filme favorito ----------------------------------------------------------------------------------------
+
+# juntar as bases para as demais análises
+
+imdb_base_completa <- left_join(imdb_filmes_dolares, imdb_avaliacoes, by = "id_filme")
+
+# Renomear a variável direcao para nome para fajzer o join com imdb_pessoas
+imdb_base_completa <- imdb_base_completa |> 
+    rename("nome" = "direcao")
+
+# join entre imdb_base_completa e imdb_pessoas
+imdb_completa_pessoas <- left_join(imdb_base_completa, 
+                                   imdb_pessoas,
+                                   by = "nome"
+)
+
+# Retornar a designação da variável nome para direcao
+
+imdb_completa_pessoas <- imdb_completa_pessoas |> 
+  rename("direcao" = "nome")
+
+# Para o filme AVATAR responda:
+# - Quem dirigiu o filme
+# - idade atual
+# - onde nasceu
+# - quantos filmes já dirigiu
+# - qual o lucro médio dos filmes que dirigiu
+
+# Quem dirigiu o filme avatar
+imdb_completa_pessoas |> 
+  filter(direcao == "James Cameron") |> 
+  select(direcao, titulo_original, data_nascimento,local_nascimento, lucro) |> 
+  mutate(idade = year(Sys.Date()) - year(data_nascimento),
+         lucro_medio = mean(lucro)) |> 
+  View()
+  
+
+
+
+
+  
 
   

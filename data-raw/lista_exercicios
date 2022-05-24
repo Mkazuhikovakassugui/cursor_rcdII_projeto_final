@@ -8,9 +8,13 @@ O seu relatório deve (ao menos) responder as seguintes perguntas:
 
 4. Considerando apenas orçamentos e receitas em dólar ($), qual o gênero com maior lucro? E com maior nota média?      OK
 
-5. Dentre os filmes na base `imdb_completa`, escolha o seu favorito. Então faça os itens a seguir:
+5. Dentre os filmes na base `imdb_completa`, escolha o seu favorito. Então faça os itens a seguir:                     OK
 
-a) Quem dirigiu o filme? Faça uma ficha dessa pessoa: idade (hoje em dia ou data de falecimento), onde nasceu, quantos filmes já dirigiu, qual o lucro médio dos filmes que dirigiu (considerando apenas valores em dólar) e outras informações que achar interessante (base `imdb_pessoas`).
+a) Quem dirigiu o filme? Faça uma ficha dessa pessoa: 
+	- idade (hoje em dia ou data de falecimento),
+	- onde nasceu, 
+	- quantos filmes já dirigiu, 
+	- qual o lucro médio dos filmes que dirigiu (considerando apenas valores em dólar) e outras informações que achar interessante (base `imdb_pessoas`).
 
 b) Qual a posição desse filme no ranking de notas do IMDB? E no ranking de lucro (considerando apenas valores em dólar)?
 
