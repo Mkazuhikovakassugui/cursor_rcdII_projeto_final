@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 ```
 <br><br><br><br><br>
 
-# <font color = #303E28> Introdução </font>
+# Introdução
 
 <br>
 
@@ -60,6 +60,7 @@ library(gghighlight)                                                            
 library(ggtext)                                                                      # extensão para gráficos.
 library(ggthemes)                                                                     # temas para relatórios.
 library(here)
+source("../R/funcoes_imdb.R")
 ```
 
 ```{r  Leitura das bases}
@@ -79,7 +80,7 @@ imdb_pessoas <- read_rds(caminho_com_here_imdb_pessoas)
 ```{r manipulação de dados}
 #| echo = FALSE
 
-# alterar o tipo da variável data_lancamento de "char" para "date" -----------------------------
+# alterar o tipo da variável data_lancamento de "char" para "date" 
 
 imdb_novo <- imdb |>    
   mutate(
@@ -89,7 +90,7 @@ imdb_novo <- imdb |>
 
 <br>
 
-# <font color = #303E28> Análises </font>
+# Análises
 
 <br>
 
@@ -103,7 +104,7 @@ Todos os códigos de preparação  e de manipulação das bases como limpeza dos
 
 <br>
 
-### <font color = #303E28> 1.Mês histórico </font>
+### 1.Mês histórico
 
 <br>
 
@@ -117,14 +118,14 @@ Analisando o gráfico abaixo, vemos que a quantidade de filmes produzidos evolui
 
 <br><br>
 
-```{r plot qtde de filmes por ano}
+```{r plot01  qtde de filmes x ano}
 #| echo = TRUE,
 #| fig.height = 4,
 #| fig.width = 9,
 #| fig.cap = "Fonte: Base de dados IMDB (Internet Movie Database",
 #| highlight = TRUE
 
-p_filmes_ano <- imdb_novo |> 
+p01_filmes_ano <- imdb_novo |> 
   mutate(ano_lancamento = year(data_lancamento)) |>                            # cria a coluna ano_lancamento.
   select(ano_lancamento) |> 
   drop_na() |>
@@ -156,8 +157,8 @@ p_filmes_ano <- imdb_novo |>
                size = 0.3,
                fill = "#000000"   
                ) +
-  geom_line(color = "#4C586B")+                                                          # cria gráfico de linha.
-  geom_point(color = "#A71D31",                                 # cria gráfico de pontos sobre o gráfico de linha.
+  geom_line(color = "#4C586B")+                                                       # cria gráfico de linha.
+  geom_point(color = "#A71D31",                             # cria gráfico de pontos sobre o gráfico de linha.
              shape = 7,
              size = 0.7
              )+
@@ -184,7 +185,7 @@ p_filmes_ano <- imdb_novo |>
                      ) +
   theme_classic()                                                                 # escolhe o tema do gráfico.
   
-p_filmes_ano |> 
+p01_filmes_ano |> 
   ggplotly()                                                                                # gera a o plotly.
 ```
 
@@ -197,7 +198,7 @@ Neste ano, pré-pandêmico, ocorreram as maiores quantidades de lançamentos de 
 :::
 
 
-```{r preparacao da base e tabela mes com maior numero de lancamentos de filmes}
+```{r tab01 mes x maior numero de lancamentos}
 
 ### Cria a coluna mes
 imdb_datas <- imdb_novo |>
@@ -212,7 +213,7 @@ mes_maior_lancamento <- imdb_datas |>
   arrange(desc(qte))
 
 ### cria tabela com dados do mês e maior número de estreias.
-tab_mes_maior_lancamento <- mes_maior_lancamento |>   
+tab01_mes_maior_lancamento <- mes_maior_lancamento |>   
   head(n=1) |> 
   kbl(
     align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
@@ -222,8 +223,8 @@ tab_mes_maior_lancamento <- mes_maior_lancamento |>
     full_width = TRUE,
   ) |> 
   kable_styling(                                                          # altera as configurações da tabela.
-    html_font = "get_schwifty",
-    bootstrap_options = "basic",
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
     font_size = 10,
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
@@ -247,18 +248,18 @@ tab_mes_maior_lancamento <- mes_maior_lancamento |>
            general_title = "Fonte:",
   )
 
-tab_mes_maior_lancamento                                                                 # visualiza a tabela.
+tab01_mes_maior_lancamento                                                                 # visualiza a tabela.
 
 ```
 
 
-```{r plot total de lançamentos por mês}
+```{r plot02 total de lançamentos x mês}
 #| fig.height = 6,
 #| fig.width = 14
 
 # Cria o gráfico com 
 meses_mais_qte <- mes_maior_lancamento |> 
-  group_by(qte, ano) |> 
+  group_by(qte, ano) |>
   summarise(mes) |> 
   arrange(desc(qte)) |> 
   unite(col = "mes_ano", c("mes","ano"), sep = "/") |> 
@@ -270,7 +271,7 @@ cores_plot02 <- c("#CC5A71", "#536265", "#536265", "#536265", "#536265","#536265
                   "#536265", "#536265", "#536265", "#536265", "#536265","#536265",
                   "#536265")
 
-plot01 <- meses_mais_qte|> 
+plot02_lancamento_mes <- meses_mais_qte|> 
   ggplot(aes(x = fct_reorder(mes_ano, qte, .desc = TRUE), 
              y = qte, 
              fill = mes_ano,
@@ -292,7 +293,7 @@ plot01 <- meses_mais_qte|>
                    yend = qte
                    ),
                color = cores_plot02,
-               size = 1.5,                                                              # largura do segmento.                          
+               size = 1.5,                                                              # largura do segmento.
   )+
   labs(                                                                # editar o texto do título em markdown.
     title = "Total de lançamentos por *<span style = 'color:#CC5A71;'>mês </span>*",
@@ -305,51 +306,9 @@ plot01 <- meses_mais_qte|>
   theme_classic()+                                                               # seleção do tema do gráfico.
   scale_y_continuous(breaks = seq(0, 500, 50),
                      limits = c(0,500)) +                                         # formatar escala do eixo y.  
-  theme(                                                        
-    panel.background = element_rect(fill = "#FFFFFF"),                                     # fundo do gráfico.
-    plot.background = element_rect(fill = "#FFFFFF"),                           # fundo da moldura retangular.
-    plot.margin = unit(c(1, 1, 1, 1), "cm"),                                          # distância das margens.
-    plot.title = element_markdown(                                            # título do gráfico em markdown.
-      size = 24,
-      family = "Arial",                                                                     # fonte do título.
-      margin = unit(c(0, 0, 0.5, 0), "cm")                                                # margens do título.
-    ), 
-    plot.subtitle = element_text(                                                        #textos do subtitulo.
-      size = 14,
-      family = "Arial",   
-    ),
-    text = element_text(                                                                  # textos do gráfico.
-      family = "Arial",    
-      color = "#000000",
-      size = 14
-    ),
-    axis.text.x = element_text(                                                             # texto do eixo x.
-      color = "#000000",       
-      size = 15,
-      margin = unit(c(0.3, 0, 0.5, 0), "cm")  
-    ),
-    axis.text.y = element_markdown(                                                         # texto do eixo y.
-      color = "#000000",    
-      size = 15,
-      family = "Arial", 
-    ),
-    axis.ticks.x = element_line(color = "#1F1F1F"),                                         # ticks do eixo x.
-    axis.line.x = element_line(color = "#1F1F1F"),                                   # cor da linha do eixo x.
-    axis.ticks.y = element_line(color = "#1F1F1F"),                             # padrões dos ticks do eixo x.
-    axis.line.y = element_line(
-      color = "#000000",                                                             # cor da linha do eixo x.
-      size = 0.4,
-    ),
-    axis.title = element_text(                                                    # texto do título do eixo x.
-      size = 16,
-      hjust = 0.5,
-    ),
-    legend.position = "none"                                                               # exclui a legenda.
-  )
+  theme_imdb()
 
-plot01                                                                                  # visualiza o gráfico.
-  
-
+plot02_lancamento_mes                                                                   # visualiza o gráfico.
 ```
 
 
@@ -359,7 +318,7 @@ No auge de lançamentos, o mês de outubro teve 397 *premieres*. Este foi o mês
 Listamos abaixo os 15 filmes deste mês de outubro pelas maiores notas médias IMDB, considerando apenas os avaliados por mais de 10000 pessoas.
 :::
 
-```{r relacao dos 15 filmes de outubro de 2018 com maior numero de lancamentos }
+```{r tab02 15 filmes de outubro de 2018 com maior ranking }
 
 ## Manipulação da base para obtenção da relação dos 15 filmes  de outubro de 2018 por ranking 
 mes_maior_lancamento <- imdb_datas |>                                # lista dos 15 filmes com melhor ranking.
@@ -391,7 +350,7 @@ kbl(
   ) |> 
   kable_styling(                                                          # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
-    html_font = "Arial",
+    html_font = "",
     font_size = 10,
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD"),
@@ -439,7 +398,7 @@ Abaixo, alguns dados extraídos da base IMDB e algumas informações obtidas da 
 
 ##### A Star is Born
 
-```{r filme nasce uma estrela}
+```{r cod filme nasce uma estrela}
 
 imdb_nasce_uma_estrela <- imdb |> 
   select(titulo, data_lancamento, duracao, direcao, roteiro, producao, elenco, orcamento, receita) |> 
@@ -456,7 +415,7 @@ De acordo com o *wikipedia*, cogitou-se a participação da cantora **Beyouncé*
 
 ##### Ratsasan
 
-```{r filme ratsasan}
+```{r cod filme ratsasan}
 
 imdb_ratsasan <- imdb |> 
   select(titulo, data_lancamento, duracao, direcao, roteiro, producao, elenco) |> 
@@ -472,7 +431,7 @@ A base IMDB não possui dados sobre o orçamento e a receita arredada, mas de ac
 :::
 
 
-### <font color = #303E28> 2. Dia especial </font>
+### 2. Dia especial
 
 <br>
 
@@ -488,9 +447,9 @@ Em relação à base IMDB, qual seria o dia com a maior quantidade de filmes lan
 
 :::
 
-```{r dia com o maior numero de lancamento}
+```{r tab03 dia com o maior numero de lancamento}
 
-#### Manipulação da base para a obtencão do dia com o maior número de lançamentos---------------------
+#### Manipulação da base para a obtencão do dia com o maior número de lançamentos
 dia_maior_lancamento <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
@@ -498,21 +457,21 @@ dia_maior_lancamento <- imdb_novo |>
   drop_na() |> 
   slice_max(order_by = qtde)
 
-### Tabela com os dados do dia com maior número de lançamentos --------------------------------------
+### Tabela com os dados do dia com maior número de lançamentos
 dia_maior_lancamento |>                                                                
   kbl(align = "l",                                                        # alinhamento do texto do cabeçalho.
       col.names = c("Dia",                                                        # define o nome das colunas.
                   "Quantidade de Filmes Lançados"
                   ),
       ) |> 
-  kable_styling(bootstrap_options = c("striped",                                    # define estilo da tabela.
-                                      "condensed"),
-                html_font = "get_schwifty",
-                font_size = 10,
-                full_width = TRUE, 
-                fixed_thead = list(enabled = TRUE,
-                                   background = "#EDF6FD"
-                                   )
+  kable_styling(
+    bootstrap_options = c("striped", "condensed"),                                  # define estilo da tabela.
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE,
+                       background = "#EDF6FD"
+                       )
                 ) |> 
   kable_classic_2() |>                                                              # define o tema da tabela.
   column_spec(1,                                                            # define os padrões da coluna dia.
@@ -531,10 +490,10 @@ dia_maior_lancamento |>
 ```
 
 
-```{r grafico lancamentos x dias}
+```{r plot03  lancamentos x dias}
 
-### Grafico dias com maior quantidade de filmes ----------------------------------------------------------
-plot_dia_filmes <- imdb_novo |> 
+### Grafico dias com maior quantidade de filmes 
+plot03_dia_filmes <- imdb_novo |> 
   mutate(dia = day(data_lancamento)) |> 
   group_by(dia) |> 
   summarise(qtde = n()) |> 
@@ -578,49 +537,9 @@ plot_dia_filmes <- imdb_novo |>
   scale_y_continuous(breaks = seq(0, 8000, 1000),
                      limits = c(0,8000)) +                                       # formatar escala do eixo y.  
   scale_x_continuous(breaks = seq(0, 31, 1)) +                                   # formatar escala do eixo x.
-  theme(                                                          # customizar:
-    panel.background = element_rect(fill = "#FFFFFF"),                                    # fundo do gráfico.
-    plot.background = element_rect(fill = "#FFFFFF"),                          # fundo da moldura retangular.
-    plot.margin = unit(c(1, 1, 1, 1), "cm"),                                         # distância das margens.
-    plot.title = element_markdown(                                           # título do gráfico em markdown.
-      size = 24,
-      family = "Arial",                                                                    # fonte do título.
-      margin = unit(c(0, 0, 0.5, 0), "cm")                                               # margens do título.
-    ), 
-    plot.subtitle = element_text(                                                       #textos do subtitulo.
-      size = 14,
-      family = "Arial",   
-    ),
-    text = element_text(                                                                 # textos do gráfico.
-      family = "Arial",    
-      color = "#000000",
-      size = 14
-    ),
-    axis.text.x = element_text(                                                            # texto do eixo x.
-      color = "#000000",       
-      size = 15,
-      margin = unit(c(0.3, 0, 0.5, 0), "cm")  
-    ),
-    axis.text.y = element_markdown(                                                        # texto do eixo y.
-      color = "#000000",    
-      size = 15,
-      family = "Arial", 
-    ),
-    axis.ticks.x = element_line(color = "#1F1F1F"),                                        # ticks do eixo x.
-    axis.line.x = element_line(color = "#1F1F1F"),                                  # cor da linha do eixo x.
-    axis.ticks.y = element_line(color = "#1F1F1F"),                            # padrões dos ticks do eixo x.
-    axis.line.y = element_line(
-      color = "#000000",                                                            # cor da linha do eixo x.
-      size = 0.4,
-    ),
-    axis.title = element_text(                                                   # texto do título do eixo x.
-      size = 16,
-      hjust = 0.5,
-    ),
-    legend.position = "none"                                                              # exclui a legenda.
-  ) 
+  theme_imdb()
 
-plot_dia_filmes                                                                        # visualiza o gráfico.
+plot03_dia_filmes                                                                      # visualiza o gráfico.
 
 ```
 
@@ -634,7 +553,7 @@ A maior frequência de "*premieres*" neste dia, indica uma preferência de muita
 
 <br>
 
-### <font color = #303E28> 3. Os paises com maior número de filmes </font>
+### 3. Os paises com maior número de filmes
 
 <br>
 
@@ -649,14 +568,14 @@ Todavia, segundo a base IMDB e considerando toda a história do cinema, qual ser
 ```{r top 5 de paises com mais filmes na base}
 #| fig.out = 100
 
-## Manipulação da base para a obtencão dos 5 países com mais filmes na base --------------------------
+## Manipulação da base para a obtencão dos 5 países com mais filmes na base
 top_5_paises <- imdb_novo |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
   slice_head(n=5)
 
-## Tabela com os dados do dia com maior número de lançamentos ----------------------------------------
+## Tabela com os dados do dia com maior número de lançamentos
 top_5_paises |>                                                                        
   kbl(align = "l",                                                        # alinhamento do texto do cabeçalho.
       col.names = c("País",                                                       # define o nome das colunas.
@@ -689,10 +608,10 @@ top_5_paises |>
 
 ```
 
-```{r grafico paises x qtde de filmes}
+```{r plot04 paises x qtde de filmes}
 #| echo = TRUE,
 
-### Manipulando os dados para obtenção dos 16 países com maiores quantidades de filmes lançados------
+### Manipulando os dados para obtenção dos 16 países com maiores quantidades de filmes lançados
 top_16_paises <- imdb_novo |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
@@ -762,63 +681,19 @@ plot_top_16_paises <- top_16_paises |>
     limits = c(0,29000)
   )+
   theme_classic()+                                                                 # define o tema do gráfico.
-  theme(                                                  # Customizar o gráfico:
-    panel.background = element_rect(fill = "#FFFFFF"),                            # altera o fundo do gráfico.
-    plot.background = element_rect(fill = "#FFFFFF"),                  # altera o fundo da moldura retangular.
-    legend.position = "none",                                                               # elimina legenda.
-    plot.margin = unit(c(1, 1.5, 0.5, 1), "cm"),                          # distâncias do gráfico das margens.
-    plot.title = element_text(                                          # define padrões do título do gráfico.
-      size = 24,
-      family = "Arial",
-      margin = unit(c(0.3, 0, 0.5, -0,2), "cm")
-    ), 
-    plot.subtitle = element_text(                                    # define padrões do subtítulo do gráfico.
-      size = 15,
-      family = "Arial",
-      margin = unit(c(0, 0, 0.5, 0), "cm")
-    ),
-    text = element_text(                                               # define padrões dos textos do gráfico.
-      family = "Arial",    
-      color = "#022859",
-      size = 13,
-    ),
-    axis.text.x = element_text(                                           # define padrões do texto do eixo x.
-      color = "#022859",       
-      size = 14,
-      family = "Arial",
-      margin = unit(c(0.5, 0, 0.5, 0), "cm")    
-    ),
-    axis.text.y = element_markdown(                                       # define padrões do texto do eixo y.
-      color = "#022859",    
-      size = 14,
-      family = "Arial", 
-      margin = unit(c(0, 0.5, 0, 0.5), "cm")
-    ),
-    axis.ticks.x = element_line(color = "#1F1F1F"),                                         # ticks do eixo x.
-    axis.line.x = element_line(color = "#1F1F1F"),                                   # cor da linha do eixo x.
-    axis.ticks.y = element_line(color = "#1F1F1F"),                             # padrões dos ticks do eixo x.
-    axis.line.y = element_line(
-      color = "#000000",                                                             # cor da linha do eixo x.
-      size = 0.4,
-    ),
-    axis.title = element_text(                                                    # texto do título do eixo x.
-      face = "plain",    
-      size = 15,
-      hjust = 0.5,
-    ),
-  )+    
+  theme_imdb()+    
   annotate( "text",
             x = 21000, y = 9, label = "Relação dos cinco países com mais lançamentos 
             registrados na base IMDB",
             color = "#000000", 
             size = 4,
-            family = "Arial"
+            family = ""
   )+
   annotate( "text",
             x = 14000, y = 2, label = "Décima sexta posição do Brasil",
             color = "#000000", 
             size = 4,
-            family = "Arial"
+            family = ""
   )
 
 plot_top_16_paises
@@ -835,7 +710,7 @@ Apresentamos os cinco filmes com mais de 10000 avaliaçoes, com as maiores pontu
 
 <br>
 
-```{r tabela - melhores filmes brasileiros - ranking imdb }
+```{r tab04 - melhores filmes brasileiros - ranking imdb }
 
 # Análise dos filmes brasileiros com maior ranking
 top_5_filmes_brasil <- imdb_novo |> 
@@ -860,7 +735,7 @@ top_5_filmes_brasil |>
     ) |> 
   kable_styling(                                                                  # altera o estilo da tabela.
     bootstrap_options = c("striped", "condensed"),
-    html_font = "Arial",
+    html_font = "",
     font_size = 10,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
@@ -905,7 +780,7 @@ top_5_filmes_brasil |>
 
 <br>
 
-### <font color = #303E28> 4. Lista de todas as moedas citadas na base </font>
+### 4. Lista de todas as moedas citadas na base
 
 <br>
 
@@ -918,7 +793,7 @@ A base analisada apresenta os valores de orçamento em variadas moedas, a depend
 
 <br>
 
-```{r tabela - moedas na base - orçamento}
+```{r tab05 - moedas na base - orçamento}
 
 # lista de todas as moedas da base - coluna orçamento
 moedas_orcamento <- imdb_novo |> 
@@ -955,7 +830,7 @@ moedas_orcamento_unificada |>
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    html_font = "Arial",
+    html_font = "",
     font_size = 11,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
@@ -984,7 +859,7 @@ São `r nrow(moedas_orcamento_unificada)` diferentes moedas utilizadas, que est�
 :::
 <br>
 
-### <font color = #303E28> 5. Maiores lucros da indústria por gêneros em toda história </font>
+### 5. Maiores lucros da indústria por gêneros em toda história
 
 <br>
 
@@ -995,30 +870,30 @@ Considerando a soma dos lucros dos filmes por gênero, podemos concluir que:
 
 <br>
 
-```{r tabela - maiores lucros por gênero na história}
+```{r tab06 - maiores lucros por gênero na história}
 
 # considerando apenas o valores em dólares
 
-filmes_dolares <- imdb_novo |>
-  select(orcamento, receita, genero, titulo) |> 
+imdb_filmes_dolares <- imdb_novo |>
+  #select(orcamento, receita, genero, titulo) |> 
   filter(str_detect(orcamento, pattern = "\\$.*"))
 
 # eliminar o símbolo $ nos valores das colunas orçamento e receita
 
-filmes_dolares <- filmes_dolares |> 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
   mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
          receita = str_remove(receita, pattern = "\\$ "))
 
 
 # alterar o tipo das variáveis orcamento e  receita
 
-filmes_dolares$orcamento <- as.numeric(filmes_dolares$orcamento)
-filmes_dolares$receita <- as.numeric(filmes_dolares$receita)
+imdb_filmes_dolares$orcamento <- as.numeric(imdb_filmes_dolares$orcamento)
+imdb_filmes_dolares$receita <- as.numeric(imdb_filmes_dolares$receita)
 
   
 # calcular o lucro dos filmes
 
-filmes_dolares <- filmes_dolares |> 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
   mutate(
     lucro = receita - orcamento
   ) |>
@@ -1027,7 +902,7 @@ filmes_dolares <- filmes_dolares |>
 
 # usar a base imdb, precisamos fazer a separação da coluna genero
 
-filmes_dolares <- filmes_dolares |> 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
   separate(col = genero,
            into = c("genero1", "genero2", "genero3"),
            sep = ","
@@ -1035,7 +910,7 @@ filmes_dolares <- filmes_dolares |>
 
 # pivotar a base de wide para long
 
-filmes_dolares <- filmes_dolares |> 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
   pivot_longer(
     cols = c("genero1", "genero2", "genero3"),
     names_to = "tipos_generos",
@@ -1046,7 +921,7 @@ filmes_dolares <- filmes_dolares |>
 
 # maiores lucros por gênero
 
-lucros_genero <- filmes_dolares |>
+lucros_genero <- imdb_filmes_dolares |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)) |> 
   arrange(desc(lucro_total)) |> 
@@ -1060,7 +935,7 @@ lucros_genero |>
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    html_font = "Arial",
+    html_font = "",
     font_size = 10,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
@@ -1090,9 +965,9 @@ No caso de a análise ser realizada considerando a soma dos lucros divididos pel
 :::
 <br>
 
-```{r tabela - lucro por genero por filme produzido}
+```{r tab07 - lucro por genero por filme produzido}
 
-lucros_genero_filme <- filmes_dolares |>
+lucros_genero_filme <- imdb_filmes_dolares |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)/n()) |> 
   arrange(desc(lucro_total)) |> 
@@ -1106,7 +981,7 @@ lucros_genero_filme |>
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    html_font = "Arial",
+    html_font = "",
     font_size = 10,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
@@ -1131,9 +1006,9 @@ lucros_genero_filme |>
 
 <br>
 
-### <font color = #303E28> 6. Maiores notas médias por gênero</font>
+### 6. Maiores notas médias por gênero
 
-```{r plot notas médias por gêneros}
+```{r plot05 notas médias por gêneros}
 #| echo = TRUE,
 #| fig.height = 4,
 #| fig.width = 9,
@@ -1142,12 +1017,12 @@ lucros_genero_filme |>
 
 ## Fazer o join de imdb e imdb_avaliacoes
 
-imdb_join_aval <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme")
+imdb_join_aval <- left_join(imdb_filmes_dolares, imdb_avaliacoes, by = "id_filme")
 
 ## fazer a separação das variáveis da coluna genero
 
 imdb_join_aval_generos <- imdb_join_aval |> 
-  separate(col = genero,
+  separate(col = generos,
            into = c("genero_aval1", "genero_aval2", "genero_aval3"),
            sep = ","
            )
@@ -1176,7 +1051,7 @@ imdb_medias_genero <- left_join(
 # Descobrir as maiores notas médias por gêneros
 # considerando o número de avaliações superiores a 10000
 
-plot_media_genero <- imdb_medias_genero |> 
+plot05_media_genero <- imdb_medias_genero |> 
   filter(num_avaliacoes >= 20000) |> 
   group_by(generos_aval) |> 
   summarise(nota_media = mean(nota_imdb)) |> 
@@ -1186,14 +1061,14 @@ plot_media_genero <- imdb_medias_genero |>
   geom_point(
     size = 5
   )+
-  # geom_segment(aes(x = generos_aval,
-  #                  xend = generos_aval,
-  #                  y = 6,
-  #                  yend =  nota_media),
-  #              linetype = 1,
-  #              size = 0.1
-  #                  
-  # )+
+  geom_segment(aes(x = generos_aval,
+                   xend = generos_aval,
+                   y = 6,
+                   yend =  nota_media),
+               linetype = 1,
+               size = 0.1
+
+  )+
   labs(
     title = "Gêneros e suas médias",
     x = "Gêneros",
@@ -1212,11 +1087,11 @@ plot_media_genero <- imdb_medias_genero |>
       plot.margin = unit(c(1, 1, 1, 1), "cm"),                                        # distância das margens.
       plot.title = element_markdown(                                          # título do gráfico em markdown.
         size = 16,
-        family = "Arial",                                                                   # fonte do título.
+        family = "",                                                                   # fonte do título.
         margin = unit(c(0, 0, 0.5, 0), "cm")                                              # margens do título.
       ), 
       text = element_text(                                                                # textos do gráfico.
-        family = "Arial",    
+        family = "",    
         color = "#000000",
         size = 9
       ),                                                                        # padrões dos ticks do eixo x.
@@ -1228,8 +1103,7 @@ plot_media_genero <- imdb_medias_genero |>
     )
 
 
-
-plot_media_genero |> 
+plot05_media_genero |> 
   ggplotly(
     tooltip = c("y", "generos_aval")
   )
@@ -1237,8 +1111,154 @@ plot_media_genero |>
 
 ```
 
+### Avatar
 
-### <font color = #303E28> Conclusão</font>
+
+```{r analise - avatar, include=FALSE}
+#| include = FALSE
+
+# considerando apenas o valores em dólares
+imdb_filmes_dolares <- imdb_novo |>
+  filter(str_detect(orcamento, pattern = "\\$.*"))
+
+# eliminar o símbolo $ nos valores das colunas orçamento e receita
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
+  mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
+         receita = str_remove(receita, pattern = "\\$ "))
+
+# alterar o tipo das variáveis orcamento e  receita
+imdb_filmes_dolares$orcamento <- as.numeric(imdb_filmes_dolares$orcamento)
+imdb_filmes_dolares$receita <- as.numeric(imdb_filmes_dolares$receita)
+
+# calcular o lucro dos filmes
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
+  mutate(
+    lucro = receita - orcamento
+  ) |>
+  drop_na()
+
+# juntar as bases para as demais análises
+imdb_base_completa <- left_join(imdb_filmes_dolares, imdb_avaliacoes, by = "id_filme")
+
+# Renomear a variável direcao para nome para fajzer o join com imdb_pessoas
+imdb_base_completa <- imdb_base_completa |> 
+    rename("nome" = "direcao")
+
+# join entre imdb_base_completa e imdb_pessoas
+imdb_completa_pessoas <- left_join(imdb_base_completa, 
+                                   imdb_pessoas,
+                                   by = "nome"
+)
+
+# Retornar a designação da variável nome para direcao
+imdb_completa_pessoas <- imdb_completa_pessoas |> 
+  rename("direcao" = "nome")
+```
+
+
+```{r tab08 - dados avatar diretor}
+
+imdb_completa_pessoas |> 
+  filter(titulo == "Avatar") |> 
+  select(titulo, direcao, local_nascimento, data_nascimento) |> 
+  mutate(idade = year(Sys.Date())-year(data_nascimento)) |> 
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Filme",                                             # define o nome dos cabeçalhos da tabela.
+                  "Diretor",
+                  "Local de Nascimento",
+                  "Data de Nascimento",
+                  "Idade"
+                  ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "3cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(4, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(5, 
+              bold = FALSE,
+              width = "3cm"
+  )|> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+  )
+
+
+```
+
+```{r tab09 - Filmes de Cameron}
+
+imdb_completa_pessoas |> 
+  filter(direcao == "James Cameron") |> 
+  select(titulo, data_lancamento, genero, nota_imdb) |> 
+  arrange(data_lancamento) |>
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                             # define o nome dos cabeçalhos da tabela.
+                  "Data de Lançamento",
+                  "Gênero",
+                  "Nota IMDB"
+    ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(4, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+  )
+
+```
+
+
+
+# Conclusão
 
 #  
 
