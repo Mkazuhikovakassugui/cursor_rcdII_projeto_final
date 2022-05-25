@@ -11,10 +11,11 @@ O seu relatório deve (ao menos) responder as seguintes perguntas:
 5. Dentre os filmes na base `imdb_completa`, escolha o seu favorito. Então faça os itens a seguir:                     OK
 
 a) Quem dirigiu o filme? Faça uma ficha dessa pessoa: 
-	- idade (hoje em dia ou data de falecimento),
-	- onde nasceu, 
-	- quantos filmes já dirigiu, 
-	- qual o lucro médio dos filmes que dirigiu (considerando apenas valores em dólar) e outras informações que achar interessante (base `imdb_pessoas`).
+	- idade (hoje em dia ou data de falecimento),                                                                  OK
+	- onde nasceu,                                                                                                 OK
+	- quantos filmes já dirigiu,                                                                                   OK
+	- qual o lucro médio dos filmes que dirigiu (considerando apenas valores em dólar) 
+	e outras informações que achar interessante (base `imdb_pessoas`).                                             OK
 
 b) Qual a posição desse filme no ranking de notas do IMDB? E no ranking de lucro (considerando apenas valores em dólar)?
 

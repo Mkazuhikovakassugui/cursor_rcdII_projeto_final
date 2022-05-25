@@ -219,7 +219,7 @@ tab01_mes_maior_lancamento <- mes_maior_lancamento |>
     align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
     col.names = c("Mês",                                             # define o nome dos cabeçalhos da tabela.
                   "Ano de Lançamento", 
-                  "Quantidade de Filmes Lançados"),
+                  "Quantidade de Filmes"),
     full_width = TRUE,
   ) |> 
   kable_styling(                                                          # altera as configurações da tabela.
@@ -232,15 +232,15 @@ tab01_mes_maior_lancamento <- mes_maior_lancamento |>
   kable_classic_2() |> 
   column_spec(1,                                                        # altera as configurações das colunas.
               bold = FALSE,
-              width = "3cm"
+              width = "10cm"
   ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "3cm"
+              width = "10cm"
   ) |>
   column_spec(3,
               bold = FALSE,
-              width = "4cm"
+              width = "10cm"
   ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
            footnote_as_chunk = TRUE,
@@ -358,24 +358,24 @@ kbl(
   kable_classic_2() |> 
   column_spec(1,                                                        # altera as configurações das colunas.
               bold = FALSE,
-              width = "3cm",
+              width = "10cm",
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "1cm"
+              width = "4cm"
               
               ) |>
   column_spec(3,
               bold = FALSE,
-              width = "1cm"
+              width = "2cm"
               ) |> 
   column_spec(4,
               bold = FALSE,
-              width = "1cm"
+              width = "4cm"
               ) |> 
   column_spec(5,
               bold = FALSE,
-              width = "4cm"
+              width = "10cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
            footnote_as_chunk = TRUE,
@@ -461,7 +461,7 @@ dia_maior_lancamento <- imdb_novo |>
 dia_maior_lancamento |>                                                                
   kbl(align = "l",                                                        # alinhamento do texto do cabeçalho.
       col.names = c("Dia",                                                        # define o nome das colunas.
-                  "Quantidade de Filmes Lançados"
+                  "Quantidade de Filmes"
                   ),
       ) |> 
   kable_styling(
@@ -476,11 +476,11 @@ dia_maior_lancamento |>
   kable_classic_2() |>                                                              # define o tema da tabela.
   column_spec(1,                                                            # define os padrões da coluna dia.
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |>      
   column_spec(2,                                # define os padrões da coluna "Quantidade de Filmes Lançados".
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",               # cria o rodapé da tabela.
            footnote_as_chunk = TRUE,
@@ -579,7 +579,7 @@ top_5_paises <- imdb_novo |>
 top_5_paises |>                                                                        
   kbl(align = "l",                                                        # alinhamento do texto do cabeçalho.
       col.names = c("País",                                                       # define o nome das colunas.
-                  "Quantidade de Filmes Lançados"
+                  "Quantidade de Filmes"
                   ),
       ) |> 
   kable_styling(  bootstrap_options = c("striped",                                # define o estilo da tabela.
@@ -594,11 +594,11 @@ top_5_paises |>
   kable_classic_2() |>                                                              # define o tema da tabela.
   column_spec(1,                                                   # altera as configurações da coluna "País".
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
   ) |>      
   column_spec(2,                          # altera as configurações da coluna "Quantidade de Filmes Lançados".
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
   ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",               # cria o rodapé da tabela.
            footnote_as_chunk = TRUE,
@@ -745,19 +745,19 @@ top_5_filmes_brasil |>
               bold = FALSE,
               # background = "#022859", 
               # color = "#FFFFFF",
-              width = "7cm"
+              width = "10cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
               # background = "#022859",
               # color = "#FFFFFF",
-              width = "3cm"
+              width = "5cm"
               ) |> 
   column_spec(3,                                                          # altera as configurações da tabela.
               bold = FALSE,
               # background = "#022859", 
               # color = "#FFFFFF",
-              width = "5cm"
+              width = "7cm"
               ) |>
   column_spec(4,                                                          # altera as configurações da tabela.
               bold = FALSE,
@@ -826,23 +826,24 @@ moedas_orcamento_unificada |>
   kbl(
     align = "l",                                                          # alinhamento do texto do cabeçalho.
     col.names = c("Moeda",                                                        # define o nome das colunas.
-                  "Divisa"),
+                  "Divisa"
+                  )
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     html_font = "",
-    font_size = 11,       
+    font_size = 10,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
     ) |> 
   kable_classic_2() |> 
   column_spec(1,                                                          # altera as configurações da tabela.
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
            footnote_as_chunk = TRUE,
@@ -902,7 +903,7 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
 
 # usar a base imdb, precisamos fazer a separação da coluna genero
 
-imdb_filmes_dolares <- imdb_filmes_dolares |> 
+imdb_filmes_dolares_genero <- imdb_filmes_dolares |> 
   separate(col = genero,
            into = c("genero1", "genero2", "genero3"),
            sep = ","
@@ -910,7 +911,7 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
 
 # pivotar a base de wide para long
 
-imdb_filmes_dolares <- imdb_filmes_dolares |> 
+imdb_filmes_dolares_genero <- imdb_filmes_dolares_genero |> 
   pivot_longer(
     cols = c("genero1", "genero2", "genero3"),
     names_to = "tipos_generos",
@@ -921,17 +922,18 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
 
 # maiores lucros por gênero
 
-lucros_genero <- imdb_filmes_dolares |>
+lucros_genero <- imdb_filmes_dolares_genero |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)) |> 
   arrange(desc(lucro_total)) |> 
-  slice_head(n=10)
+  slice_head(n=10) |> 
+  mutate(lucro_total = paste("US$",format_dolar(lucro_total)))
+
 lucros_genero |> 
   kbl(
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Gêneros",                                           # define o nome das colunas.
-                  "Lucro Total (US$) "),
-    caption = "Maiores lucros por gênero"
+                  "Lucro Total")
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -943,11 +945,11 @@ lucros_genero |>
   kable_classic_2() |> 
   column_spec(1,                                            # altera as configurações da tabela.
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
            footnote_as_chunk = TRUE,
@@ -967,17 +969,18 @@ No caso de a análise ser realizada considerando a soma dos lucros divididos pel
 
 ```{r tab07 - lucro por genero por filme produzido}
 
-lucros_genero_filme <- imdb_filmes_dolares |>
+lucros_genero_filme <- imdb_filmes_dolares_genero |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)/n()) |> 
   arrange(desc(lucro_total)) |> 
-  slice_head(n=10)
+  slice_head(n=10) |> 
+  mutate(lucro_total = paste("US$",format_dolar(lucro_total)))
 
 lucros_genero_filme |> 
   kbl(
     align = "l",                                            # alinhamento do texto do cabeçalho.
     col.names = c("Gêneros",                                           # define o nome das colunas.
-                  "Lucro Total por Filme Produzido (US$)"),
+                  "Lucro Total por Filme")
     ) |> 
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -989,11 +992,11 @@ lucros_genero_filme |>
   kable_classic_2() |> 
   column_spec(1,                                            # altera as configurações da tabela.
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "5cm"
+              width = "15cm"
               ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",
            footnote_as_chunk = TRUE,
@@ -1017,7 +1020,7 @@ lucros_genero_filme |>
 
 ## Fazer o join de imdb e imdb_avaliacoes
 
-imdb_join_aval <- left_join(imdb_filmes_dolares, imdb_avaliacoes, by = "id_filme")
+imdb_join_aval <- left_join(imdb_filmes_dolares_genero, imdb_avaliacoes, by = "id_filme")
 
 ## fazer a separação das variáveis da coluna genero
 
@@ -1067,7 +1070,6 @@ plot05_media_genero <- imdb_medias_genero |>
                    yend =  nota_media),
                linetype = 1,
                size = 0.1
-
   )+
   labs(
     title = "Gêneros e suas médias",
@@ -1114,7 +1116,7 @@ plot05_media_genero |>
 ### Avatar
 
 
-```{r analise - avatar, include=FALSE}
+```{r analise - avatar}
 #| include = FALSE
 
 # considerando apenas o valores em dólares
@@ -1135,7 +1137,7 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
   mutate(
     lucro = receita - orcamento
   ) |>
-  drop_na()
+  drop_na(lucro)
 
 # juntar as bases para as demais análises
 imdb_base_completa <- left_join(imdb_filmes_dolares, imdb_avaliacoes, by = "id_filme")
@@ -1182,45 +1184,52 @@ imdb_completa_pessoas |>
   kable_classic_2() |> 
   column_spec(1,                                                        # altera as configurações das colunas.
               bold = FALSE,
-              width = "3cm"
+              width = "6cm"
   ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "3cm"
+              width = "6cm"
   ) |> 
   column_spec(3, 
               bold = FALSE,
-              width = "3cm"
+              width = "6cm"
   ) |> 
   column_spec(4, 
               bold = FALSE,
-              width = "3cm"
+              width = "6cm"
   ) |> 
   column_spec(5, 
               bold = FALSE,
-              width = "3cm"
-  )|> 
+              width = "6cm"
+  ) |> 
   footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
            general_title = "Fonte:",
   )
+  
 
 
 ```
 
 ```{r tab09 - Filmes de Cameron}
 
-imdb_completa_pessoas |> 
+filmes_cameron <- imdb_completa_pessoas |> 
   filter(direcao == "James Cameron") |> 
-  select(titulo, data_lancamento, genero, nota_imdb) |> 
-  arrange(data_lancamento) |>
+  select(titulo, data_lancamento, genero, nota_imdb, lucro) |> 
+  arrange(data_lancamento) |> 
+  mutate(lucro = paste("US$",format_dolar(lucro)))
+
+
+
+tab09_filmes_cameron <- filmes_cameron|>
   kbl(
     align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
     col.names = c("Título",                                             # define o nome dos cabeçalhos da tabela.
                   "Data de Lançamento",
                   "Gênero",
-                  "Nota IMDB"
+                  "Nota IMDB",
+                  "lucro"
     ),
     full_width = TRUE
   ) |> 
@@ -1238,25 +1247,45 @@ imdb_completa_pessoas |>
   ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "3cm"
+              width = "4.5cm"
   ) |> 
   column_spec(3, 
               bold = FALSE,
-              width = "3cm"
+              width = "5cm"
   ) |> 
   column_spec(4, 
               bold = FALSE,
-              width = "3cm"
+              width = "5cm"
   ) |> 
+  column_spec(5, 
+              bold = FALSE,
+              width = "5cm"
+  ) |>
   footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
            general_title = "Fonte:",
   )
 
+tab09_filmes_cameron
+```
+
+```{r code lucro medio filmes de Cameron, include=FALSE}
+#| include = FALSE
+
+
+lucro_medio_filmes <- imdb_completa_pessoas |> 
+  filter(direcao == "James Cameron") |> 
+  summarise(lucro_medio = round(mean(lucro),2)) |> 
+  mutate(lucro_medio = paste("US$",format_dolar(lucro_medio)))
+
 ```
 
 
+
+
+
+O lucro médio dos `r nrow(filmes_cameron)` filmes de James Cameron listados acima foi de `r lucro_medio_filmes`.
 
 # Conclusão
 

@@ -1,5 +1,6 @@
 
 # Função tema dos gráficos
+
 theme_imdb <- function() {
   theme(                                                          # customizar:
     panel.background = element_rect(fill = "#FFFFFF"),                                     # fundo do gráfico.
@@ -45,16 +46,14 @@ theme_imdb <- function() {
 }
 
 
+# função formata valores em dólares
 
-# Função kable_styling_imdb
 
-tabela_estilo_imdb <- function() {
-  kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    html_font = "",
-    font_size = 10,       
-    full_width = TRUE, 
-    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
-  )
+format_dolar <- function(valores, nsmall = 2) {
+  valores |> 
+    as.numeric() |> 
+    format(nsmall = nsmall, decimal.mark = ".", big.mark = ",") |> 
+    str_trim() 
 }
+
 

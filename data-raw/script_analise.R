@@ -934,13 +934,13 @@ imdb_filmes_dolares$receita <- as.numeric(imdb_filmes_dolares$receita)
 imdb_filmes_dolares <- imdb_filmes_dolares |> 
   mutate(
     lucro = receita - orcamento
-  ) |>
+  ) |> 
   drop_na()
 
 
 # usar a base imdb, precisamos fazer a separação da coluna genero
 
-filmes_dolares_genero <- imdb_filmes_dolares |> 
+imdb_filmes_dolares_genero <- imdb_filmes_dolares |> 
   separate(col = genero,
            into = c("genero1", "genero2", "genero3"),
            sep = ","
@@ -948,7 +948,7 @@ filmes_dolares_genero <- imdb_filmes_dolares |>
 
 # pivotar a base de wide para long
 
-filmes_dolares_genero <- filmes_dolares_genero |> 
+imdb_filmes_dolares_genero <- imdb_filmes_dolares_genero |> 
   pivot_longer(
     cols = c("genero1", "genero2", "genero3"),
     names_to = "tipos_generos",
@@ -959,11 +959,20 @@ filmes_dolares_genero <- filmes_dolares_genero |>
 
 # maiores lucros por gênero
 
-lucros_genero <- filmes_dolares_genero |>
+format_dolar <- function(valores, nsmall = 2) {
+  valores |> 
+    as.numeric() |> 
+    format(nsmall = nsmall, decimal.mark = ".", big.mark = ",") |> 
+    str_trim() 
+}
+
+
+lucros_genero <- imdb_filmes_dolares_genero |>
   group_by(generos) |>
   summarise(lucro_total = sum(lucro)) |> 
   arrange(desc(lucro_total)) |> 
-  slice_head(n=10)
+  slice_head(n=10) |> 
+  mutate(lucro_total = paste("US$",format_dolar(lucro_total)))
 
 
 lucros_genero |> 
@@ -1182,14 +1191,90 @@ imdb_completa_pessoas <- imdb_completa_pessoas |>
 imdb_completa_pessoas |> 
   filter(direcao == "James Cameron") |> 
   select(direcao, titulo_original, data_nascimento,local_nascimento, lucro) |> 
-  mutate(idade = year(Sys.Date()) - year(data_nascimento),
-         lucro_medio = mean(lucro)) |> 
+  mutate(idade = year(Sys.Date()) - year(data_nascimento)) |> 
   View()
   
+# Quantos filmes James Camero dirigiu + dados
+imdb_completa_pessoas |> 
+  filter(direcao == "James Cameron") |> 
+  select(titulo, data_lancamento, genero, nota_imdb, lucro) |> 
+  arrange(data_lancamento) |>
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                          # define o nome dos cabeçalhos da tabela.
+                  "Data de Lançamento",
+                  "Gênero",
+                  "Nota IMDB",
+                  "Lucro (US$)"
+    ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(4, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(5, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+  )
+
+
+# Lucro médio dos filmes que dirigiu
+
+imdb_completa_pessoas |> 
+  filter(direcao == "James Cameron") |> 
+  summarise(lucro_medio = mean(lucro)) |> 
+  View()
 
 
 
+# Qual a posição desse filme no ranking de notas do IMDB? E no ranking de lucro ---------------------
+
+# Vamos construir uma coluna com o ranking dos filmes de acordo com sua nota do imdb
+
+
+imdb_novo <- imdb_novo |> 
+  mutate(ranking = 0)
+
+
+vetor = c(1: length(imdb_novo$ranking))
+
+
+imdb_novo_ordenado <- imdb_novo |> 
+  arrange(desc(nota_imdb)) |> 
+  mutate(ranking = c(1: length(imdb_novo$ranking)))
 
   
+# Vamos construir a coluna com o ranking dos filmes de acordo com sua renda em dólares
 
+imdb_filmes_dolares_ordenado <- imdb_filmes_dolares |> 
+  arrange(desc(lucro)) |> 
+  mutate(ranking_dolar = c(1: length(imdb_filmes_dolares$ranking))) |> View()
+            
+          
   
