@@ -22,7 +22,7 @@ library(plotly)                                                                 
 library(gghighlight)                                                                 # extensão para gráficos.
 library(ggtext)                                                                      # extensão para gráficos.
 library(ggthemes)                                                                     # temas para relatórios.
-
+source("R/funcoes_imdb.R")
 
 
 # 2. SALVAR AS BASES EM DATA-RAW ------------------------------------------------------------------------
@@ -1248,8 +1248,7 @@ imdb_completa_pessoas |>
 
 imdb_completa_pessoas |> 
   filter(direcao == "James Cameron") |> 
-  summarise(lucro_medio = mean(lucro)) |> 
-  View()
+  summarise(lucro_medio = mean(lucro)) 
 
 
 
@@ -1269,12 +1268,120 @@ imdb_novo_ordenado <- imdb_novo |>
   arrange(desc(nota_imdb)) |> 
   mutate(ranking = c(1: length(imdb_novo$ranking)))
 
+# Posição de Avatar no ranking imdb
+
+imdb_novo_ordenado |> 
+  filter(titulo == "Avatar") |> 
+  mutate(total_filmes = nrow(ranking)) |> 
+  select(titulo, direcao, nota_imdb, ranking) |>
+  View()
+ 
+
   
 # Vamos construir a coluna com o ranking dos filmes de acordo com sua renda em dólares
 
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
+  mutate(ranking = 0)
+
+# Vamos construir a coluna com o ranking dos filmes de acordo com sua renda em dólares
 imdb_filmes_dolares_ordenado <- imdb_filmes_dolares |> 
   arrange(desc(lucro)) |> 
-  mutate(ranking_dolar = c(1: length(imdb_filmes_dolares$ranking))) |> View()
-            
-          
+  mutate(ranking_dolar = c(1: length(imdb_filmes_dolares$ranking)))
+
+
+# Em que dia foi lançado, qual o dia da semana, algum outro filme foi lançado no mesmo dia, idade neste dia.
+
+imdb_novo_ordenado_avatar_dia <- imdb_novo_ordenado |> 
+  filter(titulo == "Avatar") |> 
+  mutate(data_lancamento_dia = wday(data_lancamento, week_start = getOption("lubridate.week.start", 7),
+                                    abbr = FALSE, label = TRUE)) |>
+  select(titulo, data_lancamento, data_lancamento_dia) 
+
+
+
+imdb_novo_ordenado_avatar_dia|> 
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                          # define o nome dos cabeçalhos da tabela.
+                  "Data de Lançamento",
+                  "Dia da Semana"
+                  ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "3cm"
+  ) |> 
+  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Fonte:",
+  )
+
+imdb_novo_ordenado |> 
+  filter(data_lancamento == "2010-01-15") |> 
+  select(titulo, data_lancamento, genero, nota_imdb,pais) |> View()
+
+
+# Gráfico distribuição da nota do filme avatar por idade
+
+imdb_avaliacoes <- imdb_avaliacoes |> 
+  rename("[00-18)" = "nota_media_idade_0_18",
+         "[18-30)" = "nota_media_idade_18_30",
+         "[30-45)" = "nota_media_idade_30_45",
+         "[45-60)" = "nota_media_idade_45_mais")
+
+
+
+
+imdb_join_avatar_idades <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme") |> 
+  filter(titulo == "Avatar") |>
+  pivot_longer("faixas_etarias", values_to = "nota_media_idade", cols =c("[00-18)",
+                                                                         "[18-30)",
+                                                                         "[30-45)",
+                                                                         "[45-60)"
+  )
+  
+  ) |> 
+  group_by(faixas_etarias) |> 
+  summarise(nota_media_idade)
+
+
+cor <- c(                                                       # paleta  de cores para os elementos gráficos.
+  "#c42847", "#ffad05", "#7d5ba6", "#00bbf9"
+)
+
+
+plot06_medias_idade <- imdb_join_avatar_idades |> 
+  ggplot(aes(x=faixas_etarias, y = nota_media_idade, label = nota_media_idade))+
+  geom_col(width = 0.5,
+           fill = cor)+
+  geom_label(nudge_y = 0.5)+
+  labs(title = "Distribuição das Notas por Idade",
+       subtitle = "Notas médias por intervalo de classes do filme Avatar")+
+  theme_classic()+
+  theme_imdb()
+
+plot06_medias_idade
+
+
+as.duration(year("2010-01-15") - year("1972-06-07"))
+
+
   

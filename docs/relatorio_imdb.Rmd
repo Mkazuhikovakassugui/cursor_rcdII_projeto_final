@@ -30,20 +30,28 @@ knitr::opts_chunk$set(
   fig.width = 14
 )
 ```
-<br><br><br><br><br>
+<br><br>
 
 # Introdução
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-O IMDB, *Internet Move Database*, é uma das maiores bases pesquisáeis de dados sobre filmes e séries disponíveis para acesso para uso pessoal e não comercial fornecida por um dos mais respeitados *sites* de crítica popular de filmes e séries do mundo. Todos os usuários registrados no [Internet Movie DataBase](https://www.imdb.com/) podem avaliar os filmes, as séries e os documentários com notas de 1 a 10. Na sua página, é possivel encontrar as notas médias dos filmes, *trailers*,  a lista com as principais bilheterias da semana nos Estados Unidos, informações sobre o elenco e direção, resenhas de críticos, galerias de fotos e curiosidades.
+O presente trabalho foi elaborado tendo como propósito analisar os dados de uma das maiores bases pesquisáveis sobre filmes e séries do mundo e transformar estes dados brutos em informações. Trata-se da base IMDB (*Internet Move Database*) disponíbilizada por um dos mais respeitados *sites* de crítica popular de filmes. 
 
-Este trabalho de conclusão de curso objetiva a aplicação dos recursos abordados no curso "R para Ciência de Dados II", como organização de projetos, manipulação dos dados por meio dos pacotes *__dplyr__* e *__tidyr__*, de textos com  *__stringr__*, de datas e fatores com *__lubridade__* e *forcats* respectivamente, além de outras ferramentas e pacotes importantes como "*__expressões regulares__*", "*__funções anônimas__*", *__git__* e *__github__* e aplicações dos pacotes *__purrr__* e *__nse__*.
+Aos apaixonados pela sétima arte, que não abrem mão de assistir a um filme, no aconchego de casa ou em uma sala de cinema, trarei algumas curiosidades da indústria cinematográfica e , em especial, de um filme que impressionou o público em 2009 com a qualidade dos efeitos visuais e que deve retornar às telas dos cinemas em breve para a continuação da saga (*The Way of Water*). Avatar de James Cameron, um dos maiores sucessos de bilheteria da história. 
 
-O conteúdo deste projeto é direcionado aos leitores interessados na sétima arte, que não abrem mão de assistir a um filme, na aconchegante poltrona de casa ou do cinema. Caso também tenha interesse em linguagem R, encontrará facilmente os códigos da manipulação dos dados e das gerações dos gráficos e tabelas.
 
-Trarei algumas curiosidades sobre a base IMDB e também sobre um filme me impressionou o público há 12 anos com o lançamento do seu capítulo 1 e que em dezembro de 2022 retornará às telas dos cinemas de todo o mundo para a apresentação do segundo  de um total de cinco capítulos. 
+```{r figura 01 -  avatar 2}
+#| fig.align = "center",
+#| out.width = "40%",
+#| echo = FALSE
+
+knitr::include_graphics("https://i.imgur.com/gvwmCrU.jpeg")
+```
+
+Caso desejem ver os códigos em R, eles estão disponíveis por meio dos botões `CODE` ao lado de cada visualização.
+
 :::
 
 
@@ -95,47 +103,51 @@ imdb_novo <- imdb |>
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-As três bases analisadas (imdb, imdb_avaliacoes e imdb_pessoas) possuem em suas primeiras linhas os cabeçalhos com nomes de suas  variáveis. O *database* imdb possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis e conta com os dados de lançamentos entre 1894 a 2020. O *database* imdb_avaliacoes também possui `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas e o *database* imd_pessoas possui `r nrow(imdb_pessoas)` linhas  `r ncol(imdb_pessoas)` variáveis.
 
-Na seção Anexos, ao final deste relatório,  encontram-se os dicionários das bases com as designações das variáveis e suas descrições.
+As informações foram obtidas a partir da manipulação das bases ***imdb***, com dados gerais dos filmes e séries, ***imdb_pessoas***, com dados sobre os elencos de artistas, diretores e roteiristas e ***imdb_avaliacoes***, com notas e totais de avaliaçoes.
 
-Todos os códigos de preparação  e de manipulação das bases como limpeza dos dados, união e junção de tabelas, entre outras, estão disponíveis para visualização, juntamente com os códigos de construção das tabelas e gráficos por meio do botão "code/hide". 
+O imdb possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis dos filmes produzidos entre 1894 e 2020. O imdb_pessoas por sua vez conta com  `r nrow(imdb_pessoas)` linhas e `r ncol(imdb_pessoas)` colunas e o imdb_avaliacoes com um total de `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas.
+
+As operações de importação, arrumação, transformação e visualização dos dados foram realizadas por meio da linguagem R, seus pacotes e extensões.
+
+Na seção Anexos, ao final deste relatório, disponilizamos os dicionários das bases com a lista de variáveis e definições. 
+
 :::
 
 <br>
 
-### 1.Mês histórico
+### 1. Evolução da produção da indústria cinematográfica
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Em que mês, em toda  história, ocorreu o maior número de estreias de filmes e ou séries? 
+Em 28 de setembro de 1895, os irmãos Lumière realizaram a primeira exibição pública do cinematógrafo, uma invenção que imprimia uma sucessão de fotos em um filme de celulose e que por meio de uma manivela reproduzia as imagens em sequência, transformando as figuras estáticas em imagens dinâmicas projetadas sobre uma tela. Desde então, milhares de filmes foram produzidos, tendo o auge em quantidades de produções em 2018 e interrompida pela pandemia de SARS COV-2.
 
-Analisando o gráfico abaixo, vemos que a quantidade de filmes produzidos evoluiu de 393 obras para 3281 lançamentos em 2018 e, em função da pandemia, um queda em 2019 para 3108 filmes.
-
+De acordo com a base imdb, podemos observar no gráfico abaixo que a quantidade de filmes produzidos evoluiu de 1 obra em 1894 para 271 obras em 1946, pós Segunda Guerra Mundial, e então para 3281 lançamentos em 2018. Entretanto, com o isolamento do público devido à pandemia, a indústria cinematográfica, mais dependente dos serviços de streaming, adiou os lançamentos de seus filmes, provocando a redução no número de produções como pode ser observado no gráfico 01.
 :::
+
 
 <br><br>
 
-```{r plot01  qtde de filmes x ano}
+```{r plot01 - qtde de filmes x ano}
 #| echo = TRUE,
 #| fig.height = 4,
 #| fig.width = 9,
-#| fig.cap = "Fonte: Base de dados IMDB (Internet Movie Database",
+#| fig.cap = "Gráfico 01 - Evolução da Industria Cinematográfica. Fonte: Base de dados Imdb",
 #| highlight = TRUE
 
 p01_filmes_ano <- imdb_novo |> 
-  mutate(ano_lancamento = year(data_lancamento)) |>                            # cria a coluna ano_lancamento.
+  mutate(ano_lancamento = year(data_lancamento)) |>                            # coluna com ano de lançamento.
   select(ano_lancamento) |> 
   drop_na() |>
   group_by(ano_lancamento) |> 
-  summarise(qte = n()) |>                                 # resume por ano e quantidade de filmes em cada ano.
-  slice_head(n=112) |>                    # linha 113 possui dados de 2021 de alguns meses. Exclui esta linha.
+  summarise(qte = n()) |>                                                   # resumo quantidade de filmes/ano.
+  slice_head(n=112) |>                 
   ggplot()+
   aes(x = ano_lancamento, 
       y = qte)+
-  annotate("rect",                                                # cria anotação retangular ao redor de 2018.
+  annotate("rect",                                                              # anotação retangular em 2018.
            xmin = 2010,
            xmax = 2026,
            ymin = 2950, 
@@ -143,119 +155,134 @@ p01_filmes_ano <- imdb_novo |>
            fill = "#99D8FF", 
            alpha = 0.3
            ) +
-  annotate("text",                                               # cria anotação de texto sobre o ano de 2018.
-           x = 1960, 
+  annotate("text",                                                          # anotação de texto - ano de 2018.
+           x = 1970, 
            y = 3281,
-           label = "2018 - ano com maior número lançamentos da história", 
+           label = "Auge da produção cinematográfica", 
            size = 3
            ) +
-  geom_segment(aes(y = 3281,                                              # cria a linha da anotação de texto.
+  geom_segment(aes(y = 3281,                                                              # linha de anotação.
                    x = 1992,  
                    xend = 2009,     
                    yend = 3281   
-                   ),
+                   ), 
                size = 0.3,
                fill = "#000000"   
                ) +
-  geom_line(color = "#4C586B")+                                                       # cria gráfico de linha.
-  geom_point(color = "#A71D31",                             # cria gráfico de pontos sobre o gráfico de linha.
+  geom_line(color = "#4C586B")+                                                            # gráfico de linha.
+  geom_point(color = "#A71D31",                                                           # gráfico de pontos.
              shape = 7,
              size = 0.7
              )+
-  gghighlight(ano_lancamento >=1960,                    # destaca os dados com ano_lançamento superior a 1960.
-              unhighlighted_params = list(colour = "#4C586B"
-                                          )
+  gghighlight(ano_lancamento >=1946,                                         # destaca anos superiores a 1960.
+              unhighlighted_params = list(colour = "#4C586B")
               )+
-  labs(title = "Total de filmes por ano",                            # define os textos para o título e eixos.
+  labs(title = "Total de filmes por ano",                           
        x = "
     Ano",
     y = "Quantidade
     
     "
   )+
-  scale_x_continuous(breaks = seq(0,                   # define a escala do eixo x de 0 a 2022, passo 10 anos.
+  scale_x_continuous(breaks = seq(0,                                     # escala x de 0 a 2022, step 10 anos.
                                   2022, 
                                   10
                                   )
                      ) +
-  scale_y_continuous(breaks = seq(0,                    # define a escala do eixo y de 0 a 4000, passo de 500.
+  scale_y_continuous(breaks = seq(0,                                      # escala y de 0 a 4000, step de 500.
                                   4000, 
                                   500
                                   )
                      ) +
-  theme_classic()                                                                 # escolhe o tema do gráfico.
+  theme_classic()                                                           
   
 p01_filmes_ano |> 
-  ggplotly()                                                                                # gera a o plotly.
+  ggplotly()                                                                               # gráfico dinâmico.
 ```
 
 <br><br>
 
-::: {align="justify" style="text-indent: 3em;"}
+### 2. O mês
 
-Neste ano, pré-pandêmico, ocorreram as maiores quantidades de lançamentos de filmes por mês da história. Então, qual seria o mês com os maiores totais?
+::: {align="justify" style="text-indent: 3em;"}
+O ano de 2018 com o maior números de *premieres* da história teve-se em outubro daquele ano o maior número de estreias da história. Foram 386 obras cinematográficas.
 
 :::
 
 
-```{r tab01 mes x maior numero de lancamentos}
+```{r tab01 - mes x maior numero de lancamentos}
 
-### Cria a coluna mes
+# coluna mes
 imdb_datas <- imdb_novo |>
-  mutate(mes = month(data_lancamento, label = TRUE, abbr = TRUE))  
+  mutate(mes = month(data_lancamento,                                                            # coluna mês.
+                     label = TRUE, 
+                     abbr = TRUE
+                     )
+         )  
 
-### Obtém o mês com o maior número de lançamentos.
+# maior número de lançamentos mensal.
 mes_maior_lancamento <- imdb_datas |>                        
-  group_by(mes, ano) |>        
+  group_by(mes,
+           ano
+           ) |>        
   summarise(qte = n()) |>             
   drop_na() |> 
   slice_max(qte) |> 
   arrange(desc(qte))
 
-### cria tabela com dados do mês e maior número de estreias.
+# tabela com dados do mês e maior número de estreias.
 tab01_mes_maior_lancamento <- mes_maior_lancamento |>   
   head(n=1) |> 
-  kbl(
-    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
-    col.names = c("Mês",                                             # define o nome dos cabeçalhos da tabela.
-                  "Ano de Lançamento", 
-                  "Quantidade de Filmes"),
-    full_width = TRUE,
-  ) |> 
-  kable_styling(                                                          # altera as configurações da tabela.
-    bootstrap_options = c("striped", "condensed"),
-    html_font = "",
-    font_size = 10,
-    full_width = TRUE, 
-    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  kbl(align = "l",                                                                   # alinhamento à esquerda.
+      col.names = c("Mês",                                                                # nome do cabeçalho.
+                    "Ano de Lançamento", 
+                    "Quantidade de Filmes"
+                    ),
+      full_width = TRUE,
+      ) |> 
+  kable_styling(bootstrap_options = c("striped", 
+                                      "condensed"),
+                html_font = "",
+                font_size = 10,
+                full_width = TRUE, 
+                fixed_thead = list(enabled = TRUE, 
+                                              background = "#EDF6FD")
   ) |> 
   kable_classic_2() |> 
-  column_spec(1,                                                        # altera as configurações das colunas.
+  column_spec(1,                                                                  # configurações das colunas.
               bold = FALSE,
               width = "10cm"
-  ) |>      
+              ) |>      
   column_spec(2, 
               bold = FALSE,
               width = "10cm"
-  ) |>
+              ) |>
   column_spec(3,
               bold = FALSE,
               width = "10cm"
-  ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+              ) |> 
+  footnote(general = "Maior Quantidade de Filmes em um mês. Fonte: Base de dados IMDB.",                                # rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 01:",
   )
 
-tab01_mes_maior_lancamento                                                                 # visualiza a tabela.
+tab01_mes_maior_lancamento                                                               # visualiza a tabela.
 
 ```
 
+<br>
 
-```{r plot02 total de lançamentos x mês}
+::: {align="justify" style="text-indent: 3em;"}
+Superou o maior total de lançamentos regitrados até então, setembro de 2017, quando ocorreram 358 lançamentos. No gráfico 02, encontra-se a relação dos 13 meses com os maiores números de estreias, todos entre os anos de 2014 e 2018, período de maior produção cinematográfica da história como destacado no gráfico 01.
+
+:::
+
+
+```{r plot02 - total de lançamentos x mês}
 #| fig.height = 6,
-#| fig.width = 14
+#| fig.width = 14,
+#| fig.cap = "Gráfico 02 - Meses com Maiores Totais de Lançamentos. Fonte: Base de dados Imdb",
 
 # Cria o gráfico com 
 meses_mais_qte <- mes_maior_lancamento |> 
@@ -305,20 +332,21 @@ plot02_lancamento_mes <- meses_mais_qte|>
   ) +
   theme_classic()+                                                               # seleção do tema do gráfico.
   scale_y_continuous(breaks = seq(0, 500, 50),
-                     limits = c(0,500)) +                                         # formatar escala do eixo y.  
+                     limits = c(0, 500),
+                     expand = expansion(add = c(0,0)))+                                       # formatar escala do eixo y.  
   theme_imdb()
 
 plot02_lancamento_mes                                                                   # visualiza o gráfico.
 ```
 
+<br><br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-No auge de lançamentos, o mês de outubro teve 397 *premieres*. Este foi o mês com o maior número de estreias. 
 
-Listamos abaixo os 15 filmes deste mês de outubro pelas maiores notas médias IMDB, considerando apenas os avaliados por mais de 10000 pessoas.
+Abaixo temos os 5 filmes deste mês de outubro de acordo com suas notas médias IMDB. Consideramos somente os filmes com mais de 100000 avaliações. 
+
 :::
-
-```{r tab02 15 filmes de outubro de 2018 com maior ranking }
+```{r tab02 - 5 filmes de outubro de 2018 com maior ranking }
 
 ## Manipulação da base para obtenção da relação dos 15 filmes  de outubro de 2018 por ranking 
 mes_maior_lancamento <- imdb_datas |>                                # lista dos 15 filmes com melhor ranking.
@@ -330,9 +358,9 @@ mes_maior_lancamento <- imdb_datas |>                                # lista dos
             num_avaliacoes,
             pais,
             ano = year(data_lancamento)) |>
-  filter(mes == "out" & ano == 2018 & num_avaliacoes >= 10000) |> 
+  filter(mes == "out" & ano == 2018 & num_avaliacoes >= 100000) |> 
   arrange(desc(nota_imdb)) |> 
-  slice_head(n=15)
+  slice_head(n=5)
 
 mes_maior_lancamento$mes <- NULL                                                        # Exclusão de colunas. 
 mes_maior_lancamento$qte <- NULL
@@ -377,22 +405,55 @@ kbl(
               bold = FALSE,
               width = "10cm"
               ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+  footnote(general = "Top 5 filmes Nota Média/ Outubro 2018. Fonte: Base de dados IMDB.",
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 02:",
            )
 ```
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Destaca-se os filmes "Ratsasan" e "A Star is born", aquele pela nota maisl alta e este pelo elenco que contou com o ator Bradley Cooper e a cantora Lady Gaga. 
-
-Abaixo, alguns dados extraídos da base IMDB e algumas informações obtidas da *Web* sobre estes dois filmes.
+Apresentamos um resumo dos dados da base IMDB sobre estes filmes.
 :::
 
 <br>
+
+```{r imdb com lucros }
+#| echo = FALSE
+
+# considerando apenas o valores em dólares
+
+imdb_filmes_dolares <- imdb_novo |>
+  #select(orcamento, receita, genero, titulo) |> 
+  filter(str_detect(orcamento, pattern = "\\$.*"))
+
+# eliminar o símbolo $ nos valores das colunas orçamento e receita
+
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
+  mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
+         receita = str_remove(receita, pattern = "\\$ "))
+
+
+# alterar o tipo das variáveis orcamento e  receita
+
+imdb_filmes_dolares$orcamento <- as.numeric(imdb_filmes_dolares$orcamento)
+imdb_filmes_dolares$receita <- as.numeric(imdb_filmes_dolares$receita)
+
+  
+# calcular o lucro dos filmes
+
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
+  mutate(
+    lucro = receita - orcamento
+  ) |>
+  drop_na()
+
+
+
+```
+
 
 ####  {.tabset .tabset-fade}
 
@@ -400,54 +461,159 @@ Abaixo, alguns dados extraídos da base IMDB e algumas informações obtidas da 
 
 ```{r cod filme nasce uma estrela}
 
-imdb_nasce_uma_estrela <- imdb |> 
-  select(titulo, data_lancamento, duracao, direcao, roteiro, producao, elenco, orcamento, receita) |> 
-  filter(titulo == "A Star Is Born")
+imdb_nasce_uma_estrela <- imdb_filmes_dolares |> 
+  filter(titulo == "A Star Is Born") |> 
+  mutate(thumbnail_nasce_uma_estrela = "../data-raw/nasce_uma_estrela_thumbnail.jpg") |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao,
+         elenco, orcamento, receita, genero, lucro, thumbnail_nasce_uma_estrela)
+  
 ```
 
-::: {align="justify" style="text-indent: 3em;"}
-O filme "`r imdb_nasce_uma_estrela$titulo`" foi  lançado  no Brasil como "Nasce uma Estrela". De origem stadunidense pertence aos gêneros drama, musical e romance. Sua *premier* ocorreu no dia 11 de outubro de 2018 com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`, roteiro de `r imdb_nasce_uma_estrela$roteiro`, contou com a participação de `r imdb_nasce_uma_estrela$elenco` em seu elenco. A obra teve um orçamento, de acordo com a base, de US`r imdb_nasce_uma_estrela$orcamento` e uma receita de US`r imdb_nasce_uma_estrela$receita`, obtendo um lucro de US$ 76188866.
+```{r figura 02 - imagem do filme nasce uma estrela}
+#| fig.float= "right",
+#| out.width = "30%",
+#| echo = FALSE
 
-De acordo com o *wikipedia*, cogitou-se a participação da cantora **Beyouncé** para estrelar o papel principal. Entretanto, em maio de 2016, a revista americana *Deadline Holliwood* publicou um artigo que dizia que Bradley Cooper queria Lady Gaga como protagonista. Este filme foi a primeira participação imponente de Lady Gaga no cinema.
-
-:::
-<br>
-
-##### Ratsasan
-
-```{r cod filme ratsasan}
-
-imdb_ratsasan <- imdb |> 
-  select(titulo, data_lancamento, duracao, direcao, roteiro, producao, elenco) |> 
-  filter(titulo == "Ratsasan")
+knitr::include_graphics(imdb_nasce_uma_estrela$thumbnail_nasce_uma_estrela)
 ```
 
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "`r imdb_ratsasan$titulo`" disponível na plataforma Netflix (consulta em 17/05/2022) é um filme dos gêneros ação, crime e suspense. Foi produzido em língua tamil. Conta a história de de um aspirante a diretor de cinema que se torna policial após a morte de seu pai e tenta rastrear um serial *killer*.
-Foi lançado no dia 05 de outubro de 2018 com duração de `r imdb_ratsasan$duracao` minutos, dirigido por `r imdb_ratsasan$direcao`, roteiro de `r imdb_ratsasan$roteiro`, contou com os atores `r imdb_ratsasan$elenco`.
+O filme "**`r imdb_nasce_uma_estrela$titulo`**" foi  lançado  no Brasil como "**Nasce uma Estrela**". Pertence aos gêneros `r imdb_nasce_uma_estrela$genero`. Sua *premier* ocorreu em `r imdb_nasce_uma_estrela$data_lancamento`,  com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`. Roteiro de `r imdb_nasce_uma_estrela$roteiro`.  
+Contou com a participação de `r imdb_nasce_uma_estrela$elenco` em seu elenco.  
+A obra teve um orçamento, de acordo com a base, de US`r imdb_nasce_uma_estrela$orcamento/1000000` milhões e uma receita de US`r round(imdb_nasce_uma_estrela$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_nasce_uma_estrela$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_nasce_uma_estrela$lucro/1000000,2)` milhões.  
+**Sinopse: Um experiente músico descobre a jovem artista desconhecida a quem ajuda a encontrar fama, mas acaba se apaixonando por ela. O relacionamento pessoal entre os dois começa a desandar à medida que Jack luta contra problemas com alcolismo.**  
+***Fonte: https://www.imdb.com/title/tt1517451/?ref_=fn_al_tt_1***
+:::
+<br>
 
-A base IMDB não possui dados sobre o orçamento e a receita arredada, mas de acordo como o *wikipedia* o filme arrecadou, por exemplo, nos Estados Unidos US\$ 2624379, no Reino Unido Є 748185 e no Canadá US$ 1567893.
+##### Searching
+
+```{r cod filme searching}
+
+imdb_searching <- imdb_filmes_dolares |> 
+  filter(titulo == "Searching") |> 
+  mutate(thumbnail_searching = "../data-raw/Buscando_thumbnail.jpg") |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao,
+         elenco, orcamento, receita, genero, lucro, thumbnail_searching)
+```
+
+```{r figura 03 - imagem do filme searching}
+#| fig.float= "right",
+#| out.width = "30%",
+#| echo = FALSE
+
+knitr::include_graphics(imdb_searching$thumbnail_searching)
+```
+
+::: {align="justify" style="text-indent: 3em;"}
+O filme "**`r imdb_searching$titulo`**" foi  lançado  no Brasil como "**Buscando**". Pertence aos gêneros `r imdb_searching$genero`. Sua *premier* ocorreu em `r imdb_searching$data_lancamento`,  com duração de `r imdb_searching$duracao` minutos sob a direção de `r imdb_searching$direcao`. Roteiro de `r imdb_searching$roteiro`.  
+
+Contou com a participação de `r imdb_searching$elenco` em seu elenco.  
+A obra teve um orçamento, de acordo com a base, de US`r imdb_searching$orcamento/1000000` milhões e uma receita de US`r round(imdb_searching$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_searching$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_searching$lucro/1000000,2)` milhões.  
+**Sinopse: Depois que sua filha de 16 anos desaparece, um pai desesperado entra em seu laptop procurando pistas para encontrá-la.**  
+***Fonte: https://www.imdb.com/title/tt7668870/?ref_=fn_al_tt_1***
+
+:::
+
+##### First Man
+
+```{r cod filme first man}
+
+imdb_firstman <- imdb_filmes_dolares |> 
+  filter(titulo == "First Man - Il primo uomo") |> 
+  mutate(thumbnail_firstman = "../data-raw/first_man_thumbnail.jpg") |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao,
+         elenco, orcamento, receita, genero, lucro, thumbnail_firstman)
+
+```
+
+```{r figura 04 -imagem do filme first man}
+#| fig.float= "right",
+#| out.width = "15%",
+#| echo = FALSE
+
+knitr::include_graphics(imdb_firstman$thumbnail_firstman)
+```
+
+::: {align="justify" style="text-indent: 3em;"}
+O filme "**`r imdb_firstman$titulo`**" foi  lançado  no Brasil como "**O Primeiro Homem**". Pertence aos gêneros `r imdb_firstman$genero`. Sua *premier* ocorreu em `r imdb_firstman$data_lancamento`,  com duração de `r imdb_firstman$duracao` minutos sob a direção de `r imdb_firstman$direcao`. Roteiro de `r imdb_firstman$roteiro`.  
+Contou com a participação de `r imdb_firstman$elenco` em seu elenco.  
+A obra teve um orçamento, de acordo com a base, de US`r imdb_firstman$orcamento/1000000` milhões e uma receita de US`r round(imdb_firstman$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_firstman$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_firstman$lucro/1000000,2)` milhões.  
+**Sinopse: Um olhar sobre a vida do astronauta Neil Armstrong e a lendária missão espacial que o levou a ser o primeiro homem a camihar na Lua.**   ***Fonte: https://www.imdb.com/title/tt1213641/?ref_=fn_al_tt_1***
+
 :::
 
 
-### 2. Dia especial
+##### Soldado
+
+```{r cod filme soldado}
+
+imdb_soldado <- imdb_filmes_dolares |> 
+  filter(titulo == "Soldado") |> 
+  mutate(thumbnail_soldado = "../data-raw/sicario_thumbnail.jpg") |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao,
+         elenco, orcamento, receita, genero, lucro, thumbnail_soldado)
+```
+
+```{r figura 05 - imagem do filme soldado}
+#| fig.float= "right",
+#| out.width = "15%",
+#| echo = FALSE
+
+knitr::include_graphics(imdb_soldado$thumbnail_soldado)
+```
+
+::: {align="justify" style="text-indent: 3em;"}
+O filme "**`r imdb_soldado$titulo`**" foi  lançado  no Brasil como "**Sicario 2 - Soldado**". Pertence aos gêneros `r imdb_soldado$genero`. Sua *premier* ocorreu em `r imdb_soldado$data_lancamento`,  com duração de `r imdb_soldado$duracao` minutos sob a direção de `r imdb_soldado$direcao`. Roteiro de `r imdb_soldado$roteiro`.  
+Contou com a participação de `r imdb_soldado$elenco` em seu elenco.  
+A obra teve um orçamento, de acordo com a base, de US`r imdb_soldado$orcamento/1000000` milhões e uma receita de US`r round(imdb_soldado$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_soldado$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_soldado$lucro/1000000,2)` milhões.  
+**Sinopse: A guerra contra as drogas na fronteira do México com os Estados Unidos aumenta quando os cartéis começam a introduzir terroristas no território americano.**  ***Fonte: https://www.imdb.com/title/tt5052474/?ref_=fn_al_tt_3***
+
+:::
+
+##### 7 sconosciuti a El Royale
+
+```{r cod filme 7 sconosciuti a El Royale}
+
+imdb_royale <- imdb_filmes_dolares |> 
+  filter(titulo == "7 sconosciuti a El Royale") |> 
+  mutate(thumbnail_royale = "../data-raw/maus_momentos_em_royale_thumbnail.jpg") |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao,
+         elenco, orcamento, receita, genero, lucro, thumbnail_royale)
+
+```
+
+```{r figura 06 - imagem do filme 7 sconosciuti a El Royale}
+#| fig.float= "right",
+#| out.width = "20%",
+#| echo = FALSE
+
+knitr::include_graphics(imdb_royale$thumbnail_royale)
+```
+
+::: {align="justify" style="text-indent: 3em;"}
+O filme "**`r imdb_royale$titulo`**" foi  lançado  no Brasil como "**Maus Momentos no Hotel Royale**". Pertence aos gêneros `r imdb_royale$genero`. Sua *premier* ocorreu em `r imdb_royale$data_lancamento`,  com duração de `r imdb_royale$duracao` minutos sob a direção de `r imdb_royale$direcao`. Roteiro de `r imdb_royale$roteiro`.  
+Contou com a participação de `r imdb_royale$elenco` em seu elenco.  
+A obra teve um orçamento, de acordo com a base, de US`r imdb_royale$orcamento/1000000` milhões e uma receita de US`r round(imdb_royale$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_royale$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_royale$lucro/1000000,2)` milhões.  
+**Sinopse: Em 1969 alguns estranhos com segredos se conhecem por casualidade no hotel El Royale no lago Tahoe. Durante uma das noites, cada um mostrará sua verdadeir personalidade.**
+***fonte: https://www.imdb.com/title/tt6628394/?ref_=fn_al_tt_1***
+:::
+
+### 2. O dia
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Analisando as datas de lançamentos dos filmes em 2022 na página [mundo conectado](https://mundoconectado.com.br/artigos/v/21921/todos-os-123-filmes-que-estreiam-nos-cinemas-brasileiros-em-2022), verifica-se, em nosso país, que os filmes t no mesmo têm suas estreias no mesmo dia, ou seja, em uma mesma quinta-feira (antes de março de 2014 os lançamentos ocorriam nas sextas-feiras, mas o dia das estreias foi alterado após acordo entre os exibidores e ditribuidores brasileiros). 
+No Brasil, as estreias dos filmes ocorrem nas quintas-feiras. Neste mês,maio de 2022, tivemos os lançamentos de "Doutor Estranho no Multiverso da Loucura"  e "A Vida é Agora" (05/05/2022), "Chamas da Vingança" (19/05/2022), o filme nacional "Vovó Ninja" e "Top Gun: Maverick" (26/05/2022). 
 
-Neste mês as estreias tivemos o lançamento dos filmes "Doutor Estranho in the Multiverse of Madness" e "Mrs. Harries Goes to Paris" no dia 05, os filmes "Paris 13th District" e "King" no dia 12, "Uma Pitada de Sorte", "DC Liga dos SuperPets" e "Quatro Amigas Numa Fria" no dia 19 e "Top Gun Maverick", "Bob's Burger" e "Vovó Ninja" no dia 26 de maio.
- 
-Em relação à base IMDB, qual seria o dia com a maior quantidade de filmes lançados?
-
+Na base imdb, conforme a tabela 03, a grande maioria dos filmes e séries estreiaram no primeiro dia dos meses. A diferença é significativa em relação aos demais dias como pode ser visto no gráfico 03.
 <br>
 
 :::
 
-```{r tab03 dia com o maior numero de lancamento}
+```{r tab03 - dia com o maior numero de lancamento}
 
 #### Manipulação da base para a obtencão do dia com o maior número de lançamentos
 dia_maior_lancamento <- imdb_novo |> 
@@ -482,15 +648,20 @@ dia_maior_lancamento |>
               bold = FALSE,
               width = "15cm"
               ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",               # cria o rodapé da tabela.
+  footnote(general = "Dia com maior número de lançamentos. fonte: Base de dados IMDB.",               # cria o rodapé da tabela.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 03:",
            )
 ```
 
+<br>
 
-```{r plot03  lancamentos x dias}
+
+```{r plot03 - lancamentos x dias}
+#| echo = TRUE,
+#| fig.cap = "Gráfico 03 - Total de lançamentos por dia. Fonte: Base de dados Imdb",
+#| highlight = TRUE
 
 ### Grafico dias com maior quantidade de filmes 
 plot03_dia_filmes <- imdb_novo |> 
@@ -535,7 +706,8 @@ plot03_dia_filmes <- imdb_novo |>
   ) +
   theme_classic()+                                                              # seleção do tema do gráfico.
   scale_y_continuous(breaks = seq(0, 8000, 1000),
-                     limits = c(0,8000)) +                                       # formatar escala do eixo y.  
+                     limits = c(0,8000),
+                     expand = c(0,0)) +                                       # formatar escala do eixo y.  
   scale_x_continuous(breaks = seq(0, 31, 1)) +                                   # formatar escala do eixo x.
   theme_imdb()
 
@@ -544,13 +716,6 @@ plot03_dia_filmes                                                               
 ```
 
 
-::: {align="justify" style="text-indent: 3em;"}
-Ao longo da história, o dia `r dia_maior_lancamento$dia`º foi aquele com a maior número de lançamentos. No total, foram `r dia_maior_lancamento$qtde` estréias neste dia. Depois os dias 15 com 2831, 14 com 2728 e 25 com 2727 filmes. 
-
-A maior frequência de "*premieres*" neste dia, indica uma preferência de muitas produtoras em realizar as estreias de suas obras neste dia. 
-
-:::
-
 <br>
 
 ### 3. Os paises com maior número de filmes
@@ -558,9 +723,8 @@ A maior frequência de "*premieres*" neste dia, indica uma preferência de muita
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-De acordo com o [instituto do cinema](https://www.institutodecinema.com.br/mais/conteudo/bollywood-e-seu-jeito-lucrativo-de-fazer-cinema-), Hollywood não é a maior indústria cinematográfica do mundo. Este lugar é ocupado pela produtora Bollywood. Os indianos produzem cerca de 1500 filmes por ano e por se tratar do segundo país mais populoso do mundo tem uma média de espectadores superior a meio milhão por mês.
+Embora a indústria cinematográfica indiana seja a que  mais crie obras, a base Imdb mostra que os EUA são de longe o país com a maior quantidade de filmes ao longo da história. 
 
-Todavia, segundo a base IMDB e considerando toda a história do cinema, qual seria o país com maior número de filmes produzidos?
 :::
 
 <br>
@@ -600,16 +764,18 @@ top_5_paises |>
               bold = FALSE,
               width = "15cm"
   ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",               # cria o rodapé da tabela.
-           footnote_as_chunk = TRUE,
+  footnote(general = "Países maiores produtores de filmes. Fonte: Base de dados IMDB.",       # cria o rodapé.
+           footnote_as_chunk = TRUE,                  
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 04:",
   )
 
 ```
 
-```{r plot04 paises x qtde de filmes}
+```{r plot04 - paises x qtde de filmes}
 #| echo = TRUE,
+#| fig.height = 10,
+#| fig.cap = "Gráfico 04 - Países e totais de lançamentos. Fonte: Base de dados Imdb",
 
 ### Manipulando os dados para obtenção dos 16 países com maiores quantidades de filmes lançados
 top_16_paises <- imdb_novo |> 
@@ -677,8 +843,15 @@ plot_top_16_paises <- top_16_paises |>
     y = "Paises"
   )+
   scale_x_continuous(                                                    # altera limites e quebras do eixo x.
-    breaks = seq(0, 29000,5000),
-    limits = c(0,29000)
+    breaks = seq(0, 29000,2500),
+    limits = c(0,29000),
+    expand = expansion(add = c(0,1500)),
+    labels = scales::number_format(accuracy = 0.1,
+                                   decimal.mark = ",",
+                                   big.mark = ".")
+  )+
+  scale_y_discrete(                                                    # altera limites e quebras do eixo x.
+    expand = expansion(add = c(1,0))
   )+
   theme_classic()+                                                                 # define o tema do gráfico.
   theme_imdb()+    
@@ -703,9 +876,11 @@ plot_top_16_paises
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-No gráfico acima, destaquei a posição do nosso país no ranking. Foram 736 filmes produzidos entre 1931 e 2020.
 
-Apresentamos os cinco filmes com mais de 10000 avaliaçoes, com as maiores pontuaçoes medias da imdb.
+O Brasil possui 736 filmes na base, são obras de 1931 a 2020. A melhor média Imdb é a do filme "O Auto da Compadecida", avaliada por 11127  pessoas, que possui média de 8,6.  
+
+Os outros quatro filmes com melhores notas estão relacionados na tabela 05.
+
 :::
 
 <br>
@@ -771,10 +946,10 @@ top_5_filmes_brasil |>
               # color = "#FFFFFF",
               width = "5cm"
               ) |>
-    footnote(general = "Base de dados IMDB (Internet Movie Database).",                     # inseri o rodapé.
+    footnote(general = "Filmes nacionais com a melhores notas Imdb. Fonte: Base de dados IMDB.",                     # inseri o rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 05:",
            )
 ```
 
@@ -785,9 +960,9 @@ top_5_filmes_brasil |>
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-A variável orçamento representa o valor total estimado de gastos para a produção da obra cinematográfica ou de uma série. A indústria de filmes movimenta bilhões de dólares usados para a contratação de técnologias para produção de efeitos especiasi, trilhas sonoras, pagamento de suas equipes de produção e direção e artistas. 
+A variável orçamento representa o valor total estimado de gastos para a produção de um filme ou de uma série. A indústria movimenta bilhões de dólares utilizados na contratação de tecnologias para produção de efeitos especiasi e trilhas sonoras e contratação de seu elenco. 
 
-A base analisada apresenta os valores de orçamento em variadas moedas, a depender do país da produção. Vamos relacionar quais são as moedas presentes no *dataset* e apresentá-las na tabela abaixo.
+A base Imdb possui os valores de orçamento em variadas moedas. Relacionamos todas as moedas presentes no *dataset* e apresentamo-las na tabela por código e divisa.
 
 :::
 
@@ -845,17 +1020,17 @@ moedas_orcamento_unificada |>
               bold = FALSE,
               width = "15cm"
               ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+  footnote(general = "Relação de moedas da base. Fonte:Base de dados IMDB.",
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 06:",
            )
 ```
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-São `r nrow(moedas_orcamento_unificada)` diferentes moedas utilizadas, que estão relacionadas por meio de seus códigos ISO. Algumas moedas não existem atualmente, como às dos 26 paises do Bloco Europeu que passaram a utilizar o Euro como moeda oficial.
+Totalizam `r nrow(moedas_orcamento_unificada)` diferentes moedas. Algumas não existem atualmente, como o Franco francês ou as outras 25 moedas dos paises do Bloco Europeu que passaram a utilizar o Euro.
 
 :::
 <br>
@@ -865,41 +1040,12 @@ São `r nrow(moedas_orcamento_unificada)` diferentes moedas utilizadas, que est�
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Considerando a soma dos lucros dos filmes por gênero, podemos concluir que:
-
+Considerando a soma dos lucros dos filmes por gênero, vemos que os gêneros aventura, ação e comédia são as mais lucrativas. 
 :::
 
 <br>
 
-```{r tab06 - maiores lucros por gênero na história}
-
-# considerando apenas o valores em dólares
-
-imdb_filmes_dolares <- imdb_novo |>
-  #select(orcamento, receita, genero, titulo) |> 
-  filter(str_detect(orcamento, pattern = "\\$.*"))
-
-# eliminar o símbolo $ nos valores das colunas orçamento e receita
-
-imdb_filmes_dolares <- imdb_filmes_dolares |> 
-  mutate(orcamento = str_remove(orcamento, pattern = "\\$ "),
-         receita = str_remove(receita, pattern = "\\$ "))
-
-
-# alterar o tipo das variáveis orcamento e  receita
-
-imdb_filmes_dolares$orcamento <- as.numeric(imdb_filmes_dolares$orcamento)
-imdb_filmes_dolares$receita <- as.numeric(imdb_filmes_dolares$receita)
-
-  
-# calcular o lucro dos filmes
-
-imdb_filmes_dolares <- imdb_filmes_dolares |> 
-  mutate(
-    lucro = receita - orcamento
-  ) |>
-  drop_na()
-
+```{r tab07 - maiores lucros por gênero na história}
 
 # usar a base imdb, precisamos fazer a separação da coluna genero
 
@@ -951,10 +1097,10 @@ lucros_genero |>
               bold = FALSE,
               width = "15cm"
               ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+  footnote(general = "Maiores lucros por gênero. Fonte: Base de dados IMDB.",
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 07:",
            )
 
 ```
@@ -962,12 +1108,12 @@ lucros_genero |>
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-No caso de a análise ser realizada considerando a soma dos lucros divididos pelo total de filmes realizados em cada gênero o resultado seria o lucro obtido em cada gênero por filme produzido. Nestes termos, o resultado seria:
+Entretanto, considerando a quantidade de filmes produzidos por gênero e calculando o lucro por filme, animação, aventura e sci-fi os que apresentam maiores ganhos.
 
 :::
 <br>
 
-```{r tab07 - lucro por genero por filme produzido}
+```{r tab08 - lucro por genero por filme produzido}
 
 lucros_genero_filme <- imdb_filmes_dolares_genero |>
   group_by(generos) |>
@@ -998,10 +1144,10 @@ lucros_genero_filme |>
               bold = FALSE,
               width = "15cm"
               ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",
+  footnote(general = "Lucros por gênero e quantidades de filmes. Base de dados IMDB.",
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 08:",
            )
 
 
@@ -1011,11 +1157,23 @@ lucros_genero_filme |>
 
 ### 6. Maiores notas médias por gênero
 
-```{r plot05 notas médias por gêneros}
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+Para a construção da visualização abaixo, consideramos todas as categorias. O resultado apresentou a classe *film Noir* com as melhores médias. 
+
+Até hoje, não existe consenso sobre *film Noir* ser uma categoria de filmes ou um estilo de filmagem. Esta categoria refere-se a filmes de longa metragem típicas dos anos 40, combinando temas policiais, criminais e marcados pela presença de anti-herois e ambientes urbanos.
+
+Atualmente, acredita-se que existam cerca de 300 títulos produzidos entre 1940 e 1958. 
+
+:::
+
+```{r plot05 - notas médias por gêneros}
 #| echo = TRUE,
 #| fig.height = 4,
 #| fig.width = 9,
-#| fig.cap = "Fonte: Base de dados IMDB (Internet Movie Database",
+#| fig.cap = "Gráfico 05 - Notas médias por gêneros.  Fonte: Base de dados IMDB.",
 #| highlight = TRUE
 
 ## Fazer o join de imdb e imdb_avaliacoes
@@ -1055,7 +1213,6 @@ imdb_medias_genero <- left_join(
 # considerando o número de avaliações superiores a 10000
 
 plot05_media_genero <- imdb_medias_genero |> 
-  filter(num_avaliacoes >= 20000) |> 
   group_by(generos_aval) |> 
   summarise(nota_media = mean(nota_imdb)) |> 
   arrange(desc(nota_media)) |> 
@@ -1066,7 +1223,7 @@ plot05_media_genero <- imdb_medias_genero |>
   )+
   geom_segment(aes(x = generos_aval,
                    xend = generos_aval,
-                   y = 6,
+                   y = 5,
                    yend =  nota_media),
                linetype = 1,
                size = 0.1
@@ -1076,10 +1233,12 @@ plot05_media_genero <- imdb_medias_genero |>
     x = "Gêneros",
     y = "Médias"
   )+
-  scale_y_continuous(breaks = seq(6, 8, 0.2)) +
+  scale_y_continuous(breaks = seq(0, 8.5, 0.5),
+                     limits = c(5, 8.5),
+                     expand = expansion(add = c(0,0))) +
   theme(
-      axis.text.x = element_text(angle = 45, hjust = -0.2, size = 9),
-      axis.text.y = element_text(size = 9),
+      axis.text.x = element_text(angle = 45, hjust = -0.2, size = 7),
+      axis.text.y = element_text(size = 7),
       axis.line.x = element_line(color = "#1F1F1F"), 
       axis.line.y = element_line(color = "#1F1F1F"), 
       axis.title.x = element_text(size = 11, face = "plain"),
@@ -1113,7 +1272,42 @@ plot05_media_genero |>
 
 ```
 
-### Avatar
+<br>
+
+### 7. Avatar
+
+<br>
+
+```{r figura 07 - avatar filme}
+#| fig.align = "center",
+#| out.width = "40%",
+#| echo = FALSE
+
+knitr::include_graphics("../data-raw/avatar.jpg")
+
+```
+
+
+```{r cod avatar - descricao do filme}
+
+imdb_avatar<- imdb_filmes_dolares |> 
+  filter(titulo == "Avatar") |> 
+  select(titulo, data_lancamento, duracao, direcao, roteiro, producao,
+         elenco, orcamento, receita, genero, lucro)
+  
+```
+
+
+
+::: {align="justify" style="text-indent: 3em;"}
+O filme "**`r imdb_avatar$titulo`**" pertence aos gêneros `r imdb_avatar$genero`. Sua *premier* ocorreu em `r imdb_avatar$data_lancamento`,  com duração de `r imdb_avatar$duracao` minutos sob a direção de `r imdb_avatar$direcao`. Roteiro de `r imdb_avatar$roteiro`.  
+Contou com a participação de `r imdb_avatar$elenco` em seu elenco.  
+
+:::
+<br>
+
+
+
 
 
 ```{r analise - avatar}
@@ -1158,7 +1352,11 @@ imdb_completa_pessoas <- imdb_completa_pessoas |>
 ```
 
 
-```{r tab08 - dados avatar diretor}
+#### 7.1 - Direção
+
+<br>
+
+```{r tab09 - dados avatar diretor}
 
 imdb_completa_pessoas |> 
   filter(titulo == "Avatar") |> 
@@ -1202,17 +1400,36 @@ imdb_completa_pessoas |>
               bold = FALSE,
               width = "6cm"
   ) |> 
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+  footnote(general = "James Cameron. Base de dados IMDB.",                           # cria rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 09:",
   )
   
 
 
 ```
 
-```{r tab09 - Filmes de Cameron}
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+James Francis Cameron, nascido em Kapuskasing, Ontário, Canadá no dia 16 de agosto de 1954, atualmente com 68 anos é um produtor, cineasta, diretor e roteirista.
+
+:::
+
+<br>
+
+#### 7.2 - Filmes de James Cameron na Base
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+Além dos 7 filmes listados na base Imdb relacionados na tabela 10, também atuou como diretor/roteirista nos filmes Piranha II: The spawning, Terminator, Rambo: First Blood Part II, The Abyss, Strange Days, Ghosts of the Abyss e Alita: Battle Angel.
+:::
+
+```{r tab10 - Filmes de Cameron}
 
 filmes_cameron <- imdb_completa_pessoas |> 
   filter(direcao == "James Cameron") |> 
@@ -1222,7 +1439,7 @@ filmes_cameron <- imdb_completa_pessoas |>
 
 
 
-tab09_filmes_cameron <- filmes_cameron|>
+tab_filmes_cameron <- filmes_cameron|>
   kbl(
     align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
     col.names = c("Título",                                             # define o nome dos cabeçalhos da tabela.
@@ -1261,14 +1478,19 @@ tab09_filmes_cameron <- filmes_cameron|>
               bold = FALSE,
               width = "5cm"
   ) |>
-  footnote(general = "Base de dados IMDB (Internet Movie Database).",                           # cria rodapé.
+  footnote(general = "Filmes de Cameron na base. Fonte: Base de dados IMDB.",                           # cria rodapé.
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
-           general_title = "Fonte:",
+           general_title = "Tabela 10:",
   )
 
-tab09_filmes_cameron
+tab_filmes_cameron
 ```
+
+
+<br>
+
+#### 7.3- Lucro médios dos filmes James Cameron na base
 
 ```{r code lucro medio filmes de Cameron, include=FALSE}
 #| include = FALSE
@@ -1283,9 +1505,314 @@ lucro_medio_filmes <- imdb_completa_pessoas |>
 
 
 
+::: {align="justify" style="text-indent: 3em;"}
+
+O lucro médio dos `r nrow(filmes_cameron)` filmes listados na base Imdb foi de `r lucro_medio_filmes`. Avatar com um ganho de `r filmes_cameron$lucro[7]` e Titanic com um ganho de `r filmes_cameron$lucro[6]` foram os com maiores lucros.
 
 
-O lucro médio dos `r nrow(filmes_cameron)` filmes de James Cameron listados acima foi de `r lucro_medio_filmes`.
+:::
+
+<br>
+
+```{r tab11 - posicao avatar no ranking imdb}
+
+imdb_novo <- imdb_novo |> 
+  mutate(ranking = 0)
+
+imdb_novo_ordenado <- imdb_novo |> 
+  arrange(desc(nota_imdb)) |> 
+  mutate(ranking = c(1: length(imdb_novo$ranking)))
+
+
+tab10_posicao_imdb <- imdb_novo_ordenado |> 
+  filter(titulo == "Avatar") |> 
+  mutate(total_filmes = nrow(ranking)) |> 
+  select(titulo, direcao, nota_imdb, ranking) |> 
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                          # define o nome dos cabeçalhos da tabela.
+                  "Direção",
+                  "Nota IMDB",
+                  "Ranking IMDB"
+    ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "5cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "5cm"
+  ) |> 
+  column_spec(4, 
+              bold = FALSE,
+              width = "5cm"
+  ) |>
+  footnote(general = "Avatar - ranking e nota. fonte: Base de dados IMDB.",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Tabela 11:",
+  )
+
+
+tab10_posicao_imdb
+```
+
+<br>
+
+
+#### 7.4 - Posição de Avatar no ranking do maiores lucros
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+Entre todos os `r nrow(imdb_novo)` filmes, Avatar ocupa a primeira posição no *ranking*  de lucros. 
+:::
+
+<br>
+ 
+```{r tab12 - posicao de avatar no ranking lucros}
+
+imdb_filmes_dolares <- imdb_filmes_dolares |> 
+  mutate(ranking = 0)
+
+# Vamos construir a coluna com o ranking dos filmes de acordo com sua renda em dólares
+imdb_filmes_dolares_ordenado <- imdb_filmes_dolares |> 
+  arrange(desc(lucro)) |> 
+  mutate(ranking_dolar = c(1: length(imdb_filmes_dolares$ranking))) |> 
+  select(titulo, direcao, lucro, ranking_dolar) 
+
+
+tab11_posicao_dolar <- imdb_filmes_dolares_ordenado |> 
+  filter(titulo == "Avatar") |> 
+  mutate(lucro = paste("US$",format_dolar(lucro))) |> 
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                          # define o nome dos cabeçalhos da tabela.
+                  "Direção",
+                  "Lucro",
+                  "Ranking dólar"
+    ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "5cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "5cm"
+  ) |> 
+  column_spec(4, 
+              bold = FALSE,
+              width = "5cm"
+  ) |>
+  footnote(general = "Avatar - ranking de lucro. Fonte: Base de dados IMDB.",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Tabela 12:",
+  )
+
+
+tab11_posicao_dolar
+
+
+```
+
+#### 7.5 - Data de lançamento
+
+```{r tab13 - dados do dia semana do lancamento avatar}
+
+tab12_dia_semana <- imdb_novo_ordenado |> 
+  filter(titulo == "Avatar") |> 
+  mutate(data_lancamento_dia = wday(data_lancamento, week_start = getOption("lubridate.week.start", 7),
+                                    abbr = FALSE, label = TRUE)) |>
+  select(titulo, data_lancamento, data_lancamento_dia) |> 
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                          # define o nome dos cabeçalhos da tabela.
+                  "Data de lançamento",
+                  "Dia da semana"
+    ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "7.5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "7.5cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "5cm"
+  ) |>
+  footnote(general = "Dia de lançamento. Fonte: Base de dados IMDB.",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Tabela 13:",
+  )
+
+
+tab12_dia_semana
+
+```
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+A estreia nas salas de cinemas dos Estados Unidos ocorreu em `r imdb_novo_ordenado |> filter(titulo == "Avatar") |> select(data_lancamento)`, em uma sexta-feira. Neste dia, tinha exatos `r as.duration(year("2010-01-15") - year("1982-06-07"))` anos de idade. 
+
+:::
+
+```{r tab14 - dados dia lancamento Avatar - outros filmes}
+
+tab13_outros_filmes <- imdb_novo_ordenado |> 
+  filter(data_lancamento == "2010-01-15") |> 
+  select(titulo, data_lancamento, genero, nota_imdb,pais) |>
+  kbl(
+    align = "l",                                               # alinhamento do texto do cabeçalho à esquerda.
+    col.names = c("Título",                                          # define o nome dos cabeçalhos da tabela.
+                  "Data de Lançamento",
+                  "Gênero",
+                  "Nota IMDB",
+                  "País"
+    ),
+    full_width = TRUE
+  ) |> 
+  kable_styling(                                                          # altera as configurações da tabela.
+    bootstrap_options = c("striped", "condensed"),
+    html_font = "",
+    font_size = 10,
+    full_width = TRUE, 
+    fixed_thead = list(enabled = TRUE, background = "#EDF6FD")
+  ) |> 
+  kable_classic_2() |> 
+  column_spec(1,                                                        # altera as configurações das colunas.
+              bold = FALSE,
+              width = "5cm"
+  ) |>      
+  column_spec(2, 
+              bold = FALSE,
+              width = "5cm"
+  ) |> 
+  column_spec(3, 
+              bold = FALSE,
+              width = "5cm"
+  ) |> 
+  column_spec(4, 
+              bold = FALSE,
+              width = "5cm"
+  ) |>
+  column_spec(5, 
+              bold = FALSE,
+              width = "5cm"
+  ) |>
+  footnote(general = "Filmes lançados no mesmo dia. Fonte:Base de dados IMDB.",                           # cria rodapé.
+           footnote_as_chunk = TRUE,
+           fixed_small_size = TRUE,
+           general_title = "Tabela 14:",
+  )
+
+
+tab13_outros_filmes
+```
+
+<br>
+
+#### 7.6 - Distribuição de notas de Avatar por intervalo de classes de idade
+
+<br>
+
+```{r plot06 - notas médias imdb por faixa etária}
+#| echo = TRUE,
+#| fig.cap = "Gráfico 06 - Notas por faixa etária. Fonte: Base de dados Imdb",
+
+# Gráfico distribuição da nota do filme avatar por idade
+
+imdb_avaliacoes <- imdb_avaliacoes |> 
+  rename("[00-18)" = "nota_media_idade_0_18",
+         "[18-30)" = "nota_media_idade_18_30",
+         "[30-45)" = "nota_media_idade_30_45",
+         "[45-60)" = "nota_media_idade_45_mais")
+
+
+
+
+imdb_join_avatar_idades <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme") |> 
+  filter(titulo == "Avatar") |>
+  pivot_longer("faixas_etarias", values_to = "nota_media_idade", cols =c("[00-18)",
+                                                                         "[18-30)",
+                                                                         "[30-45)",
+                                                                         "[45-60)"
+  )
+  
+  ) |> 
+  group_by(faixas_etarias) |> 
+  summarise(nota_media_idade)
+
+
+cor <- c(                                                       # paleta  de cores para os elementos gráficos.
+  "#c42847", "#ffad05", "#7d5ba6", "#00bbf9"
+)
+
+
+plot06_medias_idade <- imdb_join_avatar_idades |> 
+  ggplot(aes(x=faixas_etarias, y = nota_media_idade, label = nota_media_idade))+
+  geom_col(width = 0.5,
+           fill = cor)+
+  geom_label(nudge_y = 0.5)+
+  labs(title = "Distribuição das Notas por Idade",
+       subtitle = "Notas médias por intervalo de classes do filme Avatar",
+       x = "Idade",
+       y = "Nota Média")+
+  theme_classic()+
+  theme_imdb() +
+  scale_y_continuous(expand =expansion(add = c(0, 0.5)),
+                     labels = scales::number_format(accuracy = 0.1,
+                                                    decimal.mark = ","))
+
+plot06_medias_idade
+
+```
+
+<br>
+
 
 # Conclusão
 

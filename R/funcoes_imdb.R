@@ -8,29 +8,30 @@ theme_imdb <- function() {
     plot.margin = unit(c(1, 1, 1, 1), "cm"),                                          # distância das margens.
     plot.title = element_markdown(                                            # título do gráfico em markdown.
       size = 24,
-      family = "Arial",                                                                     # fonte do título.
+      family = "",                                                                     # fonte do título.
       margin = unit(c(0, 0, 0.5, 0), "cm")                                                # margens do título.
     ), 
     plot.subtitle = element_text(                                                        #textos do subtitulo.
       size = 14,
-      family = "Arial",   
+      family = "",   
     ),
     text = element_text(                                                                  # textos do gráfico.
-      family = "Arial",    
+      family = "",    
       color = "#000000",
       size = 14
     ),
     axis.text.x = element_text(                                                             # texto do eixo x.
       color = "#000000",       
-      size = 15,
-      margin = unit(c(0.3, 0, 0.5, 0), "cm")  
+      size = 11,
+      margin = unit(c(0.5, 0, 0.5, 0), "cm")  
     ),
-    axis.text.y = element_markdown(                                                         # texto do eixo y.
+    axis.text.y = element_text(                                                         # texto do eixo y.
       color = "#000000",    
-      size = 15,
-      family = "Arial", 
+      size = 11,
+      family = "", 
+      margin = unit(c(0, 0.5, 0, 0.5), "cm") 
     ),
-    axis.ticks.x = element_line(color = "#1F1F1F"),                                         # ticks do eixo x.
+    axis.ticks.x = element_line(color = "#000000"),                                         # ticks do eixo x.
     axis.line.x = element_line(color = "#1F1F1F"),                                   # cor da linha do eixo x.
     axis.ticks.y = element_line(color = "#1F1F1F"),                             # padrões dos ticks do eixo x.
     axis.line.y = element_line(
@@ -41,7 +42,7 @@ theme_imdb <- function() {
       size = 16,
       hjust = 0.5,
     ),
-    legend.position = "none"                                                               # exclui a legenda.
+    legend.position = "none",                                                              # exclui a legenda.
   ) 
 }
 

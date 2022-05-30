@@ -17,9 +17,9 @@ a) Quem dirigiu o filme? Faça uma ficha dessa pessoa:
 	- qual o lucro médio dos filmes que dirigiu (considerando apenas valores em dólar) 
 	e outras informações que achar interessante (base `imdb_pessoas`).                                             OK
 
-b) Qual a posição desse filme no ranking de notas do IMDB? E no ranking de lucro (considerando apenas valores em dólar)?
+b) Qual a posição desse filme no ranking de notas do IMDB? E no ranking de lucro (considerando apenas valores em dólar)?  OK
 
-c) Em que dia esse filme foi lançado? E dia da semana? Algum outro filme foi lançado no mesmo dia? Quantos anos você tinha nesse dia?
+c) Em que dia esse filme foi lançado? E dia da semana? Algum outro filme foi lançado no mesmo dia? Quantos anos você tinha nesse dia?  OK
 
-d) Faça um gráfico representando a distribuição da nota atribuída a esse filme por idade (base `imdb_avaliacoes`).
+d) Faça um gráfico representando a distribuição da nota atribuída a esse filme por idade (base `imdb_avaliacoes`).    
 
