@@ -8,7 +8,7 @@ theme_imdb <- function() {
     plot.margin = unit(c(1, 1, 1, 1), "cm"),                                          # distância das margens.
     plot.title = element_markdown(                                            # título do gráfico em markdown.
       size = 24,
-      family = "",                                                                     # fonte do título.
+      family = "",                                                                          # fonte do título.
       margin = unit(c(0, 0, 0.5, 0), "cm")                                                # margens do título.
     ), 
     plot.subtitle = element_text(                                                        #textos do subtitulo.
@@ -25,7 +25,7 @@ theme_imdb <- function() {
       size = 11,
       margin = unit(c(0.5, 0, 0.5, 0), "cm")  
     ),
-    axis.text.y = element_text(                                                         # texto do eixo y.
+    axis.text.y = element_text(                                                            # texto do eixo y.
       color = "#000000",    
       size = 11,
       family = "", 
@@ -48,7 +48,6 @@ theme_imdb <- function() {
 
 
 # função formata valores em dólares
-
 
 format_dolar <- function(valores, nsmall = 2) {
   valores |> 
