@@ -22,12 +22,12 @@ theme_imdb <- function() {
     ),
     axis.text.x = element_text(                                                             # texto do eixo x.
       color = "#000000",       
-      size = 11,
+      size = 14,
       margin = unit(c(0.5, 0, 0.5, 0), "cm")  
     ),
     axis.text.y = element_text(                                                            # texto do eixo y.
       color = "#000000",    
-      size = 11,
+      size = 14,
       family = "", 
       margin = unit(c(0, 0.5, 0, 0.5), "cm") 
     ),
