@@ -6,12 +6,7 @@
 
 
 
-# 1. NSTALAÇÃO DE PACOTES E LEITURA DA BASE ---------------------------------------------------
-
-remotes::install_github("curso-r/basesCursoR")
-imdb <- basesCursoR::pegar_base("imdb_completa")
-imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
-imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
+# 1. NSTALAÇÃO DE PACOTES ---------------------------------------------------------------------
 
 library(readr)                                                                                      # leitura.
 library(tidyverse)                                                                              # manipulação.
@@ -36,10 +31,10 @@ source("R/funcoes_imdb.R")                                                   # l
 
 # 3. LEITURA DAS BASES EM DATA-RAW ----------------------------------------------------------------------
 
-imdb <- read_rds("data-raw/imdb.rds")
-imdb_avaliacoes <- read_rds("data-raw/imdb_avaliacoes.rds")
-imdb_pessoas <- read_rds("data-raw/imdb_pessoas.rds")
-
+#remotes::install_github("curso-r/basesCursoR")
+imdb <- basesCursoR::pegar_base("imdb_completa")
+imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
+imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
 
 
 # 4. ANÁLISES -------------------------------------------------------------------------------------------
@@ -176,15 +171,16 @@ mes_maior_lancamento <- imdb_datas |>
   arrange(desc(qte))
 
 
-# define condicção para formatar o valor de qte para a tabela 01
+# define condição para formatar o valor de qte para a tabela 01
 mes_maior_lancamento_tab01 <- mes_maior_lancamento
 
-mes_maior_lancamento_tab01$qte = cell_spec(mes_maior_lancamento_tab01$qte,        # destacar a qte  na tabela.
-                      color = ifelse(mes_maior_lancamento_tab01$qte >= 380,
-                                     "red",
-                                     "blue"
-                                     )
-)
+mes_maior_lancamento_tab01[[3]] <-  cell_spec(mes_maior_lancamento_tab01[[3]],    # destacar a qte  na tabela.
+                                              color = ifelse(mes_maior_lancamento_tab01[[3]] >= 380,
+                                                             "#B80C09",
+                                                             "#3F88C5"
+                                                             ),
+                                              bold = TRUE
+                                              )
 
 ### selecionar apena a primeira linha
 
@@ -192,7 +188,7 @@ mes_maior_lancamento_tab01 <- mes_maior_lancamento_tab01 |>
   head(n=1)
 
 
-### Tabela 01 - maior quantidade de filmes em um mês----
+### Tabela 01 - maior quantidade de filmes em um mês
 
 tab01 <-  mes_maior_lancamento_tab01 |>                      
   kbl(align = "l",                                                                   # alinhamento dos textos.
@@ -393,16 +389,19 @@ mes_maior_lancamento_geral <- imdb_datas |>
 
 # configura qte do mes com mais lançamento para tabela 03
 
-mes_maior_lancamento_geral$qte <- cell_spec(mes_maior_lancamento_geral$qte,
-                                            color = ifelse(mes_maior_lancamento_geral$qte>=8000,
+mes_maior_lancamento_tab03 <- mes_maior_lancamento_geral
+
+mes_maior_lancamento_tab03[[2]] <- cell_spec(mes_maior_lancamento_tab03[[2]],
+                                            color = ifelse(mes_maior_lancamento_tab03[[2]] >=8000,
                                                            "red", "blue"),
-                                            bold = ifelse(mes_maior_lancamento_geral$qte>=8000,
-                                                          TRUE, FALSE))
+                                            bold = ifelse(mes_maior_lancamento_tab03[[2]] >=8000,
+                                                          TRUE, FALSE)
+                                            )
 
 
-# Tabela 03 - Mês com maior número de lançamentos  ------
+### Tabela 03 - Mês com maior número de lançamentos  ------
 
-tab03 <- mes_maior_lancamento_geral |> 
+tab03 <- mes_maior_lancamento_tab03 |> 
   kbl(align = "l",                                                                   # alinhamento dos textos.
       col.names = c("Mês",                                                        
                     "Quantidade de Filmes"
@@ -439,10 +438,6 @@ tab03 <- mes_maior_lancamento_geral |>
 tab03    
 
   
-  
-
-
-
 ## 4.3 CONSIDERANDO APENAS ORÇAMENTOS E RECEITAS EM DÓLARES ---- 
 
 #### considerando apenas o valores em dólares
@@ -602,13 +597,15 @@ plot03
 
 ### Obter os 5 países com mais filmes na base
 top_5_paises <- imdb_novo |> 
+  separate_rows(pais, sep = ", ") |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
   slice_head(n=5)
 
-### Tabela 04 paises maiores produtores de filmes ----
-tab04 <- top_5_paises |>                                                                        
+
+### Tabela 05 paises maiores produtores de filmes ----
+tab05 <- top_5_paises |>                                                                        
   kbl(align = "l",                                      
       col.names = c("País",                   
                     "Quantidade de Filmes"
@@ -641,18 +638,20 @@ tab04 <- top_5_paises |>
 
 # Visualiza a tabela paises maiores produtores de filmes
 
-tab04
+tab05
 
 
 # gráfico 04: paises e totais de lançamentos
 
 ### obter os 16 países com maiores quantidades de filmes lançados
 
-top_16_paises <- imdb_novo |> 
+top_22_paises <- imdb_novo |> 
+  separate_rows(pais, sep = ", ") |> 
   group_by(pais) |> 
   summarise(qtde = n()) |> 
   arrange(desc(qtde)) |> 
-  slice_head(n=16)
+  slice_head(n=22) 
+  
 
 # Paleta de cores para os elementos gráficos
 
@@ -660,12 +659,13 @@ cor <- c(
   "#c42847", "#ffad05", "#7d5ba6", "#00bbf9", "#2bc016",
   "#536265", "#536265", "#536265", "#536265", "#536265",
   "#536265", "#536265", "#536265", "#536265", "#536265",
-  "#536265"
+  "#536265", "#536265", "#536265", "#536265", "#536265",
+  "#536265", "#536265"
 )
 
 ### Gráfico 04 - com os 16 países com maior número de filmes produzidos ----
 
-plot04 <- top_16_paises |> 
+plot04 <- top_22_paises |> 
   ggplot(aes(y = fct_reorder(pais,      # reordenar a sequência dos países em ordem decrescente da quantidade.
                              qtde, 
                              .desc = FALSE
@@ -682,22 +682,22 @@ plot04 <- top_16_paises |>
              color = cor,
              hjust = -0.3
   ) +
-  geom_curve(aes(y = 14,                                                       # formatar curva para anotação.
+  geom_curve(aes(y = 18,                                                       # formatar curva para anotação.
                  x = 8000,  
-                 xend = 15000,     
-                 yend = 10
+                 xend = 16000,     
+                 yend = 16
   ),
   arrow = arrow(type = "closed",                                         # formata a seta da linha.
                 length = unit(0.02,
                               "npc"
                 )
   ),
-  curvature = -0.14,  
+  curvature = 0,  
   color = "#000000" 
   ) +
   geom_curve(aes(y = 1,                                                        # formatar curva para anotação.
-                 x = 3000,  
-                 xend = 9500,     
+                 x = 2500,  
+                 xend = 11000,     
                  yend = 2
   ),
   arrow = arrow(type = "closed",                                         # formata a seta da linha.
@@ -715,18 +715,17 @@ plot04 <- top_16_paises |>
     y = "Paises"
   )+
   scale_x_continuous(breaks = seq(0,
-                                  29000,
+                                  35000,
                                   2500
   ),
   limits = c(0,
-             29000
+             35000
   ),
   expand = expansion(add = c(0,
                              1500
   )
   ),
-  labels = scales::number_format(accuracy = 0.1,
-                                 decimal.mark = ",",
+  labels = scales::number_format(accuracy = 1,
                                  big.mark = "."
   )
   )+
@@ -738,14 +737,14 @@ plot04 <- top_16_paises |>
   theme_classic()+                                                                 # define o tema do gráfico.
   theme_imdb()+    
   annotate( "text",
-            x = 21000, y = 9, label = "Relação dos cinco países com mais lançamentos 
+            x = 21000, y = 15.5, label = "Relação dos cinco países com mais lançamentos 
             registrados na base IMDB",
             color = "#000000", 
             size = 4,
             family = ""
   )+
   annotate( "text",
-            x = 14000, y = 2, label = "Décima sexta posição do Brasil",
+            x = 14000, y = 2, label = "Vigésima segunda posição",
             color = "#000000", 
             size = 4,
             family = ""
@@ -759,14 +758,15 @@ plot04
 ### Análise dos filmes brasileiros com maior ranking
 
 top_5_filmes_brasil <- imdb_novo |> 
-  filter(pais == "Brazil" & num_avaliacoes >= 10000) |> 
+  separate_rows(pais, sep = ", ") |> 
+  filter(pais == "Brazil") |> 
   summarise( titulo, 
              ano, 
              genero, 
              nota_imdb,
              num_avaliacoes)|>
   arrange(desc(nota_imdb)) |> 
-  slice_head(n = 5)
+  slice_head(n=5)
 
 ### Tabela 05 - dos filmes brasileiros com maior ranking ----
 
@@ -872,7 +872,7 @@ moedas_orcamento_unificada<- left_join(x = moedas_orcamento,
 
 ### Tabela 06 - Relação de moedas na base ----
 
-tab06 <- moedas_orcamento_unificada |> 
+tab07 <- moedas_orcamento_unificada |> 
   kbl(
     align = "l",                                                      
     col.names = c("Moeda",                                                    
@@ -903,7 +903,7 @@ tab06 <- moedas_orcamento_unificada |>
 
 # visualiza a tabela 06 - relação de moedas da base
 
-tab06
+tab07
 
 ## 4.7 QUAIS GÊNEROS COM O MAIORES LUCROS ---------------------------------------------------------
 
@@ -946,7 +946,7 @@ lucros_genero <- imdb_filmes_dolares_genero |>
 
 ### Tabela 07 - Maiores lucros por gênero ----
 
-tab07 <- lucros_genero |> 
+tab08 <- lucros_genero |> 
   kbl(
     align = "l",                                      
     col.names = c("Gêneros",                          
@@ -980,7 +980,7 @@ tab07 <- lucros_genero |>
 
 # Visualiza a tabela 07 - Maiores lucros por gênero
 
-tab07
+tab08
 
 
 ### obter as dez categorias com maiores lucros pela quantidade de filmes da categoria
@@ -998,7 +998,7 @@ lucros_genero_filme <- imdb_filmes_dolares_genero |>
 
 ### Tabela 08 - generos com maiores lucros por quantidade de filmes ----
 
-tab08 <- lucros_genero_filme |> 
+tab09 <- lucros_genero_filme |> 
   kbl(
     align = "l",                            
     col.names = c("Gêneros",                  
@@ -1028,7 +1028,7 @@ tab08 <- lucros_genero_filme |>
 
 # Visualiza a tabela 08 - lucros por gênero e quantidade de filmes
 
-tab08
+tab09
 
 
 ## 4.8 QUAIS OS GÊNEROS COM AS MAIORES NOTAS MÉDIAS -----------------------------------------------
@@ -1243,8 +1243,15 @@ dados_james <- imdb_completa_pessoas |>
   select(titulo, direcao, local_nascimento, data_nascimento) |> 
   mutate(idade = year(Sys.Date())-year(data_nascimento))   # calcula a idade de James Cameron na data de hoje.
 
+dados_james[[5]] <- cell_spec(dados_james[[5]],
+                              color = ifelse(dados_james[[5]] == 68,
+                                             "#B80C09",
+                                             "#3F88C5"
+                                             )
+                              )
 
-tab09 <- dados_james |> 
+
+tab10 <- dados_james |> 
   kbl(align = "l",   
       col.names = c("Filme",
                     "Diretor", 
@@ -1252,7 +1259,8 @@ tab09 <- dados_james |>
                     "Data de Nascimento",
                     "Idade Atual"
       ),
-      full_width = TRUE
+      full_width = TRUE,
+      escape = FALSE
   ) |> 
   kable_styling(bootstrap_options = c("striped",                                  # define o estilo da tabela.
                                       "condensed"
@@ -1293,10 +1301,10 @@ tab09 <- dados_james |>
 
 # visualiza a tabela 09 - James Cameron
 
-tab09
+tab10
 
 
-# tabela 10 - Filmes de Cameron na Base
+# tabela 11 - Filmes de Cameron na Base
 
 ### encontra os filmes de Cameron e cria coluna lucro com moeda US$ para a tabela 10
 
@@ -1315,7 +1323,7 @@ filmes_cameron <- imdb_completa_pessoas |>
 
 ### Tabela 10 - Filmes de Cameron ----
 
-tab10 <- filmes_cameron|>
+tab11 <- filmes_cameron|>
   kbl(
     align = "l",                                               
     col.names = c("Título",                         
@@ -1363,9 +1371,9 @@ tab10 <- filmes_cameron|>
            general_title = "Tabela 10:"
   )
 
-# visualiza a tabela 10 - Filmes de Cameron
+# visualiza a tabela 11 - Filmes de Cameron
 
-tab10
+tab11
 
 
 lucro_medio_filmes <- imdb_completa_pessoas |> 
@@ -1374,7 +1382,7 @@ lucro_medio_filmes <- imdb_completa_pessoas |>
   mutate(lucro_medio = paste("US$",format_dolar(lucro_medio)))
 
 
-### tabela 11 - Avatar ranking e nota
+### tabela 12 - Avatar ranking e nota
 
 ### criar a coluna ranking
 
@@ -1387,21 +1395,33 @@ imdb_novo_ordenado <- imdb_novo |>
   arrange(desc(nota_imdb)) |> 
   mutate(ranking = c(1: length(imdb_novo$ranking)))
 
-### Tabela 11 - com dados de Avatar e sua posição no ranking ----
+### configura coluna ranking para tabela 12
 
-tab11 <- imdb_novo_ordenado |> 
+imdb_tab12 <- imdb_novo_ordenado |> 
   filter(titulo == "Avatar") |> 
   mutate(total_filmes = nrow(ranking)) |> 
   select(titulo, direcao,
          nota_imdb,
-         ranking) |> 
+         ranking) 
+
+imdb_tab12[[4]] <- cell_spec(imdb_tab12[[4]], 
+                             color = ifelse(imdb_tab12[[4]] >=2600,
+                                            "#B80C09",
+                                            "#3F88C5"
+                                            )
+                             )
+
+### Tabela 12 - com dados de Avatar e sua posição no ranking
+
+tab12 <- imdb_tab12 |> 
   kbl(align = "l",  
       col.names = c("Título",           
                     "Direção",
                     "Nota IMDB",
                     "Ranking IMDB"
       ),
-      full_width = TRUE
+      full_width = TRUE,
+      escape = FALSE
   ) |> 
   kable_styling(                                                                  # altera o estilo da tabela.
     bootstrap_options = c("striped",
@@ -1438,10 +1458,10 @@ tab11 <- imdb_novo_ordenado |>
 
 # visualiza a tabela 11 - Avatar ranking e nota
 
-tab11
+tab12
 
 
-# tabela 12 - Avatar - ranking de lucro
+# tabela 13 - Avatar - ranking de lucro
 
 # cria a coluna ranking_lucro
 
@@ -1458,9 +1478,7 @@ imdb_filmes_dolares_ordenado <- imdb_filmes_dolares |>
          ranking_dolar
   ) 
 
-
-
-p <- imdb_filmes_dolares |> 
+plot13 <- imdb_filmes_dolares |> 
   filter(direcao == "James Cameron") |>
   select(titulo, receita, orcamento, nota_imdb) |> 
   mutate(titulo = factor(titulo, titulo)) |> 
@@ -1489,28 +1507,38 @@ p <- imdb_filmes_dolares |>
 
   
 
-pp <-  ggplotly(p)
+pp13 <-  ggplotly(plot13)
   
 
-pp
+pp13
 
 
 
-### Tabela 12 - Avatar ranking de lucro ----
+### Tabela 13 - Avatar ranking de lucro ----
 
-tab12<- imdb_filmes_dolares_ordenado |> 
+imdb_tab13<- imdb_filmes_dolares_ordenado |> 
   filter(titulo == "Avatar") |> 
   mutate(lucro = paste("US$",
                        format_dolar(lucro)                        # cria coluna lucro com US$ para a tabela12.
-  )
-  ) |> 
+                       )
+         )
+
+imdb_tab13[[4]] <- cell_spec(imdb_tab13[[4]],
+                             color = ifelse(imdb_tab13[[4]] == 1, 
+                                            "#B80C09",
+                                            "#3F88C5"
+                                            )
+                             )
+
+tab13 <- imdb_tab13 |> 
   kbl(align = "l",  
       col.names = c("Título",                   
                     "Direção",
                     "Lucro",
                     "Ranking dólar"
       ),
-      full_width = TRUE
+      full_width = TRUE,
+      escape = FALSE
   ) |> 
   kable_styling(bootstrap_options = c("striped",                                  # define o estilo da tabela.
                                       "condensed"
@@ -1545,14 +1573,16 @@ tab12<- imdb_filmes_dolares_ordenado |>
   )
 
 
-# visualiza tabela 12 Avatar ranking de lucro
+# visualiza tabela 13 Avatar ranking de lucro
 
-tab12
+tab13
 
 
-### Tabela 13 - dia de lançamento ----
+### Tabela 14 - dia de lançamento ----
 
-tab13 <- imdb_novo_ordenado |> 
+### seleciona dados do filme Avatar
+
+imdb_tab14 <- imdb_novo_ordenado |> 
   filter(titulo == "Avatar") |> 
   mutate(data_lancamento_dia = wday(data_lancamento,
                                     week_start = getOption("lubridate.week.start",
@@ -1562,13 +1592,27 @@ tab13 <- imdb_novo_ordenado |>
                                     label = TRUE
   )
   ) |>
-  select(titulo, data_lancamento, data_lancamento_dia) |> 
+  select(titulo, data_lancamento, data_lancamento_dia) 
+
+
+### configura a coluna data_lancamento_dia para destaque na tabela 14
+imdb_tab14[[3]] <- cell_spec(imdb_tab14[[3]], 
+                                color = ifelse(imdb_tab14[[3]] == "sexta",
+                                               "#B80C09",
+                                               ""
+                                               )
+                                )
+
+# Tabela 14 - Dia da semana do lançamento
+
+tab14 <- imdb_tab14|> 
   kbl(align = "l",    
       col.names = c("Título", 
                     "Data de lançamento",
                     "Dia da semana"
       ),
-      full_width = TRUE
+      full_width = TRUE,
+      escape = FALSE
   ) |> 
   kable_styling(bootstrap_options = c("striped",                                  # define o estilo da tabela.
                                       "condensed"
@@ -1592,20 +1636,20 @@ tab13 <- imdb_novo_ordenado |>
               bold = FALSE,
               width = "5cm"
   ) |>
-  footnote(general = "Dia de lançamento. Fonte: Base de dados IMDB.",                    
+  footnote(general = "Dia da semana do lançamento. Fonte: Base de dados IMDB.",                    
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
            general_title = "Tabela 13:",
   )
 
-# visualiza a tabela 13 - dia de lançamento
+# visualiza a tabela 14 - dia de lançamento
 
-tab13
+tab14
 
 
-### Tabela 14 - filmes lançados no mesmo dia ----
+### Tabela 15 - filmes lançados no mesmo dia ----
 
-tab14<- imdb_novo_ordenado |> 
+tab15 <- imdb_novo_ordenado |> 
   filter(data_lancamento == "2010-01-15") |> 
   select(titulo,
          data_lancamento,
@@ -1657,9 +1701,9 @@ tab14<- imdb_novo_ordenado |>
            fixed_small_size = TRUE,
            general_title = "Tabela 14:",
   )
-# visualiza a tabela 14 - filmes lançados no mesmo dia
+# visualiza a tabela 15 - filmes lançados no mesmo dia
 
-tab14
+tab15
 
 
 # Gráfico distribuição da nota do filme avatar por idade
