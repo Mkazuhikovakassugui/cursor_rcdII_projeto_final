@@ -1682,7 +1682,7 @@ tab15 <- imdb_novo_ordenado |>
                      background = "#EDF6FD"
   )
   ) |> 
-  kable_classic_2() |>                                                               #define o tema da tabela.
+  kable_classic_2() |>                                                              #define o tema da tabela.
   column_spec(1,                                                
               bold = FALSE,
               width = "5cm"

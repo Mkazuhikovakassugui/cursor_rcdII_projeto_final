@@ -441,7 +441,6 @@ kbl(
   column_spec(2, 
               bold = FALSE,
               width = "4cm"
-              
               ) |>
   column_spec(3,
               bold = FALSE,
@@ -687,7 +686,7 @@ Outubro foi o mês, entre todos os meses, com o maior número de estreias, consi
 
 ```{r tab03 - mês histórico com o maior número de lançamentos}
 
-# tabela 03 - mês histórico com o maior número de lançamentos
+# tabela 03 - Mês com o maior número de lançamentos
 
 # encontrar os meses com os maiores números de lançamentos (geral)
 
@@ -710,7 +709,6 @@ mes_maior_lancamento_tab03[[2]] <- cell_spec(mes_maior_lancamento_tab03[[2]],
                                                              "#3F88C5"
                                                             )
                                              )
-
 
 # Tabela 03 - Mês com maior número de lançamentos
 
@@ -1399,7 +1397,6 @@ lucros_genero_filme <- imdb_filmes_dolares_genero |>
                              )
          )
 
-
 # Tabela 09 - generos com maiores lucros por quantidade de filmes
 
 tab09 <- lucros_genero_filme |> 
@@ -1760,7 +1757,6 @@ dados_james <- imdb_completa_pessoas |>
          data_nascimento
          ) |> 
   mutate(idade = year(Sys.Date())-year(data_nascimento))   # calcula a idade de James Cameron na data de hoje.
-
 
 # formatar a variável idade para a tabela 10
 
@@ -2222,7 +2218,6 @@ imdb_tab14 <- imdb_novo_ordenado |>
          ) |>
   select(titulo, data_lancamento, data_lancamento_dia) 
 
-
 ### configura a coluna data_lancamento_dia para destaque na tabela 14
 
 imdb_tab14[[3]] <- cell_spec(imdb_tab14[[3]], 
@@ -2369,6 +2364,12 @@ tab15
 
 <br>
 
+::: {align="justify" style="text-indent: 3em;"}
+Pode-se observar no gráfico 07 que as notas por faixa etária variaram pouco. A menor nota de 7.5 para o intervalo de 0 a 18 anos e a maior nota de 7.9 para a classe de pessoas com mais de 45 anos.
+:::
+
+<br>
+
 ```{r plot07 - notas médias imdb por faixa etária}
 #| echo = TRUE,
 #| fig.cap = "Gráfico 07 - Notas por faixa etária. Fonte: Base de dados Imdb",
@@ -2381,7 +2382,7 @@ imdb_avaliacoes <- imdb_avaliacoes |>
   rename("[00-18)" = "nota_media_idade_0_18",
          "[18-30)" = "nota_media_idade_18_30",
          "[30-45)" = "nota_media_idade_30_45",
-         "[45-60)" = "nota_media_idade_45_mais")
+         "[45-ou mais)" = "nota_media_idade_45_mais")
 
 # join das base imdb e imdb_avaliações
 
@@ -2392,12 +2393,11 @@ imdb_join_avatar_idades <- left_join(imdb_novo, imdb_avaliacoes, by = "id_filme"
                cols =c("[00-18)",
                        "[18-30)",
                        "[30-45)",
-                       "[45-60)"
+                       "[45-ou mais)"
                        )
                ) |> 
   group_by(faixas_etarias) |> 
   summarise(nota_media_idade)
-
 
 # cria paleta de cores para o gráfico
 
