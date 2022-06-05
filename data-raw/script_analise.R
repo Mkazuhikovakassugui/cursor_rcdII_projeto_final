@@ -18,28 +18,17 @@ library(gghighlight)                                                            
 library(ggtext)                                                                      # extensão para gráficos.
 library(ggthemes)                                                                     # temas para relatórios.
 library(here)                                                                           # endereços relativos.
-library(scales)                                              # com métodos para formatação de labels de plots.
-source("R/funcoes_imdb.R")                                                   # leitura das funções criadas.
+library(scales)                                                               # formatação de labels de plots.
+source("R/funcoes_imdb.R")                                                      # leitura das funções criadas.
 
-# 2. SALVAR AS BASES EM DATA-RAW ------------------------------------------------------------------------
-
-
-# write_rds(imdb, "data-raw/imdb.rds")
-# write_rds(imdb_avaliacoes, "data-raw/imdb_avaliacoes.rds")
-# write_rds(imdb_pessoas, "data-raw/imdb_pessoas.rds")
-
-
-# 3. LEITURA DAS BASES EM DATA-RAW ----------------------------------------------------------------------
-
-#remotes::install_github("curso-r/basesCursoR")
+# 2. CARREGAR AS BASES -------------------------------------------------------------------------
 imdb <- basesCursoR::pegar_base("imdb_completa")
 imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
 imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
 
+# 2. ANÁLISES ----------------------------------------------------------------------------------
 
-# 4. ANÁLISES -------------------------------------------------------------------------------------------
-
-## 4.1 QUAL O MÊS DO ANO COM O MAIOR NÚMERO DE FILMES: E O DIA DO ANO? ----------------------------------
+## 2.1 QUAL O MÊS DO ANO COM O MAIOR NÚMERO DE FILMES: E O DIA DO ANO? -------------------------
 
 ### Descobrir qual mês em todo o conjunto de dados teve o maior número de filmes lançados
 
@@ -51,6 +40,9 @@ glimpse(imdb)
 #### ------------------> receita         = "chr"
 #### ------------------> receita_eua     = "chr"
 #### ------------------> orcamento       = "chr"
+
+glimpse(imdb_pessoas)
+glimpse(imdb_avaliacoes)
 
 ### Diferença entre ano e data de lançamento
 
@@ -76,7 +68,10 @@ skimr::skim(imdb_novo)
 ### ------------------> demais dados com índices de preenchimento superiores a 86,3%
 
 
-### Gráfico "Evolução da Indústria Cinematográfica ----
+### Gráfico "Evolução da Indústria Cinematográfica ------------------------------------------------
+
+### Curiosidade da base, descobrir como ocorreu a evolução da indústria cinematográfica em termos de quatidade
+### de obras produzidas ao longo da história. Gerar gráfico para a seção 1 do relatório com os resultados.
 
 p01 <- imdb_novo |> 
   mutate(ano_lancamento = year(data_lancamento)) |>                     # cria a coluna com ano de lançamento.
@@ -146,11 +141,12 @@ p01 |>
   ggplotly()  
 
 
+### Tabela 01: Maior quantidade de filmes em um mês ------------------------------------------------
 
- 
-### Tabela 01: Maior quantidade de filmes em um mês ----
+### nesta análise vamos descobrir qual o mês com o maior número de filmes por ano. Ainda não determinaremos
+### qual o mês com o maior número de filmes no geral. Elaborar a tabela 01 para o relatório.
 
-# criar a coluna mes
+# criar a coluna mes a partir da data de lançamento do filme.
 
 imdb_datas <- imdb_novo |>
   mutate(mes = month(data_lancamento,                                                         
@@ -159,7 +155,7 @@ imdb_datas <- imdb_novo |>
                      )
          )
 
-# encontrar o mês histórico com o maior número de lançamentos.
+# encontrar o mês com o maior número de lançamentos discriminados por ano
 
 mes_maior_lancamento <- imdb_datas |>                        
   group_by(mes,
@@ -171,7 +167,8 @@ mes_maior_lancamento <- imdb_datas |>
   arrange(desc(qte))
 
 
-# define condição para formatar o valor de qte para a tabela 01
+# define condição para formatar o valor de qte para a tabela 01 (destacar o resultado em vermelho)
+
 mes_maior_lancamento_tab01 <- mes_maior_lancamento
 
 mes_maior_lancamento_tab01[[3]] <-  cell_spec(mes_maior_lancamento_tab01[[3]],    # destacar a qte  na tabela.
@@ -182,7 +179,7 @@ mes_maior_lancamento_tab01[[3]] <-  cell_spec(mes_maior_lancamento_tab01[[3]],  
                                               bold = TRUE
                                               )
 
-### selecionar apena a primeira linha
+### selecionar a primeira linha
 
 mes_maior_lancamento_tab01 <- mes_maior_lancamento_tab01 |>   
   head(n=1)
@@ -229,12 +226,15 @@ tab01 <-  mes_maior_lancamento_tab01 |>
 
 # visualiza a tabela 01
 
-tab01     
+tab01    
 
 
-### Gráfico 02 - meses com maiores totais de lançamentos
+### Determinar não apenas o mês com maior número de lançamentos por ano, mas os 13 meses para a construção
+### do gráfico 02
 
-# encontrar os 13 meses com maiores totais de lançamentos
+### Gráfico 02 - meses com maiores totais de lançamentos por ano
+
+# encontrar os 13 meses com maiores totais de lançamentos por ano
 
 meses_mais_qte <- mes_maior_lancamento |> 
   group_by(qte, ano) |>
@@ -250,7 +250,7 @@ cores_plot02 <- c("#CC5A71", "#536265", "#536265", "#536265", "#536265","#536265
                   "#536265", "#536265", "#536265", "#536265", "#536265","#536265",
                   "#536265")
 
-### Gráfico 01 - meses com maiores totais de lançamentos ----
+### Gráfico 01 - meses com maiores totais de lançamentos --------------------------------------------
 
 plot02 <- meses_mais_qte|> 
   ggplot(aes(x = fct_reorder(mes_ano, 
@@ -305,6 +305,9 @@ plot02 <- meses_mais_qte|>
 plot02    
   
   
+### Descoberto qual o mês com o maior número de lançamentos por ano, encontrar quais são os filmes deste mês
+##$ com as maiores notas imdb. Filtrar aqueles com mais de 100000 avaliações. Para a tabela 02 do relatório.
+
 ### Tabela 02: Top 5 filmes
 
 ### Obtenção da relação dos 5 filmes  de outubro de 2018 por ranking
@@ -376,8 +379,9 @@ tab02 <- mes_maior_lancamento |>
 
 tab02
 
+### DESCOBRIR O MÊS COM O MAIOR NÚMERO DE LANÇAMENTOS NO GERAL
 
-### Analisando toda a base, qual o mês com o maior número de lançamentos (geral)
+### Analisando toda a base, qual o mês com o maior número de lançamentos
 
 mes_maior_lancamento_geral <- imdb_datas |>                        
   group_by(mes
@@ -393,13 +397,13 @@ mes_maior_lancamento_tab03 <- mes_maior_lancamento_geral
 
 mes_maior_lancamento_tab03[[2]] <- cell_spec(mes_maior_lancamento_tab03[[2]],
                                             color = ifelse(mes_maior_lancamento_tab03[[2]] >=8000,
-                                                           "red", "blue"),
+                                                           "red", ""),
                                             bold = ifelse(mes_maior_lancamento_tab03[[2]] >=8000,
                                                           TRUE, FALSE)
                                             )
 
 
-### Tabela 03 - Mês com maior número de lançamentos  ------
+### Tabela 03 - Mês com maior número de lançamentos  -----------------------------------------------
 
 tab03 <- mes_maior_lancamento_tab03 |> 
   kbl(align = "l",                                                                   # alinhamento dos textos.
@@ -438,9 +442,9 @@ tab03 <- mes_maior_lancamento_tab03 |>
 tab03    
 
   
-## 4.3 CONSIDERANDO APENAS ORÇAMENTOS E RECEITAS EM DÓLARES ---- 
+## 4.3 CONSIDERANDO APENAS ORÇAMENTOS E RECEITAS EM DÓLARES -------------------------------------------
 
-#### considerando apenas o valores em dólares
+#### preparar a base para encontrar a respostas para as questões que envolvem lucro (filmes em dólares apenas)
 
 imdb_filmes_dolares <- imdb_novo |>
   filter(str_detect(orcamento, pattern = "\\$.*"))
@@ -466,6 +470,9 @@ imdb_filmes_dolares <- imdb_filmes_dolares |>
 
 ## 4.4 QUAL O DIA COM O MAIOR NÚMERO DE LANÇAMENTOS---------------------------------------------------
 
+### Assim como descobrimos o mês com o maior número de lançamentos, descobriremos qual o dia com maior número
+### de lançamentos
+
 ### Tabela 04 - Dia com o maior número de lancamentos
 
 ### Obter o dia com o maior número de lançamentos
@@ -477,12 +484,12 @@ dia_maior_lancamento <- imdb_novo |>
   slice_max(order_by = qtde)                         # obtem o maior valor ordenado pela quantidade de filmes.
 
 
-### configurar valor qtde lançamentos para a tabela 04
+### configurar valor qtde lançamentos para a tabela 04 (destacar o resultado em vermelho)
 
 dia_maior_lancamento[[2]][1] <- cell_spec(dia_maior_lancamento[[2]][1], 
                                           color = ifelse(dia_maior_lancamento[[2]][1]==7260,
                                                          "red",
-                                                         "blue"
+                                                         ""
                                                          ),
                                           bold = ifelse(dia_maior_lancamento[[2]][1]==7260,
                                                         TRUE,
@@ -851,8 +858,8 @@ moedas_orcamento <- moedas_orcamento |>
   mutate(moeda = str_trim(moeda)) |> 
   mutate(moeda = str_replace(moeda, pattern = "\\$",            # substituir o símbolo de moeda de $ para USD.
                              replacement = "USD"
-  )
-  )
+                             )
+         )
 
 ### Base de dados em xlsx com as moedas e suas divisas para operação de join
 
@@ -1234,7 +1241,7 @@ imdb_completa_pessoas <- imdb_completa_pessoas |>
   rename("direcao" = "nome")
 
 
-### tabela 09 - James Cameron ----
+### tabela 10 - James Cameron ----
 
 ### Selecionar dados de James Cameron
 
@@ -1771,7 +1778,12 @@ plot06
 
 
 
+# tradução da descrição do filme Avatar
 
+imdb |> 
+  filter(titulo == "Avatar") |> 
+  select(descricao) |> 
+  write_csv("data/avatar_descricao.csv")
 
 
 

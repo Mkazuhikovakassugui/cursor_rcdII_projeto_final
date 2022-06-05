@@ -1,5 +1,5 @@
 ---
-title: "I see you"
+title: "I see you!"
 subtitle: "Base de Dados IMDB"
 author: "Marcio Vakassugui"
 date: "2022-05-10"
@@ -37,9 +37,11 @@ knitr::opts_chunk$set(
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-O presente trabalho foi elaborado tendo como propósito analisar os dados de uma das maiores bases pesquisáveis sobre filmes e séries do mundo e transformar estes dados brutos em informações. Trata-se da base IMDB (*Internet Move Database*) disponíbilizada por um dos mais respeitados *sites* de crítica popular de filmes. 
+O presente trabalho foi elaborado tendo como propósito analisar os dados de uma das maiores bases pesquisáveis sobre filmes, séries e celebridades do mundo e transformar estes dados em informações. Trata-se da base Imdb (*Internet Move Database*), criada em 1990 por Col Needham, no Reino Unido, e comprada pela *Amazon* em 1998.
 
-Aos apaixonados pela sétima arte, que não abrem mão do prazer em assistir a um filme, no aconchego de casa ou em uma sessão de cinema, trarei algumas curiosidades da indústria cinematográfica e , em especial, de um filme que impressionou o público em 2009 com a qualidade dos efeitos visuais e que deve retornar às telas dos cinemas para a continuação da saga com o episódio *The Way of Water* (capitulo 2) de Avatar, um dos maiores sucessos de bilheteria da história, dirigido por James Cameron.
+Aos apaixonados pela sétima arte, que não abrem mão do prazer em assistir a um filme, no aconchego de casa ou em uma sessão de cinema, trarei algumas curiosidades da indústria cinematográfica, em especial, de um filme que impressionou o público em 2010 com a qualidade dos efeitos visuais, e que deve retornar às telas dos cinemas para a continuação da saga com o episódio "*The Way of Water*" (capítulo 2) de **Avatar**, um dos maiores sucessos de bilheteria da história, dirigido por James Cameron.
+
+De acordo com o site "*Avatar wiki*", **I see you** é uma saudação. Na língua Na'vi é expresso por **Oel ngati kame** para uma saudação neutra ou **Oel ngati kameie** para expressar um sentimento positivo sobre conhecer alguém. Também é o tema principal do filme, interpretado por Leona Lewis e produzido por James Horner e Simon Franglen.
 
 
 ```{r figura 01 -  avatar 2}
@@ -50,10 +52,9 @@ Aos apaixonados pela sétima arte, que não abrem mão do prazer em assistir a u
 knitr::include_graphics("https://i.imgur.com/gvwmCrU.jpeg")
 ```
 
-Caso queiram ver os códigos em R que geraram as visualizações deste trabalho, estarão disponíveis ao lado das tabelas e gráficos por meio dos botões `CODE`.
+Caso desejem ver os códigos que geraram as visualizações deste trabalho, eles estarão disponíveis ao lado das tabelas e gráficos por meio dos botões `CODE`.
 
 :::
-
 
 ```{r carregar os pacotes}
 #| echo = FALSE
@@ -110,13 +111,13 @@ imdb_novo <- imdb |>
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-As informações foram obtidas a partir das bases ***imdb***, com dados gerais dos filmes e séries, ***imdb_pessoas***, com dados sobre os elencos, diretores e roteiristas e ***imdb_avaliacoes***, com as notas médias e dados de classificações.
+As informações foram obtidas a partir das bases "***Imdb***", que contém os dados gerais dos filmes e séries, "***Imdb_pessoas***", com os dados sobre os elencos, diretores e roteiristas e "***Imdb_avaliacoes***", com as notas médias e os dados de classificações.
 
-O *imdb* possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis de filmes produzidos entre 1894 e 2020. O *imdb_pessoas* por sua vez conta com  `r nrow(imdb_pessoas)` linhas e `r ncol(imdb_pessoas)` colunas e o *imdb_avaliacoes* com um total de `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas.
+A base "*Imdb*" possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis de filmes produzidos entre 1894 e 2020. A "*imdb_pessoas*" por sua vez conta com  `r nrow(imdb_pessoas)` linhas e `r ncol(imdb_pessoas)` colunas e a "*imdb_avaliacoes*" com um total de `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas.
+
+Na seção de anexos, ao final deste relatório, disponibilizo os dicionários das bases com as listas de variáveis e definições. 
 
 As operações de importação, arrumação, transformação e visualização dos dados foram realizadas por meio da linguagem R, seus pacotes e extensões.
-
-Na seção Anexos, ao final deste relatório, disponilizamos os dicionários das bases com a lista de variáveis e definições. 
 
 :::
 
@@ -128,9 +129,9 @@ Na seção Anexos, ao final deste relatório, disponilizamos os dicionários das
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Em 28 de setembro de 1895, os irmãos Lumière realizaram a primeira exibição pública do cinematógrafo, uma invenção que imprimia uma sucessão de fotos em um filme de celulose e que por meio de uma manivela reproduzia as imagens em sequência, transformando as figuras estáticas em imagens dinâmicas projetadas sobre uma tela. Desde então, milhares de filmes foram produzidos, tendo o auge em quantidades de produções em 2018 e interrompida pela pandemia de SARS COV-2.
+Em 28 de setembro de 1895, os irmãos Lumière realizaram a primeira exibição pública do cinematógrafo, uma invenção que imprimia uma sucessão de fotos em um filme de celulose e que por meio de uma manivela reproduzia as imagens em sequência, transformando as figuras estáticas em imagens dinâmicas projetadas sobre uma tela. Desde então, milhares de filmes foram produzidos, alcançando o auge em 2018.
 
-De acordo com a base *imdb*, podemos observar no gráfico abaixo que a quantidade de filmes produzidos evoluiu de 1 obra em 1894 para 271 obras em 1946, pós Segunda Guerra Mundial, e então para 3281 lançamentos em 2018. Entretanto, com o isolamento do público devido à pandemia, a indústria cinematográfica, mais dependente dos serviços de streaming, adiou os lançamentos de seus filmes, provocando a redução no número de produções como pode ser observado no gráfico 01.
+Pode-se observar no gráfico 01 que a quantidade de filmes produzidos evoluiu de 1 obra em 1894 para 271 obras em 1946, pós Segunda Guerra Mundial, e então para 3281 lançamentos em 2018. Entretanto, com o isolamento do público devido à pandemia de COVID 19, a indústria cinematográfica adiou os lançamentos de seus filmes, provocando a redução do número de produções nos anos seguintes.
 :::
 
 
@@ -212,7 +213,7 @@ p01 |>
 ### 2. A maior quantidade de filmes produzidos em um mês individualizados por ano
 
 ::: {align="justify" style="text-indent: 3em;"}
-O ano de 2018 teve o maior números de *premieres* da história e em outubro desse ano, o maior número de estreias em um mês. Foram 386 obras cinematográficas.
+O ano de 2018 teve o maior número de estreias da história e em outubro deste ano (2018) o maior número de estreias em um mês com 386 obras cinematográficas, superando o número de lançamentos registrados até então de setembro de 2017.
 
 :::
 
@@ -286,7 +287,7 @@ tab01 <-  mes_maior_lancamento_tab01 |>
   column_spec(3,
               width = "10cm"
               ) |> 
-  footnote(general = "Maior quantidade de filmes em um mês. Fonte: Base de dados IMDB.",
+  footnote(general = "Maior quantidade de filmes em um mês por ano. Fonte: Base de dados IMDB.",
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
            general_title = "Tabela 01:"
@@ -301,15 +302,14 @@ tab01
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Esse mês, superou o maior total de lançamentos registrados até então, setembro de 2017, quando ocorreram 358 estreias. No gráfico 02, temos a relação dos 13 meses com os maiores números de *premieres*, todos entre os anos de 2014 e 2018, período de maior produção cinematográfica da história, como destacado no gráfico 01.
-
+No gráfico 02, tem-se os 13 meses com os maiores números de filmes, todos entre os anos de 2014 e 2018, período de maior produção cinematográfica (vide gráfico 01).
 :::
 
 
 ```{r plot02 - total de lançamentos x mês}
 #| fig.height = 8,
 #| fig.width = 14,
-#| fig.cap = "Gráfico 02 - Meses com maiores totais de lançamentos. Fonte: Base de dados Imdb",
+#| fig.cap = "Gráfico 02 - Meses com os maiores números de lançamentos por ano. Fonte: Base de dados Imdb",
 
 # Gráfico 02 - meses com maiores totais de lançamentos
 
@@ -393,7 +393,9 @@ plot02
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Na tabela 02, temos os 5 filmes deste mês de outubro com as maiores notas médias. Consideramos somente os filmes com mais de 100000 avaliações. 
+Na tabela 02, listo os 5 filmes deste mês de outubro com as maiores notas médias, considerando apenas os filmes com mais de 100000 avaliações.
+
+<br>
 
 :::
 ```{r tab02 - 5 filmes de outubro de 2018 com maior ranking }
@@ -474,7 +476,7 @@ tab02
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Abaixo, apresentamos um resumo elaborado a partir dos dados da base *imdb* e uma breve sinopse destes filmes .
+Abaixo, apresento um resumo de cada um dos 5 filmes, a partir dos dados da base Imdb, com uma breve sinopse.
 :::
 
 <br>
@@ -533,10 +535,13 @@ knitr::include_graphics(imdb_nasce_uma_estrela$thumbnail_nasce_uma_estrela)
 
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_nasce_uma_estrela$titulo`**" foi  lançado  no Brasil como "**Nasce uma Estrela**". Pertence aos gêneros `r imdb_nasce_uma_estrela$genero`. Sua *premier* ocorreu em `r imdb_nasce_uma_estrela$data_lancamento`,  com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`. Roteiro de `r imdb_nasce_uma_estrela$roteiro`.  
+O filme "**`r imdb_nasce_uma_estrela$titulo`**" foi  lançado  no Brasil como "**Nasce uma Estrela**". Pertence aos gêneros **`r imdb_nasce_uma_estrela$genero`**. Sua *premiere* ocorreu em `r imdb_nasce_uma_estrela$data_lancamento`,  com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`. Roteiro de `r imdb_nasce_uma_estrela$roteiro`.  
+
 Contou com a participação de `r imdb_nasce_uma_estrela$elenco` em seu elenco.  
+
 A obra teve um orçamento, de acordo com a base, de US`r imdb_nasce_uma_estrela$orcamento/1000000` milhões e uma receita de US`r round(imdb_nasce_uma_estrela$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_nasce_uma_estrela$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_nasce_uma_estrela$lucro/1000000,2)` milhões.  
-**Sinopse: Um experiente músico descobre a jovem artista desconhecida a quem ajuda a encontrar fama, mas acaba se apaixonando por ela. O relacionamento pessoal entre os dois começa a desandar à medida que Jack luta contra problemas com alcolismo.**  
+
+**Sinopse: Um experiente músico descobre a jovem artista desconhecida a quem ajuda a encontrar fama, mas acaba se apaixonando por ela. O relacionamento pessoal entre os dois começa a desandar à medida que Jack luta contra problemas com alcoolismo.**  
 ***Fonte: [imdb-Nasce uma estrela](https://www.imdb.com/title/tt1517451/?ref_=fn_al_tt_1)***
 :::
 <br>
@@ -561,10 +566,12 @@ knitr::include_graphics(imdb_searching$thumbnail_searching)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_searching$titulo`**" foi  lançado  no Brasil como "**Buscando**". Pertence aos gêneros `r imdb_searching$genero`. Sua *premier* ocorreu em `r imdb_searching$data_lancamento`,  com duração de `r imdb_searching$duracao` minutos sob a direção de `r imdb_searching$direcao`. Roteiro de `r imdb_searching$roteiro`.  
+O filme "**`r imdb_searching$titulo`**" foi  lançado  no Brasil como "**Buscando**". Pertence aos gêneros **`r imdb_searching$genero`**. Sua *premiere* ocorreu em `r imdb_searching$data_lancamento`,  com duração de `r imdb_searching$duracao` minutos sob a direção de `r imdb_searching$direcao`. Roteiro de `r imdb_searching$roteiro`.  
 
 Contou com a participação de `r imdb_searching$elenco` em seu elenco.  
+
 A obra teve um orçamento, de acordo com a base, de US`r imdb_searching$orcamento/1000000` milhões e uma receita de US`r round(imdb_searching$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_searching$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_searching$lucro/1000000,2)` milhões.  
+
 **Sinopse: Depois que sua filha de 16 anos desaparece, um pai desesperado entra em seu laptop procurando pistas para encontrá-la.**  
 ***Fonte: [imdb-buscando](https://www.imdb.com/title/tt7668870/?ref_=fn_al_tt_1)***
 
@@ -591,9 +598,12 @@ knitr::include_graphics(imdb_firstman$thumbnail_firstman)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_firstman$titulo`**" foi  lançado  no Brasil como "**O Primeiro Homem**". Pertence aos gêneros `r imdb_firstman$genero`. Sua *premier* ocorreu em `r imdb_firstman$data_lancamento`,  com duração de `r imdb_firstman$duracao` minutos sob a direção de `r imdb_firstman$direcao`. Roteiro de `r imdb_firstman$roteiro`.  
+O filme "**`r imdb_firstman$titulo`**" foi  lançado  no Brasil como "**O Primeiro Homem**". Pertence aos gêneros **`r imdb_firstman$genero`**. Sua *premiere* ocorreu em `r imdb_firstman$data_lancamento`,  com duração de `r imdb_firstman$duracao` minutos sob a direção de `r imdb_firstman$direcao`. Roteiro de `r imdb_firstman$roteiro`.  
+
 Contou com a participação de `r imdb_firstman$elenco` em seu elenco.  
+
 A obra teve um orçamento, de acordo com a base, de US`r imdb_firstman$orcamento/1000000` milhões e uma receita de US`r round(imdb_firstman$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_firstman$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_firstman$lucro/1000000,2)` milhões.  
+
 **Sinopse: Um olhar sobre a vida do astronauta Neil Armstrong e a lendária missão espacial que o levou a ser o primeiro homem a caminhar na Lua.**   ***Fonte: [imdb-first man](https://www.imdb.com/title/tt1213641/?ref_=fn_al_tt_1)***
 
 :::
@@ -619,9 +629,12 @@ knitr::include_graphics(imdb_soldado$thumbnail_soldado)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_soldado$titulo`**" foi  lançado  no Brasil como "**Sicario 2 - Soldado**". Pertence aos gêneros `r imdb_soldado$genero`. Sua *premier* ocorreu em `r imdb_soldado$data_lancamento`,  com duração de `r imdb_soldado$duracao` minutos sob a direção de `r imdb_soldado$direcao`. Roteiro de `r imdb_soldado$roteiro`.  
+O filme "**`r imdb_soldado$titulo`**" foi  lançado  no Brasil como "**Sicario 2 - Soldado**". Pertence aos gêneros **`r imdb_soldado$genero`**. Sua *premiere* ocorreu em `r imdb_soldado$data_lancamento`,  com duração de `r imdb_soldado$duracao` minutos sob a direção de `r imdb_soldado$direcao`. Roteiro de `r imdb_soldado$roteiro`.  
+
 Contou com a participação de `r imdb_soldado$elenco` em seu elenco.  
+
 A obra teve um orçamento, de acordo com a base, de US`r imdb_soldado$orcamento/1000000` milhões e uma receita de US`r round(imdb_soldado$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_soldado$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_soldado$lucro/1000000,2)` milhões.  
+
 **Sinopse: A guerra contra as drogas na fronteira do México com os Estados Unidos aumenta quando os cartéis começam a introduzir terroristas no território americano.**  ***Fonte: [imdb-soldado](https://www.imdb.com/title/tt5052474/?ref_=fn_al_tt_3)***
 
 :::
@@ -647,14 +660,29 @@ knitr::include_graphics(imdb_royale$thumbnail_royale)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_royale$titulo`**" foi  lançado  no Brasil como "**Maus Momentos no Hotel Royale**". Pertence aos gêneros `r imdb_royale$genero`. Sua *premier* ocorreu em `r imdb_royale$data_lancamento`,  com duração de `r imdb_royale$duracao` minutos sob a direção de `r imdb_royale$direcao`. Roteiro de `r imdb_royale$roteiro`.  
+O filme "**`r imdb_royale$titulo`**" foi  lançado  no Brasil como "**Maus Momentos no Hotel Royale**". Pertence aos gêneros **`r imdb_royale$genero`**. Sua *premiere* ocorreu em `r imdb_royale$data_lancamento`,  com duração de `r imdb_royale$duracao` minutos sob a direção de `r imdb_royale$direcao`. Roteiro de `r imdb_royale$roteiro`.  
+
 Contou com a participação de `r imdb_royale$elenco` em seu elenco.  
+
 A obra teve um orçamento, de acordo com a base, de US`r imdb_royale$orcamento/1000000` milhões e uma receita de US`r round(imdb_royale$receita/1000000,2)` milhões, obtendo um **`r ifelse(imdb_royale$lucro >0, "lucro", "prejuízo" )`** de US$`r round(imdb_royale$lucro/1000000,2)` milhões.  
+
 **Sinopse: Em 1969 alguns estranhos com segredos se conhecem por casualidade no hotel El Royale no lago Tahoe. Durante uma das noites, cada um mostrará sua verdadeir personalidade.**
 ***Fonte: [imdb-hotel royale](https://www.imdb.com/title/tt6628394/?ref_=fn_al_tt_1)***
 :::
 
-### 3. Em todo conjunto de dados, o mês com o maior número de filmes lançados
+<br>
+
+### 3. O mês com o maior número de filmes no geral
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+
+Outubro foi o mês, entre todos os meses, com o maior número de estreias, considerando todos os anos. Foram mais de 8000 títulos, valor até então nunca atingido como pode ser visto na tabela 03.
+
+:::
+
+<br>
 
 ```{r tab03 - mês histórico com o maior número de lançamentos}
 
@@ -711,7 +739,7 @@ tab03 <- mes_maior_lancamento_tab03 |>
               bold = FALSE,
               width = "10cm"
               ) |>
-  footnote(general = "Maior quantidade de filmes em um mês. Fonte: Base de dados IMDB.",            
+  footnote(general = "Maior quantidade de filmes no geral. Fonte: Base de dados IMDB.",            
            footnote_as_chunk = TRUE,
            fixed_small_size = TRUE,
            general_title = "Tabela 03:"
@@ -723,12 +751,8 @@ tab03
 
 ```
 
+<br>
 
-::: {align="justify" style="text-indent: 3em;"}
-
-Outubro e setembro são os meses dos lançamentos, ao resumirmos os totais de lançamentos por mês, temos que estes meses tiveram `r mes_maior_lancamento_geral[[2]][1]` e  `r mes_maior_lancamento_geral[[2]][2]` estreias, respectivamente.
-
-:::
 
 ### 4. O dia
 
@@ -736,9 +760,10 @@ Outubro e setembro são os meses dos lançamentos, ao resumirmos os totais de la
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-No Brasil, as estreias dos filmes ocorrem em diferentes dias dos meses, mas sempre nas quintas-feiras. Por exemplo, neste mês, maio de 2022, tivemos os lançamentos de "Doutor Estranho no Multiverso da Loucura"  e "A Vida é Agora" (05/05/2022), "Chamas da Vingança" (19/05/2022), o filme nacional "Vovó Ninja" e "Top Gun: Maverick" (26/05/2022). 
+As produções cinematográficas estreiam todas as semanas no mundo inteiro. No Brasil, elas ocorrem nas quintas-feiras. 
 
-De acordo com a base *imdb*, tabela 03, percebe-se que a grande maioria dos filmes e séries estrearam nos primeiros dias dos meses. Um padrão em que a diferença  para com os demais dias dos meses é significativa, como pode ser visto no gráfico 03.
+Analisando os dias de lançamentos dos filmes da base Imdb, observa-se, no gráfico 03, que o total de estreias ocorridas no primeiro dia de cada mês, com um total de 7260 filmes, foi significativamente maior que o ocorrido nos demais dias, cujas quantidades pouco variaram (entre 2240 e 2831 filmes). O dia 31 foi, naturalmente, aquele com menor número de estreias, pois nem todos os meses possuem este dia.
+
 <br>
 
 :::
@@ -885,7 +910,7 @@ plot03
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Embora a indústria cinematográfica indiana seja a que  mais crie obras, a base Imdb mostra que os EUA são de longe o país em que a maior quantidade de filmes foi produzida. 
+Embora a indústria cinematográfica indiana seja a que mais produza obras atualmente, ela ocupa apenas a quarta posição em quantidades de filmes da base Imdb. Os Estados Unidos são notadamente o país com o maior número de filmes, como mostrado na tabela 05.
 
 :::
 
@@ -943,10 +968,39 @@ tab05
 
 ```
 
+<br>
+
+```{r top 5 filmes Brasil}
+#| include=FALSE
+
+
+top_5_filmes_brasil <- imdb_novo |> 
+  separate_rows(pais, sep = ", ") |> 
+  filter(pais == "Brazil") |> 
+  summarise( titulo, 
+             ano, 
+             genero, 
+             nota_imdb,
+             num_avaliacoes)|>
+  arrange(desc(nota_imdb), desc(num_avaliacoes)) |> 
+  slice_head(n=5)
+```
+
+
+### 6. O Brasil na base Imdb
+
+<br>
+
+::: {align="justify" style="text-indent: 3em;"}
+O gráfico 04 mostra o Brasil na vigésima segunda posição, com 979 filmes produzidos entre 1931 e 2020, entre os quais "Cidade de Deus" e "O Auto da Compadecida" possuem ambos a maior média de 8.6, conforme a tabela 06.
+
+:::
+
+
 ```{r plot04 - paises x qtde de filmes}
 #| echo = TRUE,
 #| fig.height = 10,
-#| fig.cap = "Gráfico 04 - Países e totais de lançamentos. Fonte: Base de dados Imdb",
+#| fig.cap = "Gráfico 04 - Países com mais filmes lançados e o Brasil. Fonte: Base de dados Imdb",
 
 # gráfico 04: paises e totais de lançamentos
 
@@ -967,7 +1021,7 @@ cor <- c(
   "#536265", "#536265", "#536265", "#536265", "#536265",
   "#536265", "#536265", "#536265", "#536265", "#536265",
   "#536265", "#536265", "#536265", "#536265", "#536265",
-  "#536265", "#536265"
+  "#536265", "#DE541E"
 )
 
 ### Gráfico 04 - com os 16 países com maior número de filmes produzidos ----
@@ -1015,7 +1069,7 @@ plot04 <- top_22_paises |>
              curvature = 0, 
              color = "#000000"
              )+
-  labs(title = "Países com maior quantidade de lançamentos de filmes",
+  labs(title = "Países com maior número de filmes e o Brasil",
        subtitle = "Destaque para os cinco paises com maiores notas",
        x = "Quantidade de filmes lançados",
        y = "Paises"
@@ -1065,34 +1119,6 @@ plot04 <- top_22_paises |>
 plot04
 
 ```
-
-<br>
-
-```{r code - filmes Brasil}
-
-top_5_filmes_brasil <- imdb_novo |> 
-  separate_rows(pais, sep = ", ") |> 
-  filter(pais == "Brazil") |> 
-  summarise( titulo, 
-             ano, 
-             genero, 
-             nota_imdb,
-             num_avaliacoes)|>
-  arrange(desc(nota_imdb)) |> 
-  slice_head(n=5)
-
-```
-
-
-::: {align="justify" style="text-indent: 3em;"}
-
-Foram `r top_22_paises[[2]][1]` filmes produzidos nos EUA.  
-
-Já o Brasil possui `r top_22_paises[[2]][22]` filmes na base, são obras de 1931 a 2020. A melhor média é a do filme "O Auto da Compadecida", avaliada por `r paste(top_5_filmes_brasil[[5]][1])`  pessoas, que possui média de `r top_5_filmes_brasil[[4]][1]`.  
-
-Os outros quatro filmes com melhores notas estão relacionados na tabela 05.
-
-:::
 
 <br>
 
@@ -1164,14 +1190,14 @@ tab06
 
 <br>
 
-### 6. Lista de todas as moedas citadas na base
+### 7. Lista de todas as moedas citadas na base
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-A variável orçamento representa o valor total estimado de gastos para a produção de um filme ou de uma série. A indústria movimenta bilhões de dólares utilizados na contratação de tecnologias para produção de efeitos especiasi e trilhas sonoras e contratação de seu elenco. 
+A variável orçamento representa o valor total estimado de gastos para a produção e divulgação de um filme ou série. A indústria movimenta bilhões de dólares utilizados na contratação de tecnologias para produção de efeitos especiais e trilhas sonoras e na contratação de seu elenco. 
 
-A base Imdb possui os valores de orçamento em variadas moedas. Relacionamos todas as moedas presentes no *dataset* e apresentamo-las na tabela por código e divisa.
+A base Imdb possui os valores de orçamento em variadas moedas. Relacionei todas as moedas presentes no *dataset* e listei-as na tabela 07 por código e divisa.
 
 :::
 
@@ -1260,17 +1286,17 @@ tab07
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Totalizam `r nrow(moedas_orcamento_unificada)` diferentes moedas. Algumas não existem atualmente, como o Franco francês ou as outras 25 moedas dos paises do Bloco Europeu que passaram a utilizar o Euro.
+Algumas moedas como o Franco francês e o Marco alemão foram substituídas pelo Euro.
 
 :::
 <br>
 
-### 7. Maiores lucros da indústria por gêneros em toda história
+### 8. Maiores lucros da indústria por gêneros em toda história
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Considerando a soma dos lucros dos filmes por gênero, vemos que os gêneros aventura, ação e comédia são as mais lucrativas. 
+Analisando a soma dos lucros dos filmes por gênero, tem-se aventura, ação e comédia os mais lucrativos. Na tabela 08, encontra-se a lista dos 10 maiores lucros por gênero.
 :::
 
 <br>
@@ -1355,8 +1381,7 @@ tab08
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-Entretanto, determinados gêneros produzem mais filmes do que outros. Podemos, então, calcular o lucro de cada gênero pelo total de filmes produzidos em cada classe e analisar o *ranking * de acordo com este critério.
-
+Considerando que certos gêneros produzem mais filmes que outros, pode-se encontrar os gêneros mais lucrativos por filme.
 :::
 <br>
 
@@ -1415,19 +1440,25 @@ tab09
 
 <br>
 
-Considerando o lucro dividido pelo número de filmes do gênero, o ranking passa a ter a animação com `r lucros_genero_filme |> filter(generos == "Animation") |> select(lucro_total)` por filme produzido, como aquele com maiores ganhos. A tabela 08 traz o resultado completo desta análise.
+::: {align="justify" style="text-indent: 3em;"}
 
-### 8. Maiores notas médias por gênero
+A tabela 09 traz o ranking de lucros por gêneros e quantidades de filmes. Animação e aventura são os com maiores faturamentos médios por filme.
+
+:::
+
+<br>
+
+### 9. Maiores notas médias por gênero
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Para a construção da visualização abaixo, consideramos todas as categorias, independentemente da quantidade de filmes produzidos em cada classe. O resultado apresentou *film Noir* com as melhores médias. 
+Na construção do gráfico 05, consideramos todas as categorias, independentemente da quantidade de filmes produzidos em cada classe. O resultado apresentou *film Noir* como o gênero com a melhor média. 
 
-Até hoje, não existe consenso sobre *film Noir* ser uma categoria de filmes ou um estilo de filmagem. Esta categoria refere-se a filmes de longa metragem típicas dos anos 40, combinando temas policiais, criminais e marcados pela presença de anti-herois e ambientes urbanos.
+Até hoje, não existe consenso sobre *film Noir* ser uma categoria de filmes ou um estilo de filmagem. Esta categoria refere-se a filmes de longa metragem típicas dos anos 40, combinando temas policiais, criminais e marcados pela presença de anti-heróis e ambientes urbanos.
 
-Atualmente, acredita-se que existam cerca de 300 títulos produzidos entre 1940 e 1958. 
+Atualmente, acredita-se que neste gênero existam cerca de 300 títulos produzidos entre 1940 e 1958. 
 
 :::
 
@@ -1597,7 +1628,7 @@ plot05 |>
 
 <br>
 
-### 9. Avatar
+### 10. Avatar
 
 ```{r code descricao Avatar}
 descricao_avatar <- read_csv("../data/avatar_descricao_traduzida.csv")
@@ -1608,12 +1639,18 @@ descricao_portugues <- descricao_avatar[[2]]
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-A partir da base, relacionamos algumas informações sobre o filme Avatar.
+Agora, aprentaremos as informações sobre o filme Avatar obtidas a partir da base Imdb.
 
-Sinopse da obra: `r descricao_portugues`
 
 :::
 <br>
+
+#### 10.1 - Dados do filme
+
+::: {align="justify" style="text-indent: 3em;"}
+Sinopse da obra: `r descricao_portugues`
+
+:::
 
 
 <br>
@@ -1639,7 +1676,7 @@ imdb_avatar<- imdb_filmes_dolares |>
 
 
 ::: {align="justify" style="text-indent: 3em;"}
-"**`r imdb_avatar$titulo`**" pertence aos gêneros `r imdb_avatar$genero`. Sua *premiere* ocorreu em `r imdb_avatar$data_lancamento`,  com duração de `r imdb_avatar$duracao` minutos sob a direção de `r imdb_avatar$direcao`. Roteiro de `r imdb_avatar$roteiro`.  
+"**`r imdb_avatar$titulo`**" pertence aos gêneros **`r imdb_avatar$genero`**. Sua *premiere* ocorreu em `r imdb_avatar$data_lancamento`,  com duração de `r imdb_avatar$duracao` minutos sob a direção de `r imdb_avatar$direcao`. Roteiro de `r imdb_avatar$roteiro`.  
 
 Contou com a participação de `r imdb_avatar$elenco` em seu elenco.  
 
@@ -1696,7 +1733,7 @@ imdb_completa_pessoas <- imdb_completa_pessoas |>
 ```
 
 
-#### 9.1 - Direção
+#### 10.2 - Direção
 
 <br>
 
@@ -1793,13 +1830,13 @@ Ao longo de sua carreira, também conquistou os Oscars de melhor filme, melhor d
 
 <br>
 
-#### 9.2 - Filmes de James Cameron na Base
+#### 10.3 - Filmes de James Cameron na Base
 
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Além dos 7 filmes listados na base Imdb relacionados na tabela 10, também atuou como diretor/roteirista nos filmes Piranha II: The spawning, Terminator, Rambo: First Blood Part II, The Abyss, Strange Days, Ghosts of the Abyss e Alita: Battle Angel.
+Além dos 7 filmes listados na base e relacionados na tabela 10, também atuou como diretor/roteirista nos filmes Piranha II: The spawning, Terminator, Rambo: First Blood Part II, The Abyss, Strange Days, Ghosts of the Abyss e Alita: Battle Angel.
 :::
 
 ```{r tab11 - Filmes de Cameron}
@@ -1880,7 +1917,9 @@ tab11
 
 <br>
 
-#### 9.3- Lucro médios dos filmes James Cameron na base
+#### 10.4 - Lucro médios dos filmes James Cameron na base
+
+<br>
 
 ```{r code lucro medio filmes de Cameron, include=FALSE}
 #| include = FALSE
@@ -1893,17 +1932,14 @@ lucro_medio_filmes <- imdb_completa_pessoas |>
 
 ```
 
-
 ::: {align="justify" style="text-indent: 3em;"}
-
-O lucro médio dos `r nrow(filmes_cameron)` filmes listados na base Imdb foi de `r lucro_medio_filmes`. Avatar com um ganho de `r filmes_cameron$lucro[7]` e Titanic com um ganho de `r filmes_cameron$lucro[6]` foram os com maiores lucros.
+O lucro médio dos `r nrow(filmes_cameron)` filmes listados na base Imdb foi de `r lucro_medio_filmes`. Avatar com um ganho de `r filmes_cameron$lucro[7]` e Titanic com um ganho de `r filmes_cameron$lucro[6]` foram aqueles com maiores lucros.
 
 :::
 
 <br>
 
-
-#### 9.4- Nota média do filme Avatar e posição no ranking
+#### 10.5 - Nota média do filme Avatar e posição no ranking
 
 <br>
 
@@ -1995,9 +2031,11 @@ tab12
 
 ::: {align="justify" style="text-indent: 3em;"}
 
-Entre os filmes de James Cameron na base imdb,  nota de Avatar não é a mais alta entre os listados na base Imdb, com 7,8 é inferior às notas de Exterminador, Aliens e Exterminador 2. Entretanto, Avatar e Titanic foram os filmes de James Cameron com as maiores receitas, como podemos ver no gráfico 06.
+Entre os filmes de James Cameron,  a nota de Avatar não é a mais alta entre os listados, com 7,8 é inferior às notas de Exterminador, Aliens e Exterminador 2. Entretanto, Avatar e Titanic foram os filmes com as maiores receitas, como podemos ver no gráfico 06.
 
 :::
+
+<br>
 
 ```{r plot06 - filmes James Cameron}
 #| fig.align = "center",
@@ -2055,7 +2093,7 @@ pp
 
 <br>
 
-#### 9.5 - Posição de Avatar no ranking do maiores lucros
+#### 10.6 - Posição de Avatar no ranking do maiores lucros
 
 <br>
 
@@ -2154,7 +2192,9 @@ tab13
 
 <br>
 
-#### 9.6 - Data de lançamento
+#### 10.7 - Data de lançamento
+
+<br>
 
 ```{r tab14 - dados do dia semana do lancamento avatar}
 
@@ -2232,9 +2272,11 @@ tab14
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-A estreia nas salas de cinemas dos Estados Unidos ocorreu em `r imdb_novo_ordenado |> filter(titulo == "Avatar") |> select(data_lancamento)`, em uma sexta-feira. Neste dia, tinha exatos `r as.duration(year("2010-01-15") - year("1982-06-07"))` anos de idade. 
+A estreia nas salas de cinemas dos Estados Unidos ocorreu em `r imdb_novo_ordenado |> filter(titulo == "Avatar") |> select(data_lancamento)`, em uma sexta-feira. Neste dia, tinha `r as.duration(year("2010-01-15") - year("1982-06-07"))` anos de idade. 
 
 :::
+
+<br>
 
 ```{r tab15 - filmes lançados no mesmo dia}
 
@@ -2300,7 +2342,7 @@ tab15
 
 <br>
 
-#### 9.7 - Distribuição de notas de Avatar por intervalo de classes de idade
+#### 10.8 - Distribuição de notas de Avatar por intervalo de classes de idade
 
 <br>
 
@@ -2379,6 +2421,20 @@ plot07
 
 
 # Conclusão
+
+::: {align="justify" style="text-indent: 3em;"}
+Procuramos neste trabalho explorar os recursos do **tidyverse** e suas funções na arrumação e na transformação dos dados, adicionando colunas, filtrando linhas e selecionando colunas, agrupando e resumindo dados, desta forma conseguimos extrair da base Imdb interessantes informações sobre filmes e artistas. 
+
+Curiosidades como a grande quantidade de filmes americanos na base, os grandes valores de receitas, gastos e lucros que a indústria cinematográfica movimenta e particularidades sobre os gêneros dos filmes. 
+
+Na seção 10, trouxemos algumas informações sobre o meu filme preferido, Avatar, e descobrimos interessantes curiosidades sobre esta obra e seu diretor James Cameron. 
+ 
+A base permite a descoberta de muitas outras informações além daquelas que apresentamos neste trabalho e se constitui em uma das 
+
+
+:::
+
+
 
 #  
 
