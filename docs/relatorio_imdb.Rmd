@@ -43,6 +43,7 @@ Aos apaixonados pela sétima arte, que não abrem mão do prazer em assistir a u
 
 De acordo com o site "*Avatar wiki*", **I see you** é uma saudação. Na língua Na'vi é expresso por **Oel ngati kame** para uma saudação neutra ou **Oel ngati kameie** para expressar um sentimento positivo sobre conhecer alguém. Também é o tema principal do filme, interpretado por Leona Lewis e produzido por James Horner e Simon Franglen.
 
+:::
 
 ```{r figura 01 -  avatar 2}
 #| fig.align = "center",
@@ -53,6 +54,7 @@ knitr::include_graphics("https://i.imgur.com/gvwmCrU.jpeg")
 
 ```
 
+::: {align="justify" style="text-indent: 3em;"}
 Caso desejem ver os códigos que geraram as visualizações deste trabalho, eles estarão disponíveis ao lado das tabelas e gráficos por meio dos botões `CODE`.
 
 :::
@@ -102,7 +104,6 @@ imdb_novo <- imdb |>
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 As informações foram obtidas a partir das bases "***Imdb***", que contém os dados gerais dos filmes e séries, "***Imdb_pessoas***", com os dados sobre os elencos, diretores e roteiristas e "***Imdb_avaliacoes***", com as notas médias e os dados de classificações.
 
 A base "*Imdb*" possui `r nrow(imdb)` linhas com `r ncol(imdb)` variáveis de filmes produzidos entre 1894 e 2020. A "*imdb_pessoas*" por sua vez conta com  `r nrow(imdb_pessoas)` linhas e `r ncol(imdb_pessoas)` colunas e a "*imdb_avaliacoes*" com um total de `r nrow(imdb_avaliacoes)` linhas e `r ncol(imdb_avaliacoes)` colunas.
@@ -120,10 +121,10 @@ As operações de importação, arrumação, transformação e visualização do
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Em 28 de setembro de 1895, os irmãos Lumière realizaram a primeira exibição pública do cinematógrafo, uma invenção que imprimia uma sucessão de fotos em um filme de celulose e que por meio de uma manivela reproduzia as imagens em sequência, transformando as figuras estáticas em imagens dinâmicas projetadas sobre uma tela. Desde então, milhares de filmes foram produzidos, alcançando o auge em 2018.
 
 Pode-se observar no gráfico 01 que a quantidade de filmes produzidos evoluiu de 1 obra em 1894 para 271 obras em 1946, pós Segunda Guerra Mundial, e então para 3281 lançamentos em 2018. Entretanto, com o isolamento do público devido à pandemia de COVID 19, a indústria cinematográfica adiou os lançamentos de seus filmes, provocando a redução do número de produções nos anos seguintes.
+
 :::
 
 
@@ -203,6 +204,8 @@ p01 |>
 <br><br>
 
 ### 2. A maior quantidade de filmes produzidos em um mês individualizados por ano
+
+<br>
 
 ::: {align="justify" style="text-indent: 3em;"}
 O ano de 2018 teve o maior número de estreias da história e em outubro deste ano (2018) o maior número de estreias em um mês com 386 obras cinematográficas, superando o número de lançamentos registrados até então de setembro de 2017.
@@ -295,6 +298,7 @@ tab01
 
 ::: {align="justify" style="text-indent: 3em;"}
 No gráfico 02, tem-se os 13 meses com os maiores números de filmes, todos entre os anos de 2014 e 2018, período de maior produção cinematográfica (vide gráfico 01).
+
 :::
 
 
@@ -385,12 +389,12 @@ plot02
 <br><br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Na tabela 02, listo os 5 filmes deste mês de outubro com as maiores notas médias, considerando apenas os filmes com mais de 100000 avaliações.
+
+:::
 
 <br>
 
-:::
 ```{r tab02 - 5 filmes de outubro de 2018 com maior ranking }
 
 
@@ -470,6 +474,7 @@ tab02
 
 ::: {align="justify" style="text-indent: 3em;"}
 Abaixo, apresento um resumo de cada um dos 5 filmes, a partir dos dados da base Imdb, com uma breve sinopse.
+
 :::
 
 <br>
@@ -537,6 +542,7 @@ A obra teve um orçamento, de acordo com a base, de US`r imdb_nasce_uma_estrela$
 
 **Sinopse: Um experiente músico descobre a jovem artista desconhecida a quem ajuda a encontrar fama, mas acaba se apaixonando por ela. O relacionamento pessoal entre os dois começa a desandar à medida que Jack luta contra problemas com alcoolismo.**  
 ***Fonte: [imdb-Nasce uma estrela](https://www.imdb.com/title/tt1517451/?ref_=fn_al_tt_1)***
+
 :::
 <br>
 
@@ -668,6 +674,7 @@ A obra teve um orçamento, de acordo com a base, de US`r imdb_royale$orcamento/1
 
 **Sinopse: Em 1969 alguns estranhos com segredos se conhecem por casualidade no hotel El Royale no lago Tahoe. Durante uma das noites, cada um mostrará sua verdadeir personalidade.**
 ***Fonte: [imdb-hotel royale](https://www.imdb.com/title/tt6628394/?ref_=fn_al_tt_1)***
+
 :::
 
 <br>
@@ -677,7 +684,6 @@ A obra teve um orçamento, de acordo com a base, de US`r imdb_royale$orcamento/1
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Outubro foi o mês, entre todos os meses, com o maior número de estreias, considerando todos os anos. Foram mais de 8000 títulos, valor até então nunca atingido como pode ser visto na tabela 03.
 
 :::
@@ -758,14 +764,13 @@ tab03
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 As produções cinematográficas estreiam todas as semanas no mundo inteiro. No Brasil, elas ocorrem nas quintas-feiras. 
 
 Analisando os dias de lançamentos dos filmes da base Imdb, observa-se, no gráfico 03, que o total de estreias ocorridas no primeiro dia de cada mês, com um total de 7260 filmes, foi significativamente maior que o ocorrido nos demais dias, cujas quantidades pouco variaram (entre 2240 e 2831 filmes). O dia 31 foi, naturalmente, aquele com menor número de estreias, pois nem todos os meses possuem este dia.
 
-<br>
-
 :::
+
+<br>
 
 ```{r tab04 - dia com o maior numero de lancamentos}
 
@@ -829,7 +834,6 @@ tab04
 ```
 
 <br>
-
 
 ```{r plot03 - lancamentos x dias}
 #| echo = TRUE,
@@ -901,7 +905,6 @@ plot03<- imdb_novo |>
 plot03                  
 
 ```
-
 
 <br>
 
@@ -1295,6 +1298,7 @@ Algumas moedas como o Franco francês e o Marco alemão foram substituídas pelo
 
 ::: {align="justify" style="text-indent: 3em;"}
 Analisando a soma dos lucros dos filmes por gênero, tem-se aventura, ação e comédia os mais lucrativos. Na tabela 08, encontra-se a lista dos 10 mais rentáveis.
+
 :::
 
 <br>
@@ -1380,6 +1384,7 @@ tab08
 
 ::: {align="justify" style="text-indent: 3em;"}
 Considerando que certos gêneros produzem mais filmes que outros, pode-se encontrar os mais lucrativos por filme.
+
 :::
 <br>
 
@@ -1438,7 +1443,6 @@ tab09
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 A tabela 09 traz o *ranking* dos lucros médios dos filmes por gênero. Animação e aventura lideram a classificação neste critério. 
 
 :::
@@ -1450,7 +1454,6 @@ A tabela 09 traz o *ranking* dos lucros médios dos filmes por gênero. Animaç�
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Na construção do gráfico 05, considera-se todas as categorias, independentemente da quantidade de filmes produzidos em cada gênero. *Film Noir* apresentou a melhor média. 
 
 Até hoje, não existe consenso sobre *film Noir* ser um gênero de filmes ou um estilo de filmagem. 
@@ -1635,9 +1638,7 @@ descricao_portugues <- descricao_avatar[[2]]
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Agora, apresento as informações sobre o filme **Avatar** obtidas a partir da base Imdb.
-
 
 :::
 <br>
@@ -1648,7 +1649,6 @@ Agora, apresento as informações sobre o filme **Avatar** obtidas a partir da b
 Sinopse da obra: `r descricao_portugues`
 
 :::
-
 
 <br>
 
@@ -1661,7 +1661,6 @@ knitr::include_graphics("../data-raw/avatar.jpg")
 
 ```
 
-
 ```{r cod avatar - descricao do filme}
 
 imdb_avatar<- imdb_filmes_dolares |> 
@@ -1670,7 +1669,6 @@ imdb_avatar<- imdb_filmes_dolares |>
          elenco, orcamento, receita, genero, lucro)
   
 ```
-
 
 ::: {align="justify" style="text-indent: 3em;"}
 "**`r imdb_avatar$titulo`**" pertence aos gêneros **`r imdb_avatar$genero`**. Sua *premiere* ocorreu em `r imdb_avatar$data_lancamento`,  com duração de `r imdb_avatar$duracao` minutos sob a direção `r imdb_avatar$direcao`.
@@ -1737,7 +1735,6 @@ imdb_completa_pessoas <- imdb_completa_pessoas |>
   rename("direcao" = "nome")
 
 ```
-
 
 #### 10.2 - Direção
 
@@ -1826,7 +1823,6 @@ tab10
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 James Francis Cameron, nascido em Kapuskasing, Ontário, Canadá no dia 16 de agosto de 1954, atualmente com 68 anos é um produtor, cineasta, diretor e roteirista.
 
 Em 2010, recebeu o prêmio de melhor diretor no Globo de Ouro com o filme **Avatar**. Também foi indicado para a mesma categoria no Oscar 2010 com este filme, concorrendo com Quentin Tarantino de "Bastardos Inglórios", Lee Daniels de "*Precious*", Jason Reitman de " *Up in the Air*" e Kathryn Bigelow de "*The Hurt Locker*". Não venceu, ficando o prêmio para Kathryn Bigelow, mas viu seu filme ser indicado em outras oito categorias, vencendo em três: melhor fotografia, melhor direção de arte e melhor efeitos visuais.
@@ -1840,8 +1836,8 @@ Em 2010, recebeu o prêmio de melhor diretor no Globo de Ouro com o filme **Avat
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Além dos 7 filmes listados na base e relacionados na tabela 11, também atuou como diretor/roteirista nos filmes Piranha II: *The spawning*, Rambo: *First Blood Part II*, *Strange Days*, *Ghosts of the Abyss* e Alita: *Battle Angel*.
+
 :::
 
 ```{r tab11 - Filmes de Cameron}
@@ -1918,7 +1914,6 @@ tab11 <- filmes_cameron|>
 tab11
 
 ```
-
 
 <br>
 
@@ -2034,7 +2029,6 @@ tab12
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Entre os filmes de James Cameron,  a nota de **Avatar** não é a mais alta entre os listados, com 7,8 é inferior às notas de Exterminador, Aliens e Exterminador 2 (vide tabela 11). Entretanto, foi o filme com a maior receita conforme o gráfico 06.
 
 :::
@@ -2102,8 +2096,8 @@ pp
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
+Entre todos os `r nrow(imdb_novo)` filmes, **Avatar** ocupa a primeira posição no *ranking*  de lucros.
 
-Entre todos os `r nrow(imdb_novo)` filmes, **Avatar** ocupa a primeira posição no *ranking*  de lucros. 
 :::
 
 <br>
@@ -2286,15 +2280,11 @@ A estreia nas salas de cinemas dos Estados Unidos ocorreu em `r imdb_novo_ordena
 <br>
 
 ::: {align="justify" style="text-indent: 3em;"}
-
 Na tabela 15, listo todos os filmes lançados no dia 15 de janeiro de 2010, data de lançamento de **Avatar**.
 
 :::
 
-
-
 <br>
-
 
 ```{r tab15 - filmes lançados no mesmo dia}
 
@@ -2366,6 +2356,7 @@ tab15
 
 ::: {align="justify" style="text-indent: 3em;"}
 Pode-se observar no gráfico 07 que as notas por faixa etária variaram pouco. A menor nota de 7.5 para o intervalo de 0 a 18 anos e a maior nota de 7.9 para a classe de pessoas com mais de 45 anos.
+
 :::
 
 <br>
