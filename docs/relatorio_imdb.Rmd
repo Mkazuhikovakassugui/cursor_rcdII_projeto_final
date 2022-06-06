@@ -79,6 +79,7 @@ source("../R/funcoes_imdb.R")                                                   
 ```{r  Leitura das bases}
 #| echo = FALSE
 
+remotes::install_github("curso-r/basesCursoR")
 imdb <- basesCursoR::pegar_base("imdb_completa")
 imdb_pessoas <- basesCursoR::pegar_base("imdb_pessoas")
 imdb_avaliacoes <- basesCursoR::pegar_base("imdb_avaliacoes")
