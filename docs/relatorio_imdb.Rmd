@@ -1153,13 +1153,13 @@ tab06 <- top_5_filmes_brasil |>
               bold = FALSE,
               # background = "#022859", 
               # color = "#FFFFFF",
-              width = "10cm"
+              width = "14cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
               # background = "#022859",
               # color = "#FFFFFF",
-              width = "5cm"
+              width = "3cm"
               ) |> 
   column_spec(3,                                                          # altera as configurações da tabela.
               bold = FALSE,
@@ -1791,15 +1791,15 @@ tab10 <- dados_james |>
   kable_classic_2() |>                                                              # define o tema da tabela.
   column_spec(1,                                                        
               bold = FALSE,
-              width = "6cm"
+              width = "3cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
-              width = "6cm"
+              width = "5cm"
               ) |> 
   column_spec(3, 
               bold = FALSE,
-              width = "6cm"
+              width = "9cm"
               ) |> 
   column_spec(4, 
               bold = FALSE,
@@ -1807,7 +1807,7 @@ tab10 <- dados_james |>
               ) |> 
   column_spec(5, 
               bold = FALSE,
-              width = "6cm"
+              width = "4cm"
               ) |> 
   footnote(general = "James Cameron. Base de dados IMDB.",  
            footnote_as_chunk = TRUE,
@@ -1886,7 +1886,7 @@ tab11 <- filmes_cameron|>
   kable_classic_2() |> 
   column_spec(1,                                                                    # define o tema da tabela.
               bold = FALSE,
-              width = "5cm"
+              width = "9cm"
               ) |>      
   column_spec(2, 
               bold = FALSE,
@@ -1894,11 +1894,11 @@ tab11 <- filmes_cameron|>
               ) |> 
   column_spec(3, 
               bold = FALSE,
-              width = "5cm"
+              width = "7cm"
               ) |> 
   column_spec(4, 
               bold = FALSE,
-              width = "5cm"
+              width = "3cm"
               ) |> 
   column_spec(5, 
               bold = FALSE,
@@ -2332,7 +2332,7 @@ tab15 <- imdb_novo_ordenado |>
               ) |> 
   column_spec(4, 
               bold = FALSE,
-              width = "5cm"
+              width = "3cm"
               ) |>
   column_spec(5, 
               bold = FALSE,
@@ -2462,137 +2462,29 @@ Aos amantes do cinema, segue o *link* do *trailer* de ["**Avatar: O Caminho das 
 
 <br>
 
-<style type="text/css">
-.tg  {border:none;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0;}
-.tg td{background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#444;
-  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg th{background-color:#409cff;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#fff;
-  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg .tg-4eio{background-color:#D2E4FC;border-color:#ffffff;font-size:12px;text-align:left;vertical-align:top}
-.tg .tg-thfk{border-color:#ffffff;font-size:12px;text-align:left;vertical-align:top}
-.tg .tg-w9cf{border-color:#ffffff;font-size:12px;font-weight:bold;text-align:left;vertical-align:top}
-@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
-<div class="tg-wrap"><table class="tg" style="undefined;table-layout: fixed; width: 828px">
-<colgroup>
-<col style="width: 210.005682px">
-<col style="width: 211.005682px">
-<col style="width: 407.005682px">
-</colgroup>
-<thead>
-  <tr>
-    <th class="tg-w9cf">Variável</th>
-    <th class="tg-w9cf">Tipo</th>
-    <th class="tg-w9cf">Descrição</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-4eio">id_filme</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">identificador alfanumérico exclusivo do título</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">titulo</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">nome da obra em materiais promocionais na data do lançamento</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">titulo_original</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">nome original da obra, no idioma original</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">ano</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">ano da produção</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">data_lancamento</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">data do lançamento do filme ou a data de início da série</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">genero</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">inclui até três gêneros associados ao título</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">duracao</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">tempo de execução em minutos</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">pais</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">país</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">idioma</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">idioma</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">orcamento</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">orçamento</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">receita</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">receita</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">receita_eua</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">receita nos EUA</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nota_imdb</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">nota média obtida pela obra nas avaliações dos usuários</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">num_avaliacoes</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">total de avaliações realizadas para cada título</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">direcao</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">diretor(es)</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">roteiro</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">roteirista(s)</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">producao</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">empresa produtora</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">elenco</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">nomes dos integrantes do elenco</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">descricao</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">sinopse da obra</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">num_criticas_publico</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">total de críticas recebidas do público</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">num_criticas_critica</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">total de críticas recebidas dos críticos</td>
-  </tr>
-</tbody>
-</table></div>
+| **Variável**                    | **Tipo** | **Descrição**                                                 |
+|---------------------------------|:----------:|-------------------------------------------------------------|
+| id_filme                        |    chr   | identificador alfanumérico exclusivo do título                |
+| titulo                          |    chr   | nome da obra em materiais promocionais na data do lançamento  |
+| titulo_original                 |    chr   | nome original da obra, no idioma original                     |
+| ano                             |    dbl   | ano da produção                                               |
+| data_lancamento                 |    chr   | data do lançamento do filme ou a data de início da série      |
+| genero                          |    chr   | inclui até três gêneros associados ao título                  |
+| duracao                         |    dbl   | tempo de execução em minutos                                  |
+| pais                            |    chr   | país                                                          |
+| idioma                          |    chr   | idioma                                                        |
+| orcamento                       |    chr   | orçamento                                                     |
+| receita                         |    chr   | receita                                                       |
+| receita_eua                     |    chr   | receita nos EUA                                               |
+| nota_imdb                       |    dbl   | nota média obtida pela obra nas avaliações dos usuários       |
+| num_avaliacoes                  |    dbl   | total de avaliações realizadas para cada título               |
+| direcao                         |    chr   | diretor(es)                                                   |
+| roteiro                         |    chr   | roteirista(s)                                                 |
+| producao                        |    chr   | empresa produtora                                             |
+| elenco                          |    chr   | nomes dos integrantes do elenco                               |
+| descricao                       |    chr   | sinopse da obra                                               |
+| num_criticas_publico            |    dbl   | total de críticas recebidas do público                        |
+| num_criticas_critica            |    dbl   | total de críticas recebidas dos críticos                      |
 
 <br>
 
@@ -2600,231 +2492,49 @@ Aos amantes do cinema, segue o *link* do *trailer* de ["**Avatar: O Caminho das 
 
 <br>
 
-<style type="text/css">
-.tg  {border:none;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0;}
-.tg td{background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#444;
-  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg th{background-color:#409cff;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#fff;
-  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg .tg-4eio{background-color:#D2E4FC;border-color:#ffffff;font-size:12px;text-align:left;vertical-align:top}
-.tg .tg-thfk{border-color:#ffffff;font-size:12px;text-align:left;vertical-align:top}
-.tg .tg-w9cf{border-color:#ffffff;font-size:12px;font-weight:bold;text-align:left;vertical-align:top}
-@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
-<div class="tg-wrap"><table class="tg" style="undefined;table-layout: fixed; width: 828px">
-<colgroup>
-<col style="width: 211.005682px">
-<col style="width: 211.005682px">
-<col style="width: 406.005682px">
-</colgroup>
-<thead>
-  <tr>
-    <th class="tg-w9cf">Variável</th>
-    <th class="tg-w9cf">Tipo</th>
-    <th class="tg-w9cf">Descrição</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-4eio">pessoa_id</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">identificador alfanumérico exclusivo da pessoa</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">nome</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">nome artístico ou abreviado do ator, diretor ou roteirista</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nome_nascimento</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">nome completo</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">altura</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">altura em cm</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">bio</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">biografia</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">data_nascimento</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">data de nascimento</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">local_nascimento</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">local de nascimento</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">data_falecimento</td>
-    <td class="tg-thfk">date</td>
-    <td class="tg-thfk">data de falecimento</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">local_falecimento</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">local de falecimento</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">razao_falecimento</td>
-    <td class="tg-thfk">chr</td>
-    <td class="tg-thfk">motivo ou causa do falecimento</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nome_conjuges</td>
-    <td class="tg-4eio">chr</td>
-    <td class="tg-4eio">nome(s) do cônjuge(s)</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">num_conjuges</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">número de cônjuges</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">num_divorcios</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">total de divórcios</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">num_filhos</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">total de filhos</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">num_conjuges_com_filhos</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">total de cônjuges com filhos</td>
-  </tr>
-</tbody>
-</table></div>
+| **Variável**                    | **Tipo**   | **Descrição**                                               |
+|---------------------------------|:----------:|-------------------------------------------------------------|
+| pessoa_id                       |    chr     | identificador alfanumérico exclusivo da pessoa              |
+| nome                            |    chr     | nome artístico ou abreviado do ator, diretor ou roteirista  |
+| nome_nascimento                 |    chr     | nome completo                                               |
+| altura                          |    dbl     | altura em cm                                                |
+| bio                             |    chr     | biografia                                                   |
+| data_nascimento                 |    chr     | data de nascimento                                          |
+| local_nascimento                |    chr     | local de nascimento                                         |
+| data_falecimento                |   date     | data de falecimento                                         |
+| local_falecimento               |    chr     | local de falecimento                                        |
+| razao_falecimento               |    chr     | motivo ou causa do falecimento                              |
+| nome_conjuges                   |    chr     | nome(s) do cônjuge(s)                                       |
+| num_conjuges                    |    dbl     | número de cônjuges                                          |
+| num_divorcios                   |    dbl     | total de divórcios                                          |
+| num_filhos                      |    dbl     | total de filhos                                             |
+| num_conjuges_com_filhos         |    dbl     | total de cônjuges com filhos                                |
 
 <br>
 
 ### 3. Dicionário da base Imdb_avaliacao
 <br>
 
-<style type="text/css">
-.tg  {border:none;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0;}
-.tg td{background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#444;
-  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg th{background-color:#409cff;border-color:#9ABAD9;border-style:solid;border-width:0px;color:#fff;
-  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:4px 10px;word-break:normal;}
-.tg .tg-4eio{background-color:#D2E4FC;border-color:#ffffff;font-size:12px;text-align:left;vertical-align:top}
-.tg .tg-thfk{border-color:#ffffff;font-size:12px;text-align:left;vertical-align:top}
-.tg .tg-w9cf{border-color:#ffffff;font-size:12px;font-weight:bold;text-align:left;vertical-align:top}
-@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
-<div class="tg-wrap"><table class="tg" style="undefined;table-layout: fixed; width: 827px">
-<colgroup>
-<col style="width: 210.005682px">
-<col style="width: 211.005682px">
-<col style="width: 406.005682px">
-</colgroup>
-<thead>
-  <tr>
-    <th class="tg-w9cf">Variável</th>
-    <th class="tg-w9cf">Tipo</th>
-    <th class="tg-w9cf">Descrição</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">id_filme</span></td>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">chr</span></td>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">identificador alfanumérico exclusivo do título</span></td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">num_avaliacoes</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">total de avaliações</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nota_media</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">média da variável nota</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">nota_mediana</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">mediana da variável nota</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nota_media_idade_0_18</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">média da variável nota entre os avaliadores de 0 a 18 anos</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">num_votos_idade_0_18</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">número de votos dos avaliadores de 0 a 18 anos</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nota_media_idade_18_30</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">média da variável nota entre os avaliadores de 18 a 30 anos</span></td>
-  </tr>
-  <tr>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">num_votos_idade_18_30</span></td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">número de votos dos avaliadores de 18 a 30 anos</span></td>
-  </tr>
-  <tr>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">nota_media_idade_30_45</span></td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">média da variável nota entre os avaliadores de 30 a 45 anos</span></td>
-  </tr>
-  <tr>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">num_votos_idade_30_45</span></td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">número de votos dos avaliadores de 30 a 45 anos</span></td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">nota_media_45_mais<br></td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio"><span style="font-weight:400;font-style:normal">média da variável nota entre os avaliadores com 45 anos ou mais</span><br></td>
-  </tr>
-  <tr>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">num_votos_idade_45_mais</span></td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">número de votos dos avaliadores de 45 ou mais anos</span></td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">nota_media_top_1000_avaliadores</td>
-    <td class="tg-thfk"><span style="font-weight:400;font-style:normal">dbl</span></td>
-    <td class="tg-thfk">nota média dos top 1000 avaliadores</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">num_votos_top_1000_avaliadores</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">número de votos dos top 1000 avaliadores</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">nota_media_eua</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">média da variável nota nos EUA</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">num_votos_eua</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">número de votos nos EUA</td>
-  </tr>
-  <tr>
-    <td class="tg-thfk">nota_media_fora_eua</td>
-    <td class="tg-thfk">dbl</td>
-    <td class="tg-thfk">média da variável nota fora dos EUA</td>
-  </tr>
-  <tr>
-    <td class="tg-4eio">num_votos_fora_eua</td>
-    <td class="tg-4eio">dbl</td>
-    <td class="tg-4eio">número de votos fora dos EUA</td>
-  </tr>
-</tbody>
-</table></div>
-
-
-
+| **Variável**                    |  **Tipo**  | **Descrição**                                               |
+|---------------------------------|:----------:|-------------------------------------------------------------|
+| id_filme                        |     chr    | identificador alfanumérico exclusivo do título              |
+| num_avaliacoes                  |     dbl    | total de avaliações                                         |
+| nota_media                      |     dbl    | média da variável nota                                      |
+| nota_mediana                    |     dbl    | mediana da variável nota                                    |
+| nota_media_idade_0_18           |     dbl    | média da variável nota entre os avaliadores de 0 a 18 anos  |
+| num_votos_idade_0_18            |     dbl    | número de votos dos avaliadores de 0 a 18 anos              |
+| nota_media_idade_18_30          |     dbl    | média da variável nota entre os avaliadores de 18 a 30 anos |
+| num_votos_idade_18_30           |     dbl    | número de votos dos avaliadores de 18 a 30 anos             |
+| nota_media_idade_30_45          |     dbl    | média da variável nota entre os avaliadores de 30 a 45 anos |
+| num_votos_idade_30_45           |     dbl    | número de votos dos avaliadores de 30 a 45 anos             |
+| nota_media_45_mais              |     dbl    | média da variável nota entre os avaliadores de 30 a 45 anos |
+| num_votos_idade_45_mais         |     dbl    | número de votos dos avaliadores de 45 ou mais anos          |
+| nota_media_                     |     dbl    | nota média obtida pela obra nas avaliações dos usuários     |
+| nota_media_top_1000_avaliadores |     dbl    | nota média dos top 1000 avaliadores                         |
+| num_votos_top_1000_avaliadores  |     dbl    | número de votos dos top 1000 avaliadores                    |
+| nota_media_eua                  |     dbl    | média da variável nota nos EUA                              |
+| num_votos_eua                   |     dbl    | número de votos nos EUA                                     |
+| nota_media_fora_eua             |     dbl    | média da variável nota fora dos EUA                         |
+| num_votos_fora_eua              |     dbl    | número de votos fora dos EUA                                |
 
 
