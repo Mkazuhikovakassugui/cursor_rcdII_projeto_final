@@ -1,21 +1,21 @@
 ---
 title: "I see you!"
-subtitle: "Base de Dados IMDB"
 author: "Marcio Vakassugui"
-date: "2022-05-10"
-output: 
-  html_document: 
+date: '2022-05-10'
+output:
+  html_document:
     code_folding: hide
     includes:
-      in_header: "cabecalho.html"
+      in_header: cabecalho.html
     theme: paper
     highlight: zenburn
     toc: yes
     toc_float: yes
     smooth_scroll: no
     collapsed: yes
-  html_notebook: 
+  pdf_document:
     toc: yes
+subtitle: Base de Dados IMDB
 ---
 
 ```{r setup }
@@ -267,7 +267,7 @@ tab01 <-  mes_maior_lancamento_tab01 |>
   kable_styling(bootstrap_options = c("striped",                                  # formatar estilo da tabela.
                                       "condensed"
                                       ),
-                font_size = 11,
+                font_size = 12,
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE, 
                                    background = "#EDF6FD"
@@ -434,7 +434,7 @@ kbl(
   kable_styling(                                                          # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
     html_font = "",
-    font_size = 10,
+    font_size = 12,
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, background = "#EDF6FD"),
     ) |> 
@@ -730,7 +730,7 @@ tab03 <- mes_maior_lancamento_tab03 |>
   kable_styling(bootstrap_options = c("striped",
                                       "condensed"
                                       ),
-                font_size = 10,
+                font_size = 12,
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE, 
                                    background = "#EDF6FD"
@@ -807,7 +807,7 @@ tab04 <- dia_maior_lancamento |>
   kable_styling(bootstrap_options = c("striped",                               # configura o estilo da tabela.
                                       "condensed"
                                       ),
-                font_size = 10,
+                font_size = 12,
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE,
                                    background = "#EDF6FD"
@@ -945,7 +945,7 @@ tab05 <- top_5_paises |>
   kable_styling(  bootstrap_options = c("striped",                                # define o estilo da tabela.
                                         "condensed"
                                         ),
-                  font_size = 10,
+                  font_size = 12,
                   full_width = TRUE, 
                   fixed_thead = list(enabled = TRUE, 
                                      background = "#EDF6FD"
@@ -1142,7 +1142,7 @@ tab06 <- top_5_filmes_brasil |>
   kable_styling(bootstrap_options = c("striped",                                  # altera o estilo da tabela.
                                       "condensed"
                                       ),
-                font_size = 10,   
+                font_size = 12,   
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE,
                                    background = "#EDF6FD"
@@ -1258,7 +1258,7 @@ tab07 <- moedas_orcamento_unificada |>
     bootstrap_options = c("striped", 
                           "condensed"
                           ),
-    font_size = 10,       
+    font_size = 12,       
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE,
                        background = "#EDF6FD"
@@ -1354,7 +1354,7 @@ tab08 <- lucros_genero |>
   kable_styling(bootstrap_options = c("striped",                                # altera os estilos da tabela.
                                       "condensed"
                                       ),
-                font_size = 10,  
+                font_size = 12,  
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE,
                                    background = "#EDF6FD"
@@ -1414,7 +1414,7 @@ tab09 <- lucros_genero_filme |>
   kable_styling(bootstrap_options = c("striped", 
                                       "condensed"
                                       ),
-                font_size = 10,    
+                font_size = 12,    
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE,
                                    background = "#EDF6FD"
@@ -1782,7 +1782,7 @@ tab10 <- dados_james |>
                                       "condensed"
                                       ),
                 html_font = "",
-                font_size = 10,
+                font_size = 12,
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE,
                                    background = "#EDF6FD"
@@ -1877,7 +1877,7 @@ tab11 <- filmes_cameron|>
     bootstrap_options = c("striped", 
                           "condensed"
                           ),
-    font_size = 10,
+    font_size = 12,
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, 
                        background = "#EDF6FD"
@@ -1992,7 +1992,7 @@ tab12 <- imdb_tab12 |>
     bootstrap_options = c("striped",
                           "condensed"
     ),
-    font_size = 10,
+    font_size = 12,
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, 
                        background = "#EDF6FD"
@@ -2153,7 +2153,7 @@ tab13 <- imdb_tab13 |>
   kable_styling(bootstrap_options = c("striped",                                  # define o estilo da tabela.
                                       "condensed"
   ),
-  font_size = 10,
+  font_size = 12,
   full_width = TRUE, 
   fixed_thead = list(enabled = TRUE, 
                      background = "#EDF6FD"
@@ -2236,7 +2236,7 @@ tab14 <- imdb_tab14|>
   kable_styling(bootstrap_options = c("striped",                                  # define o estilo da tabela.
                                       "condensed"
                                       ),
-                font_size = 10,
+                font_size = 12,
                 full_width = TRUE, 
                 fixed_thead = list(enabled = TRUE,
                                    background = "#EDF6FD"
@@ -2311,7 +2311,7 @@ tab15 <- imdb_novo_ordenado |>
   kable_styling(bootstrap_options = c("striped",                                  # define o estilo da tabela.
                                       "condensed"
                                       ),
-    font_size = 10,
+    font_size = 12,
     full_width = TRUE, 
     fixed_thead = list(enabled = TRUE, 
                        background = "#EDF6FD"
