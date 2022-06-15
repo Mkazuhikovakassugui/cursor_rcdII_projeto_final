@@ -419,6 +419,11 @@ mes_maior_lancamento <- imdb_datas |>
 mes_maior_lancamento$mes <- NULL                                                        # Exclusão de colunas. 
 mes_maior_lancamento$qte <- NULL
 
+# formatar a variável data_lancamento para a tabela 02
+
+mes_maior_lancamento <- mes_maior_lancamento |> 
+  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y"))
+
 # Tabela com os 5 filmes  de outubro de 2018com melhores rankings
 
 tab02 <- mes_maior_lancamento |> 
@@ -535,7 +540,7 @@ knitr::include_graphics(imdb_nasce_uma_estrela$thumbnail_nasce_uma_estrela)
 
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_nasce_uma_estrela$titulo`**" foi  lançado  no Brasil como "**Nasce uma Estrela**". Pertence aos gêneros **`r imdb_nasce_uma_estrela$genero`**. Sua *premiere* ocorreu em `r imdb_nasce_uma_estrela$data_lancamento`,  com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`. Roteiro de `r imdb_nasce_uma_estrela$roteiro`.  
+O filme "**`r imdb_nasce_uma_estrela$titulo`**" foi  lançado  no Brasil como "**Nasce uma Estrela**". Pertence aos gêneros **`r imdb_nasce_uma_estrela$genero`**. Sua *premiere* ocorreu em `r format(imdb_nasce_uma_estrela$data_lancamento, "%d-%m-%Y")`,  com duração de `r imdb_nasce_uma_estrela$duracao` minutos sob a direção de `r imdb_nasce_uma_estrela$direcao`. Roteiro de `r imdb_nasce_uma_estrela$roteiro`.  
 
 Contou com a participação de `r imdb_nasce_uma_estrela$elenco` em seu elenco.  
 
@@ -569,7 +574,7 @@ knitr::include_graphics(imdb_searching$thumbnail_searching)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_searching$titulo`**" foi  lançado  no Brasil como "**Buscando**". Pertence aos gêneros **`r imdb_searching$genero`**. Sua *premiere* ocorreu em `r imdb_searching$data_lancamento`,  com duração de `r imdb_searching$duracao` minutos sob a direção de `r imdb_searching$direcao`. Roteiro de `r imdb_searching$roteiro`.  
+O filme "**`r imdb_searching$titulo`**" foi  lançado  no Brasil como "**Buscando**". Pertence aos gêneros **`r imdb_searching$genero`**. Sua *premiere* ocorreu em `r format(imdb_searching$data_lancamento, "%d-%m-%Y")`,  com duração de `r imdb_searching$duracao` minutos sob a direção de `r imdb_searching$direcao`. Roteiro de `r imdb_searching$roteiro`.  
 
 Contou com a participação de `r imdb_searching$elenco` em seu elenco.  
 
@@ -602,7 +607,7 @@ knitr::include_graphics(imdb_firstman$thumbnail_firstman)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_firstman$titulo`**" foi  lançado  no Brasil como "**O Primeiro Homem**". Pertence aos gêneros **`r imdb_firstman$genero`**. Sua *premiere* ocorreu em `r imdb_firstman$data_lancamento`,  com duração de `r imdb_firstman$duracao` minutos sob a direção de `r imdb_firstman$direcao`. Roteiro de `r imdb_firstman$roteiro`.  
+O filme "**`r imdb_firstman$titulo`**" foi  lançado  no Brasil como "**O Primeiro Homem**". Pertence aos gêneros **`r imdb_firstman$genero`**. Sua *premiere* ocorreu em `r format(imdb_firstman$data_lancamento, "%d-%m-%Y")`,  com duração de `r imdb_firstman$duracao` minutos sob a direção de `r imdb_firstman$direcao`. Roteiro de `r imdb_firstman$roteiro`.  
 
 Contou com a participação de `r imdb_firstman$elenco` em seu elenco.  
 
@@ -635,7 +640,7 @@ knitr::include_graphics(imdb_soldado$thumbnail_soldado)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_soldado$titulo`**" foi  lançado  no Brasil como "**Sicario 2 - Soldado**". Pertence aos gêneros **`r imdb_soldado$genero`**. Sua *premiere* ocorreu em `r imdb_soldado$data_lancamento`,  com duração de `r imdb_soldado$duracao` minutos sob a direção de `r imdb_soldado$direcao`. Roteiro de `r imdb_soldado$roteiro`.  
+O filme "**`r imdb_soldado$titulo`**" foi  lançado  no Brasil como "**Sicario 2 - Soldado**". Pertence aos gêneros **`r imdb_soldado$genero`**. Sua *premiere* ocorreu em `r format(imdb_soldado$data_lancamento, "%d-%m-%Y")`,  com duração de `r imdb_soldado$duracao` minutos sob a direção de `r imdb_soldado$direcao`. Roteiro de `r imdb_soldado$roteiro`.  
 
 Contou com a participação de `r imdb_soldado$elenco` em seu elenco.  
 
@@ -667,7 +672,7 @@ knitr::include_graphics(imdb_royale$thumbnail_royale)
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O filme "**`r imdb_royale$titulo`**" foi  lançado  no Brasil como "**Maus Momentos no Hotel Royale**". Pertence aos gêneros **`r imdb_royale$genero`**. Sua *premiere* ocorreu em `r imdb_royale$data_lancamento`,  com duração de `r imdb_royale$duracao` minutos sob a direção de `r imdb_royale$direcao`. Roteiro de `r imdb_royale$roteiro`.  
+O filme "**`r imdb_royale$titulo`**" foi  lançado  no Brasil como "**Maus Momentos no Hotel Royale**". Pertence aos gêneros **`r imdb_royale$genero`**. Sua *premiere* ocorreu em `r format(imdb_royale$data_lancamento, "%d-%m-%Y")`,  com duração de `r imdb_royale$duracao` minutos sob a direção de `r imdb_royale$direcao`. Roteiro de `r imdb_royale$roteiro`.  
 
 Contou com a participação de `r imdb_royale$elenco` em seu elenco.  
 
@@ -1672,7 +1677,7 @@ imdb_avatar<- imdb_filmes_dolares |>
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-"**`r imdb_avatar$titulo`**" pertence aos gêneros **`r imdb_avatar$genero`**. Sua *premiere* ocorreu em `r imdb_avatar$data_lancamento`,  com duração de `r imdb_avatar$duracao` minutos sob a direção `r imdb_avatar$direcao`.
+"**`r imdb_avatar$titulo`**" pertence aos gêneros **`r imdb_avatar$genero`**. Sua *premiere* ocorreu em `r format(imdb_avatar$data_lancamento, "%d-%m-%Y")`,  com duração de `r imdb_avatar$duracao` minutos sob a direção `r imdb_avatar$direcao`.
 
 Contou com a participação de `r imdb_avatar$elenco` em seu elenco.  
 
@@ -1745,6 +1750,12 @@ imdb_completa_pessoas <- imdb_completa_pessoas |>
 
 # tabela 10 - James Cameron
 
+# alterar tipo de data_nascimento para date
+
+imdb_completa_pessoas <- imdb_completa_pessoas |>    
+  mutate(data_nascimento = ymd(data_nascimento)                         # conversão do tipo "chr" para "date".
+  )
+
 # Selecionar dados de James Cameron
 
 dados_james <- imdb_completa_pessoas |> 
@@ -1754,7 +1765,9 @@ dados_james <- imdb_completa_pessoas |>
          local_nascimento,
          data_nascimento
          ) |> 
-  mutate(idade = year(Sys.Date())-year(data_nascimento))   # calcula a idade de James Cameron na data de hoje.
+  mutate(idade = year(Sys.Date())-year(data_nascimento),  # calcula a idade de James Cameron na data de hoje.
+         data_nascimento = format(data_nascimento, "%d-%m-%Y")
+         )
 
 # formatar a variável idade para a tabela 10
 
@@ -1849,6 +1862,7 @@ Além dos 7 filmes listados na base e relacionados na tabela 11, também atuou c
 
 filmes_cameron <- imdb_completa_pessoas |> 
   filter(direcao == "James Cameron") |> 
+  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y")) |> 
   select(titulo, data_lancamento,
          genero,
          nota_imdb, 
@@ -2209,7 +2223,8 @@ imdb_tab14 <- imdb_novo_ordenado |>
                                                            ),
                                     abbr = FALSE,
                                     label = TRUE
-                                    )
+                                    ),
+         data_lancamento = format(data_lancamento, "%d-%m-%Y")             # fomrmata a data para dia-mês-ano.
          ) |>
   select(titulo, data_lancamento, data_lancamento_dia) 
 
@@ -2269,8 +2284,9 @@ tab14
 
 <br>
 
+
 ::: {align="justify" style="text-indent: 3em;"}
-A estreia nas salas de cinemas dos Estados Unidos ocorreu em `r imdb_novo_ordenado |> filter(titulo == "Avatar") |> select(data_lancamento)`, em uma sexta-feira. Neste dia, tinha `r as.duration(year("2010-01-15") - year("1989-06-07"))` anos de idade. 
+A estreia nas salas de cinemas dos Estados Unidos ocorreu em `r format(imdb_avatar$data_lancamento, "%d-%m-%Y")`, em uma sexta-feira. Neste dia, tinha `r as.duration(year("2010-01-15") - year("1989-06-07"))` anos de idade. 
 
 :::
 
@@ -2293,6 +2309,7 @@ Na tabela 15, listo todos os filmes lançados no dia 15 de janeiro de 2010, data
 
 tab15 <- imdb_novo_ordenado |> 
   filter(data_lancamento == "2010-01-15") |> 
+  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y")) |>          # formata data para o dia-mês-ano.
   select(titulo,
          data_lancamento,
          genero,
