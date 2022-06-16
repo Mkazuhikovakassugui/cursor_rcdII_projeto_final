@@ -1784,3 +1784,4 @@ imdb |>
   filter(titulo == "Avatar") |> 
   select(descricao) |> 
   write_csv("data/avatar_descricao.csv")
+´

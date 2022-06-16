@@ -248,7 +248,7 @@ mes_maior_lancamento_tab01[[3]] <-  cell_spec(mes_maior_lancamento_tab01[[3]],  
                                                              )
                                               )
 
-### selecionar apena a primeira linha
+### selecionar apenas a primeira linha
 
 mes_maior_lancamento_tab01 <- mes_maior_lancamento_tab01 |>   
   head(n=1)
@@ -379,7 +379,7 @@ plot02 <- meses_mais_qte|>
                                                 0)
                                         )
                      )+                                   
-  theme_imdb()
+  theme_imdb()                        # personaliza as configurações do tema definidas na função theme_imdb().
 
 # Visualiza o gráfico meses com maiores totais de lançamentos
 
@@ -416,15 +416,15 @@ mes_maior_lancamento <- imdb_datas |>
   arrange(desc(nota_imdb)) |> 
   slice_head(n=5)
 
-mes_maior_lancamento$mes <- NULL                                                        # Exclusão de colunas. 
-mes_maior_lancamento$qte <- NULL
+mes_maior_lancamento$mes <- NULL                                                        # Exclusão de coluna. 
+mes_maior_lancamento$qte <- NULL                                                        # Exclusão de coluna.
 
 # formatar a variável data_lancamento para a tabela 02
 
 mes_maior_lancamento <- mes_maior_lancamento |> 
-  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y"))
+  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y"))         # altera o formato da data para D-M-Y.
 
-# Tabela com os 5 filmes  de outubro de 2018com melhores rankings
+# Tabela com os 5 filmes  de outubro de 2018 com melhores rankings
 
 tab02 <- mes_maior_lancamento |> 
   select(titulo, data_lancamento, nota_imdb, num_avaliacoes, pais) |> 
@@ -434,7 +434,7 @@ kbl(
                 "lançamento", 
                 "nota",
                 "avaliações",
-                "país"),
+                "país")
   ) |> 
   kable_styling(                                                          # altera as configurações da tabela.
     bootstrap_options = c("striped", "condensed"),
@@ -725,7 +725,7 @@ mes_maior_lancamento_tab03[[2]] <- cell_spec(mes_maior_lancamento_tab03[[2]],
 # Tabela 03 - Mês com maior número de lançamentos
 
 tab03 <- mes_maior_lancamento_tab03 |> 
-  kbl(align = "l",                                                                   # alinhamento dos textos.
+  kbl(align = "l",                                            # alinhamento dos textos nas colunas a esquerda.
       col.names = c("Mês",                                                        
                     "Quantidade de Filmes"
                     ),
@@ -888,10 +888,10 @@ plot03<- imdb_novo |>
     Dias do mês"
   ) +
   theme_classic()+                          
-  scale_y_continuous(breaks = seq(0,
+  scale_y_continuous(breaks = seq(0,                                              # formatar escala do eixo y.
                                   8000,
                                   1000
-                                  ),                                              # formatar escala do eixo y. 
+                                  ),                                               
                      limits = c(0,
                                 8000
                                 ),
@@ -899,12 +899,12 @@ plot03<- imdb_novo |>
                                 0
                                 )
                      ) +                                        
-  scale_x_continuous(breaks = seq(0, 
+  scale_x_continuous(breaks = seq(0,                                              # formatar escala do eixo x.
                                   31,
                                   1
                                   )
-                     ) +                                                          # formatar escala do eixo x.
-  theme_imdb()
+                     ) +                                                         
+  theme_imdb()                        # personaliza as configurações do tema definidas na função theme_imdb().
 
 # Visualiza o gráfico total de lançamentos por dia
 
@@ -1036,7 +1036,7 @@ cor <- c(
 ### Gráfico 04 - com os 16 países com maior número de filmes produzidos ----
 
 plot04 <- top_22_paises |> 
-  ggplot(aes(y = fct_reorder(pais,      # reordenar a sequência dos países em ordem decrescente da quantidade.
+  ggplot(aes(y = fct_reorder(pais,      # reordena  a sequência dos países em ordem decrescente da quantidade.
                              qtde, 
                              .desc = FALSE
                              ),
@@ -1052,7 +1052,7 @@ plot04 <- top_22_paises |>
              color = cor,
              hjust = -0.3
              ) +
-  geom_curve(aes(y = 18,                                                       # formatar curva para anotação.
+  geom_curve(aes(y = 18,                                                       # formata  curva para anotação.
                  x = 8000,  
                  xend = 16000,     
                  yend = 16
@@ -1065,7 +1065,7 @@ plot04 <- top_22_paises |>
              curvature = 0,  
              color = "#000000" 
              ) +
-  geom_curve(aes(y = 1,                                                        # formatar curva para anotação.
+  geom_curve(aes(y = 1,                                                         # formata curva para anotação.
                  x = 2800,  
                  xend = 11000,     
                  yend = 2
@@ -1104,7 +1104,7 @@ plot04 <- top_22_paises |>
                                       )
                    )+
   theme_classic()+                                                                 # define o tema do gráfico.
-  theme_imdb()+
+  theme_imdb()+                       # personaliza as configurações do tema definidas na função theme_imdb().         
   annotate("text",
             x = 22000,
             y = 15.5,
@@ -1343,7 +1343,7 @@ lucros_genero <- imdb_filmes_dolares_genero |>
   summarise(lucro_total = sum(lucro)) |> 
   arrange(desc(lucro_total)) |> 
   slice_head(n=10) |> 
-  mutate(lucro_total = paste("US$",         # formatar o valor obtido para o formato com US$ para a tabela 07.
+  mutate(lucro_total = paste("US$",          # formata o valor obtido para o formato com US$ para a tabela 08.
                              format_dolar(lucro_total)      # função format_dolar() disponível no diretorio R.
                              )
          )
@@ -1403,8 +1403,8 @@ lucros_genero_filme <- imdb_filmes_dolares_genero |>
   summarise(lucro_total = sum(lucro)/n()) |> 
   arrange(desc(lucro_total)) |> 
   slice_head(n=10) |> 
-  mutate(lucro_total = paste("US$",
-                             format_dolar(lucro_total)
+  mutate(lucro_total = paste("US$",          # formata o valor obtido para o formato com US$ para a tabela 08.
+                             format_dolar(lucro_total)      # função format_dolar() disponível no diretorio R.
                              )
          )
 
@@ -2224,7 +2224,7 @@ imdb_tab14 <- imdb_novo_ordenado |>
                                     abbr = FALSE,
                                     label = TRUE
                                     ),
-         data_lancamento = format(data_lancamento, "%d-%m-%Y")             # fomrmata a data para dia-mês-ano.
+         data_lancamento = format(data_lancamento, "%d-%m-%Y")                    # formata a data para D-M-Y.
          ) |>
   select(titulo, data_lancamento, data_lancamento_dia) 
 
@@ -2309,7 +2309,7 @@ Na tabela 15, listo todos os filmes lançados no dia 15 de janeiro de 2010, data
 
 tab15 <- imdb_novo_ordenado |> 
   filter(data_lancamento == "2010-01-15") |> 
-  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y")) |>          # formata data para o dia-mês-ano.
+  mutate(data_lancamento = format(data_lancamento, "%d-%m-%Y")) |>                  # formata data para D-M-Y.
   select(titulo,
          data_lancamento,
          genero,
@@ -2480,7 +2480,7 @@ Aos amantes do cinema, segue o *link* do *trailer* de ["**Avatar: O Caminho das 
 <br>
 
 | **Variável**                    | **Tipo** | **Descrição**                                                 |
-|---------------------------------|:----------:|-------------------------------------------------------------|
+|---------------------------------|:--------:|---------------------------------------------------------------|
 | id_filme                        |    chr   | identificador alfanumérico exclusivo do título                |
 | titulo                          |    chr   | nome da obra em materiais promocionais na data do lançamento  |
 | titulo_original                 |    chr   | nome original da obra, no idioma original                     |
