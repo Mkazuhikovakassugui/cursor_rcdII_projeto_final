@@ -237,14 +237,14 @@ mes_maior_lancamento <- imdb_datas |>
   slice_max(qte) |> 
   arrange(desc(qte))
 
-# define condicção para formatar o valor de qte para a tabela 01
+# define condição para formatar o valor de qte para a tabela 01
 
 mes_maior_lancamento_tab01 <- mes_maior_lancamento
 
 mes_maior_lancamento_tab01[[3]] <-  cell_spec(mes_maior_lancamento_tab01[[3]],    # destacar a qte  na tabela.
                                               color = ifelse(mes_maior_lancamento_tab01[[3]] >= 380,
                                                              "#B80C09",
-                                                             "#3F88C5"
+                                                             ""
                                                              )
                                               )
 
@@ -329,7 +329,7 @@ meses_mais_qte <- mes_maior_lancamento |>
 
 cores_plot02 <- c("#CC5A71", "#536265", "#536265", "#536265", "#536265","#536265",
                   "#536265", "#536265", "#536265", "#536265", "#536265","#536265",
-                  "#536265")
+                  "#536265")                                # vamos destacar apenas o mês out/2018 no gráfico.
 
 # gráfico meses com maiores totais de lançamentos.
 
@@ -716,7 +716,7 @@ mes_maior_lancamento_geral <- imdb_datas |>
 mes_maior_lancamento_tab03 <- mes_maior_lancamento_geral
 
 mes_maior_lancamento_tab03[[2]] <- cell_spec(mes_maior_lancamento_tab03[[2]],
-                                             color = ifelse(mes_maior_lancamento_tab03[[2]] >=8000,
+                                             color = ifelse(mes_maior_lancamento_tab03[[2]] >= 8000,
                                                             "#B80C09",
                                                              "#3F88C5"
                                                             )
@@ -1947,7 +1947,7 @@ lucro_medio_filmes <- imdb_completa_pessoas |>
 ```
 
 ::: {align="justify" style="text-indent: 3em;"}
-O lucro médio dos `r nrow(filmes_cameron)` filmes listados na base Imdb foi de `r lucro_medio_filmes`. **Avatar** com um ganho de `r filmes_cameron$lucro[7]` e Titanic com um ganho de `r filmes_cameron$lucro[6]` lideram a lista dos mais lucrativos.
+O lucro médio dos `r nrow(filmes_cameron)` filmes listados na base Imdb foi de `r lucro_medio_filmes`. **Avatar** com um ganho de `r filmes_cameron$lucro[3]` e Titanic com um ganho de `r filmes_cameron$lucro[4]` lideram a lista dos mais lucrativos.
 
 :::
 
